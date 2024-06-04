@@ -17,7 +17,10 @@ class DemandeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            /*'name'=> $this->faker->name(1, $gender='male', true),
+            'motifs'=> $this->faker->sentence,
+            'destination'=> $this->faker->paragraph(2),
+            'nombrePersonne'=> $this->faker->randomDigit,*/
         ];
     }
 }
