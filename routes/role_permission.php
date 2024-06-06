@@ -22,6 +22,7 @@ Route::get('/test',function(){
 
 Route::get('/saveroles', [RoleController::class,'saveroles']);
 Route::get('/assign_roles', [RoleController::class,'assign_roles']);
+Route::resource('/roles',RoleController::class);
 Route::get('/savepermissions', [PermissionController::class,'savepermissions']);
 Route::get('/givepermissions', [PermissionController::class,'givepermissions']);
 Route::get('/assign_permissions', [PermissionController::class,'assign_permissions']);
