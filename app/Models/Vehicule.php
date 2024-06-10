@@ -10,5 +10,9 @@ class Vehicule extends Model
 {
     use HasFactory;
     protected $fillable=['plaque','marque','capacite'];
+    public function newEloquentBuilder($vehicule)
+    {
+        return new \Illuminate\Database\Eloquent\Builder($vehicule->latest());
+    }
 
 }
