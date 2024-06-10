@@ -21,7 +21,7 @@ class VehiculeController extends Controller
      */
     public function create()
     {
-        //
+        //  return redirect()->route('vehicules.index');
     }
 
     /**
@@ -35,7 +35,7 @@ class VehiculeController extends Controller
         'marque'=>$request->marque,
         'capacite'=>$request->capacite,
         $request->session()->flash('success', 'Le véhicule a été enregistré avec succès.'),
-    ]);
+    ]);  
         return redirect()->route('vehicules.index');
     }
 
@@ -51,7 +51,7 @@ class VehiculeController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Vehicule $vehicule)
-    {   $vehicule = Vehicule::findOrFail($id);
+    {   
        
          return view('vehicules.edit',compact('vehicule'));
     }
@@ -59,9 +59,9 @@ class VehiculeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Vehicule $vehicule)
     {
-    $vehicule = Vehicule::findOrFail($id);
+        
     $vehicule->plaque = $request->input('plaque');
     $vehicule->marque = $request->input('marque');
     $vehicule->capacite = $request->input('capacite');
