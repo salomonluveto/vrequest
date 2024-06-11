@@ -38,4 +38,14 @@
           </div>
       </div>
   </div>
-  
+  <script>
+      function editer(event){
+                event.preventDefault();
+                var route = event.target.getAttribute('href');
+                var tr = event.target.closest('tr')
+                var name = tr.children[1].textContent
+                var form = document.querySelector('#edit-modal form')
+                form.name.value = name
+                form.setAttribute('action',route)
+            }
+  </script>
