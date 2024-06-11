@@ -21,7 +21,7 @@ class VehiculeController extends Controller
      */
     public function create()
     {
-        //
+        //  return redirect()->route('vehicules.index');
     }
 
     /**
@@ -29,7 +29,14 @@ class VehiculeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+    $vehicule= Vehicule::create([
+        'plaque'=>$request->plaque,
+        'marque'=>$request->marque,
+        'capacite'=>$request->capacite,
+        $request->session()->flash('success', 'Le véhicule a été enregistré avec succès.'),
+    ]);  
+        return redirect()->route('vehicules.index');
     }
 
     /**
@@ -44,8 +51,9 @@ class VehiculeController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Vehicule $vehicule)
-    {
-        //
+    {   
+       
+         return view('vehicules.edit',compact('vehicule'));
     }
 
     /**
@@ -53,14 +61,22 @@ class VehiculeController extends Controller
      */
     public function update(Request $request, Vehicule $vehicule)
     {
-        //
-    }
+        
+    $vehicule->plaque = $request->input('plaque');
+    $vehicule->marque = $request->input('marque');
+    $vehicule->capacite = $request->input('capacite');
+
+    $vehicule->update();
+    return redirect()->route('vehicules.index')->with('success', 'Véhicule mis à jour avec succès.');
+}
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Vehicule $vehicule)
     {
-        //
+        $vehicule->delete();
+        return back()->with("success","suppression reussie");
     }
 }
