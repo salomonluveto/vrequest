@@ -37,25 +37,6 @@
                 </main>
             </div>
         </div>
-        <script>
-            function editer(event){
-                event.preventDefault();
-                var route = event.target.getAttribute('href');
-                var tr = event.target.closest('tr')
-                var name = tr.children[1].textContent
-                var form = document.querySelector('#edit-modal form')
-                form.name.value = name
-                form.setAttribute('action',route)
-            }
-
-            function supprimer(event){
-                event.preventDefault();
-                var route = event.target.getAttribute('href');
-                var form = document.querySelector('#delete-modal form')
-                form.setAttribute('action',route)
-                
-            }
         
-        </script>
     </body>
 </html>

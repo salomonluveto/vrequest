@@ -1,4 +1,5 @@
 <x-app-layout>
+  @include('layouts.item')
 <br>
 <h1> Liste des Roles</h1>
 
@@ -33,6 +34,7 @@
                 <th scope="col" class="px-6 py-3">
                     Actions
                 </th>
+
               
             </tr>
         </thead>
@@ -47,10 +49,10 @@
                 </td>
                 <td class="px-6 py-4">
                     
-                    <a href="{{route('roles.show',$item->id)}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Voir</a>
-                 <a href="{{route('roles.update',$item->id)}}"  onclick="editer(event)" type="button" data-modal-target="edit-modal" data-modal-toggle="edit-modal" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Editer</a> 
+                    <a href="{{route('roles.show',$item->id)}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Voir_Permission</a>
+                 {{-- <a href="{{route('roles.update',$item->id)}}"  onclick="editer(event)" type="button" data-modal-target="edit-modal" data-modal-toggle="edit-modal" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Editer</a> 
 
-                    <a href="{{route('roles.destroy',$item->id)}}" onclick="supprimer(event)"  data-modal-target="delete-modal" data-modal-toggle="delete-modal" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-red-100 focus:ring-4 focus:ring-red-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-800 dark:text-white dark:border-red-600 dark:hover:bg-red-700 dark:hover:border-red-600 dark:focus:ring-red-700">Supprimer</a>
+                    <a href="{{route('roles.destroy',$item->id)}}" onclick="supprimer(event)"  data-modal-target="delete-modal" data-modal-toggle="delete-modal" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-red-100 focus:ring-4 focus:ring-red-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-800 dark:text-white dark:border-red-600 dark:hover:bg-red-700 dark:hover:border-red-600 dark:focus:ring-red-700">Supprimer</a> --}}
 
 
                 </td>
@@ -62,7 +64,9 @@
         </tbody>
     </table>
 </div>
+
+
 <x-deleteRole/>
 <x-editRole/>
-<x-addRole/>
+{{-- <x-addRole/> --}}
 </x-app-layout>
