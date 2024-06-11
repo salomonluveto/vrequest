@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -16,6 +20,7 @@ class RoleController extends Controller
         return view('role.index',compact('roles'));
     }
 
+
     /**
      * Show the form for creating a new resource.
      */
@@ -27,10 +32,11 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,User $user)
     {
+        
         $role = Role::create(['name'=>$request->name]);
-       
+        
         return back()->with('status','Enregistrement reussi');
     }
 
@@ -39,7 +45,45 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-        return view('role.detail');
+    
+        $role = Role::find($id);
+       
+        $rolename = $role->name;
+
+    
+        $permissions = Permission::whereHas('users', function ($query) use($rolename){
+            $query->whereHas('roles', function ($q) use($rolename) {
+                
+                $q->where('name', $rolename);
+            });
+        })->get();
+        
+       
+        
+       
+    
+        $modelFiles = scandir(app_path('Models'));
+
+        // Filtrer les fichiers de modèles
+        $models = array_diff($modelFiles, ['.', '..']);
+        
+        // Supprimer l'extension .php des noms de fichiers
+        $models = array_map(function($model) {
+            return pathinfo($model, PATHINFO_FILENAME);
+        }, $models);
+        $modelname = [];
+        foreach($models as $model) {
+            $modelname[] = $model;
+        }
+      
+        $tab = [];
+       
+        
+        $per = ["lire","enregistrer","modifier","supprimer"];
+        $roleId=$role->id;
+  
+        
+        return view('role.detail',compact('modelname','permissions','per','tab','roleId'));
     }
 
     /**
@@ -70,18 +114,24 @@ class RoleController extends Controller
         $role->delete();
         return back()->with('status','Suppression reussie');
     }
-    /*
-      public function saveroles(){
-        $agent = Role::create(['name'=>'agent']);
-        $manager = Role::create(['name'=>'manager']);
-        $charroi = Role::create(['name'=>'charroi']);
-    }
-    public function assign_roles(){
-        
-        $user = auth()->user();
     
-        $assignRole =  $user->givePermissionTo('modifier');
-         
+      
+    public function assignRoles($role,$user){
+        
+        /*$user = auth()->user();
+    
+        $assignRole =  $user->assignRole('agent');
+        */
+        $users = User::find($user);
+
+       $users->assignRole($role);
+       return back()->with('status','rôle attribué avec succès');
     }
-    */
+    public function desactiverRoles($role,$user){
+        $users = User::find($user);
+
+        $users->removeRole($role);
+        return back()->with('status','rôle desactivé avec succès');
+    }
+    
 }
