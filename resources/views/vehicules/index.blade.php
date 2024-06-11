@@ -1,4 +1,5 @@
 <x-app-layout>
+    @include('layouts.itemvehicule')
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
@@ -93,22 +94,10 @@
   
         </table>
     </div>
-    <x-delete :message="__('Voulez-vous vraiment supprimer cette vehicule ?')" />
+    <x-deleteVehicule :message="__('Voulez-vous vraiment supprimer cette vehicule ?')" />
     <x-enregistrer :message="__('Voulez-vous enregistrer un vehicule ?')" />
-    <x-edit :message="__('Voulez-vous modifier un vehicule ?')" />
+    <x-editVehicule :message="__('Voulez-vous modifier un vehicule ?')" />
     <x-slot name="scripts">      
-    </x-slot>
-    <script>
-        function supprimer(event) {
-            event.preventDefault()
-            const lien = event.target.getAttribute('href')
-            const form=document.querySelector("#delete-modal form")
-            form.setAttribute('action', lien)
-        }
-        function openModal() {
-                document.getElementById('crud-modal').classList.remove('hidden');
-            }
-       
-        </script>
+    </x-slot>   
 </x-app-layout>
 
