@@ -43,3 +43,10 @@
         </div>
     </div>
 </div> 
+<script>
+       
+    function openModal() {
+            document.getElementById('crud-modal').classList.remove('hidden');
+        }
+   
+    </script>
