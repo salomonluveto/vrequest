@@ -11,36 +11,18 @@ class PermissionController extends Controller
 {
     //
     public function savepermissions(){
-        $valider = Permission::create(['name'=>'enregistrer']);
-        $lire = Permission::create(['name'=>'lire']);
-        $supprimer = Permission::create(['name'=>'modifier']);
-        $supprimer = Permission::create(['name'=>'supprimer']);
+        Permission::create(['name'=>'enregistrer']);
+        Permission::create(['name'=>'lire']);
+        Permission::create(['name'=>'modifier']);
+        Permission::create(['name'=>'supprimer']);
+        Permission::create(['name'=>'lire_vehicule']);
+        Permission::create(['name'=>'enregistrer_vehicule']);
+        Permission::create(['name'=>'modifier_vehicule']);
+        Permission::create(['name'=>'supprimer_vehicule']);
       
     }
     
-    public function givepermissions(){
-        $agent  = Role::find(1);
-        $manager = Role::find(2);
-        $charroi = Role::find(3);
-
-        $agent->givePermissionTo('enregistrer');
-        $agent->givePermissionTo('supprimer');
-        $agent->givePermissionTo('lire');
-        $agent->givePermissionTo('modifier');
-       
-        
-        $manager->givePermissionTo('enregistrer');
-        $manager->givePermissionTo('lire');
-        $manager->givePermissionTo('modifier');
-        $manager->givePermissionTo('supprimer');
-
-        $charroi->givePermissionTo('enregistrer');
-        $charroi->givePermissionTo('supprimer');
-        $charroi->givePermissionTo('lire');
-        $charroi->givePermissionTo('supprimer');
-
-    }
-
+   
     public function assignPermission($permission, $roleId){
         
         /*$user = auth()->user();
