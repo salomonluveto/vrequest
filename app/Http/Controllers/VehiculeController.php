@@ -45,6 +45,7 @@ class VehiculeController extends Controller
     public function show(Vehicule $vehicule)
     {
         //
+        dd($vehicule);
     }
 
     /**
@@ -79,4 +80,21 @@ class VehiculeController extends Controller
         $vehicule->delete();
         return back()->with("success","suppression reussie");
     }
+
+    public function search(Request $request)
+{
+    $searchQuery = $request->input('search');
+    // dd(request()->input('search'));
+
+    $vehicules = Vehicule::query();
+
+    if ($searchQuery) {
+        $vehicules->where('capacite', 'LIKE', '%' . $searchQuery . '%');
+        // dd($vehicules);
+    }
+
+    $data['result'] = $vehicules->paginate(10);
+
+    return view('/vehicules/show', $data);
+}
 }
