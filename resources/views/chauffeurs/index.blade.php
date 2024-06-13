@@ -53,6 +53,7 @@
                             <th scope="col" class="px-6 py-3">N°</th>
                             <th scope="col" class="px-6 py-3">Date</th>
                             <th scope="col" class="px-6 py-3">nom</th>
+                            <th scope="col" class="px-6 py-3">action</th>
                             
                         </tr>
                     </thead>
@@ -64,6 +65,11 @@
                                 <td class="px-6 py-4">{{ $chauffeur->created_at->format('d-m-Y') }}</td>
 
                                 <td class="px-6 py-4">{{ $chauffeur->user->name }}</td>
+                                <td class="px-6 py-4">
+                                     <a onclick="supprimer(event);" data-modal-target="delete-modal"
+                                    data-modal-toggle="delete-modal" href="{{ route('chauffeurs.destroy', $chauffeur->id) }}"
+                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
+                                </td>
                                
                             </tr>
                         @endforeach
@@ -74,6 +80,7 @@
         </div>
     </div>
 </div>
+<x-deleteVehicule :message="__('Voulez-vous vraiment supprimer ce chauffeur ?')" />
 <x-savechauffeur :users="$users" :message="__('Voulez-vous enregistrer un chauffeur ?')" />
     <x-slot name="scripts">      
     </x-slot>
