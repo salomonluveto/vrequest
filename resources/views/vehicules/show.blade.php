@@ -55,6 +55,4 @@
     </table>
 </div>
 
-{{ $result->links() }}
-
 </x-app-layout>
