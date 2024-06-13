@@ -14,11 +14,6 @@ class ChauffeurSeeder extends Seeder
     public function run(): void
     {
         Chauffeur::factory()->count(5)->create();
-        // $users=factory(User::class,4)->create();
-        // $users->each(function($user){
-        //     factory(Chauffeur::class)->create([
-        //         'user_id'=>$user->id,
-        //     ]);
-        // });
+        
     }
 }
