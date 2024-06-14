@@ -9,6 +9,7 @@ class DelegationController extends Controller
     public function index()
    {
     $delegations= Delegation::latest()->paginate(13);
+    
     return view ('delegations.index',compact('delegations'));
    }
 

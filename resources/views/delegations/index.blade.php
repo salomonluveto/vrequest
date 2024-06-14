@@ -67,7 +67,7 @@
 
                            
                            <td class="px-6 py-4">
-                               {{$item->user_id}}
+                               {{$item->user->name}}
                            </td>
                           
                            <td class="px-6 py-4">
