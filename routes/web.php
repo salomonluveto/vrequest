@@ -21,3 +21,4 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 require __DIR__.'/route_vccourse.php';
 require __DIR__.'/role_permission.php';
+require __DIR__.'/delegation_web.php';
