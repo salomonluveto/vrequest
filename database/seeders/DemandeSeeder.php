@@ -12,6 +12,6 @@ class DemandeSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Demande::factory()->count(10)->create();
     }
 }
