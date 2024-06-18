@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -22,13 +23,30 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        $request->authenticate();
+       
 
         $request->session()->regenerate();
+        $data = [
+            "username"=>$request->username,
+            "password"=>$request->password
+        ];
+    
+        
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json'
+        ])->post('http://10.143.41.70:8000/promo2/odcapi/?method=login', $data);
+    
+        if ($response->successful()) {
+        // return $response->json();
+        return redirect()->route('dashboard');
+       
+        } else {
+            return redirect()->route('login');
+        }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+       
     }
 
     /**
