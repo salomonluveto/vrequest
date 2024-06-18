@@ -40,8 +40,8 @@ class DemandeController extends Controller
             'lieu_depart'=>'nullable',
             'longitude_depart'=>'nullable',
             'latitude_depart'=>'nullable',
-            'date_deplacement'=>'required',
-            'user_id'=>[1]
+            'date_deplacement'=>'required'
+            
         ]);
 
         $demandes = Demande::create([
