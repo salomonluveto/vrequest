@@ -69,6 +69,7 @@ class ChauffeurController extends Controller
      */
     public function destroy(Chauffeur $chauffeur)
     {
-        //
+        $chauffeur->delete();
+        return back()->with("success","suppression reussie");
     }
 }
