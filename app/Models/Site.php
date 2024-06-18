@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Demande;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Site extends Model
 {
     use HasFactory;
+    protected $fillable = ['nom'];
 
     public function demandes(){
         return $this->hasMany(Demande::class,'site_id', 'id');
