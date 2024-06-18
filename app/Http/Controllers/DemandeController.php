@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Site;
 use App\Models\Demande;
 use Illuminate\Http\Request;
 
@@ -21,8 +22,9 @@ class DemandeController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        //
+    {   
+        $sites = Site::all();
+        return view ('demandes.create', compact('sites'));
     }
 
     /**
@@ -30,7 +32,32 @@ class DemandeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'motif'=>'required:demandes',
+            'date'=>'required:demandes',
+            'destination'=>'nullable',
+            'nbre_passagers'=>'required:demandes',
+            'lieu_depart'=>'nullable',
+            'longitude_depart'=>'nullable',
+            'latitude_depart'=>'nullable',
+            'date_deplacement'=>'required',
+            'user_id'=>[1]
+        ]);
+
+        $demandes = Demande::create([
+            'motif'=>$request->motif,
+            'date'=>$request->date,
+            'destination'=>$request->destination,
+            'nbre_passagers'=>$request->nbre_passagers,
+            'lieu_depart'=>$request->lieu_depart,
+            'longitude_depart'=>$request->longitude_depart,
+            'latitude_depart'=>$request->latitude_depart,
+            'date_deplacement'=>$request->date_deplacement,
+            'user_id'=>$request->user_id
+
+            
+        ]);
+        return redirect()->route('demandes.index');
     }
 
     /**
