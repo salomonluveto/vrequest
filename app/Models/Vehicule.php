@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Vehicule;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Course;
 
 class Vehicule extends Model
 {
@@ -13,6 +14,9 @@ class Vehicule extends Model
     public function newEloquentBuilder($vehicule)
     {
         return new \Illuminate\Database\Eloquent\Builder($vehicule->latest());
+    }
+    public function courses(){
+        return $this->hasMany(Course::class,'id_vehicule');
     }
 
 }

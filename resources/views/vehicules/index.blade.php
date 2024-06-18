@@ -83,11 +83,13 @@
                         <td class="px-6 py-4">{{ $item->capacite }}</td>
                         <td class="px-6 py-4">
                             <a onclick="edit(event)" href="{{ route('vehicules.update',$item->id) }}" data-modal-target="crud-modal1" data-modal-toggle="crud-modal1"
-                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Editer</a>
+                                class="text-white bg-gradient-to-r from-gray-400 via-gray-400 to-gray-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 shadow-lg shadow-gray-500/50 dark:shadow-lg dark:shadow-gray-800/80 font-medium rounded-lg text-xs px-7 py-2.5 text-center me-4 mb-2" >
+                                Editer</a>
 
                             <a onclick="supprimer(event);" data-modal-target="delete-modal"
                                 data-modal-toggle="delete-modal" href="{{ route('vehicules.destroy', $item->id) }}"
-                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
+                                class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2">
+                                Supprimer</a>
                         </td>
                     </tr>
                 @endforeach
