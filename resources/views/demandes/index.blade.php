@@ -6,8 +6,7 @@
                 {{ __('Demandes') }}
             </h2>
             <div class="flex items-center justify-between my-4">
-                <a href="{{route('demandes.create')}}" data-tooltip-target="tooltip-new"
-                    type="button"
+                <a href="{{ route('demandes.create') }}" data-tooltip-target="tooltip-new" type="button"
                     class="inline-flex items-center justify-center w-14 h-14 font-medium bg-orange-400 rounded-full hover:bg-gray-700 group focus:ring-4 focus:ring-blue-200 focus:outline-none dark:focus:ring-gray-700">
                     <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 18 18">
@@ -22,7 +21,7 @@
                 Demander une course
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
-            
+
         </div>
     </x-slot>
 
@@ -107,20 +106,17 @@
                             </a>
                         </td>
                         <td>
-                            <a
-                                class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-orange-300 group-hover:from-orange-600 group-hover:to-orange-300 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                                <span
-                                    class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                    Supprimer
-                                </span>
-                            </a>
+                            <a onclick="supprimer(event);" data-modal-target="delete-modal"
+                                data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}"
+                                class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Supprimer</a>
 
                         </td>
-
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+    <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')" />
+
 
 </x-app-layout>
