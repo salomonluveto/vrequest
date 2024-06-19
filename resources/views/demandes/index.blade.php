@@ -97,12 +97,9 @@
 
                         </td>
                         <td>
-                            <a href="#"
-                                class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-orange-600 to-orange-500 group-hover:from-orange-600 group-hover:to-orange-300 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                                <span
-                                    class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                            <a href="{{route('demandes.edit', $item->id)}}"
+                                class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
                                     Editer
-                                </span>
                             </a>
                         </td>
                         <td>
@@ -117,6 +114,5 @@
         </table>
     </div>
     <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')" />
-
-
+    
 </x-app-layout>

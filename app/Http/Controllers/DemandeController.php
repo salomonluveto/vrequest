@@ -71,17 +71,29 @@ class DemandeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Demande $demande)
     {
-        //
+        $demandes = $demande;
+        $sites = Site::all();
+        return view('demandes.edit', compact('demandes','sites'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Demande $demande)
     {
-        //
+        $demande->update([
+            'motif'=>$request->motif,
+            'destination'=>$request->destination,
+            'nbre_passagers'=>$request->nbre_passagers,
+            'lieu_depart'=>$request->lieu_depart,
+            'date_deplacement'=>$request->date_deplacement
+
+        ]);
+       
+       return redirect()->route('demandes.index')->with('success', 'Votre demande a été mise à jour avec succès.');
+
     }
 
     /**
