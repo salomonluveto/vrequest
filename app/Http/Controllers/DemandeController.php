@@ -87,8 +87,10 @@ class DemandeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Demande $demande)
     {
-        //
+        $demande->delete();
+        return back()->with("success","suppression reussie");
     }
+
 }
