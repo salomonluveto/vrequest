@@ -3,9 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Manager;
+use App\Models\UserInfo;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Chauffeur;
@@ -20,9 +23,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
+        'first_name',
         'name',
+        'last_name',
         'email',
+        'phone',
         'password',
+        
     ];
 
     /**
@@ -48,7 +56,13 @@ class User extends Authenticatable
         ];
     }
 
+    public function user_infos(): HasMany
+    {
+        return $this->hasMany(UserInfo::class);
+
+
     public function chauffeur(){
         return $this->hasMany(Chauffeur::class);
+
     }
 }

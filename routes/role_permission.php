@@ -9,6 +9,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 
 
@@ -31,4 +32,5 @@ Route::get('/savepermissions', [PermissionController::class,'savepermissions']);
 
 Route::get('/assign_permissions', [PermissionController::class,'assign_permissions']);
 Route::resource('/user_role',UserController::class);
+Route::get('autocomplete',[RegisteredUserController::class,'autocomplete'])->name('autocomplete');
 require __DIR__.'/auth.php';
