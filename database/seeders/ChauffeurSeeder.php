@@ -1,17 +1,19 @@
 <?php
 
 namespace Database\Seeders;
-use App\Models\Demande;
+
+use App\Models\Chauffeur;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DemandeSeeder extends Seeder
+class ChauffeurSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Demande::factory()->count(10)->create();
+        Chauffeur::factory()->count(5)->create();
+        
     }
 }

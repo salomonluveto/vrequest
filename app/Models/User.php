@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Chauffeur;
 
 class User extends Authenticatable
 {
@@ -54,8 +55,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
     public function user_infos(): HasMany
     {
         return $this->hasMany(UserInfo::class);
+
+
+    public function chauffeur(){
+        return $this->hasMany(Chauffeur::class);
+
     }
 }

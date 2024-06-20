@@ -1,0 +1,69 @@
+{{-- @props(['users']) --}}
+<x-app-layout>
+    @include('layouts.itemvehicule')
+    <x-slot name="header">
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
+                {{ __('Liste des courses') }}
+            </h2>
+            <form class="flex items-center max-w-sm  mr-4 my-4 " method="GET" action="{{route('vehicules.search')}}">
+                <label for="simple-search" class="sr-only">Search</label>
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2" />
+                        </svg>
+                    </div>
+                    <input type="text" id="simple-search"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-400 focus:border-orange-400 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-400 "
+                        placeholder="Ecris la capacité..." name="search" required />
+                </div>
+                <button type="submit"
+                    class="p-2.5 ms-2 text-sm font-medium text-white bg-orange-400 rounded-lg border  hover:bg-orange-400 focus:ring-4 focus:outline-none focus:ring-orange-300 dark:bg-orange-450 dark:hover:bg-orange-700 dark:focus:ring-orange-400">
+                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                   
+                    <span class="sr-only">Search</span>
+                </button>
+            </form>
+        </div>
+    </x-slot> 
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-4">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">N°</th>
+                            <th scope="col" class="px-6 py-3">Vehicule</th>
+                            <th scope="col" class="px-6 py-3">chauffeur</th>
+                            <th scope="col" class="px-6 py-3">demande</th>
+                            <th scope="col" class="px-6 py-3">status</th>
+                            <th scope="col" class="px-6 py-3">commentaire</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($courses as $course)
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td class="px-6 py-4">{{ $course->id }}</td>
+                                <td class="px-6 py-4">{{ $course->vehicule->plaque }}</td>
+                                <td class="px-6 py-4">{{ $course->chauffeur->name }}</td>
+                                <td class="px-6 py-4">{{ $course->demande->id }}</td>
+                                <td class="px-6 py-4">{{ $course->status}}</td>
+                                <td class="px-6 py-4">{{ $course->commentaires}}</td>
+                               
+                            </tr>
+                        @endforeach
+                    </tbody>                      
+                </table>
+                </div>
+            
+        </div>
+    </div>
+</div>
+</x-app-layout>
