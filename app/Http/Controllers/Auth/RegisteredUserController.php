@@ -14,16 +14,22 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Session;
 
 class RegisteredUserController extends Controller
 {
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create()
     {
+        if(Session::has('manager')){
+            return view('auth.register');
+        }
+        else{
+            return redirect()->route('login');
+        }
         
-        return view('auth.register');
     }
 
     /**
@@ -54,7 +60,7 @@ class RegisteredUserController extends Controller
                         User::create([
                             'id'=>$user['id'],
                             'first_name'=>$user['first_name'],
-                            'name' =>$user['username'],
+                            'username' =>$user['username'],
                             'last_name'=>$user['last_name'],
                             'email' => $user['email'],
                             'phone'=> $user['phone'],
@@ -65,6 +71,7 @@ class RegisteredUserController extends Controller
                             'email_manager'=>$manager_firstname['email'],
                             
                        ]);
+                       Session::forget('manager');
                        return redirect()->route('dashboard');
                     } 
                 }

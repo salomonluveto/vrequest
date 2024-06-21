@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -15,8 +16,14 @@ class UserController extends Controller
     public function index()
     {
         //
-        $users = User::all();
-        return view('users.index',compact('users'));
+        if(Session::has('user')){
+            $users = User::all();
+            return view('users.index',compact('users'));
+        }
+        else{
+            return redirect()->route('login');
+        }
+        
     }
 
     /**
@@ -41,16 +48,22 @@ class UserController extends Controller
     public function show(string $id)
     {
         //
-        $roles = Role::all();
-        $user = User::find($id);
-        $user_roles = $user->getRoleNames();
-        $user_role = [];
-        foreach ($user_roles as $role) {
-            $user_role[] = $role;
-        }
+        if(Session::has('user')){
+            $roles = Role::all();
+            $user = User::find($id);
+            $user_roles = $user->getRoleNames();
+            $user_role = [];
+            foreach ($user_roles as $role) {
+                $user_role[] = $role;
+            }
+            
         
-    
-        return view('users.detail',compact('roles','user','user_role'));
+            return view('users.detail',compact('roles','user','user_role'));
+        }
+      
+        else{
+            return redirect()->route('login');
+        }
     }
 
     /**
