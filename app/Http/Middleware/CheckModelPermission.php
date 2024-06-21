@@ -3,7 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckModelPermission
@@ -15,12 +17,13 @@ class CheckModelPermission
      */
     public function handle(Request $request, Closure $next,$model): Response
     {
-      
-      
-       $user = $request->user();
-       $methode =  $request->getMethod();
+      if(Session::has('user')){
+            $session = Session::get('user');
+            $user = User::where('username',$session)->first();
+            
+            $methode =  $request->getMethod();
 
-       if($model === 'User'){
+            if($model === 'User'){
                 if($methode==='GET'){
 
                     if ($user->can('lire', 'App\Models\\'.$model)) {
@@ -100,6 +103,10 @@ class CheckModelPermission
        
 
        return abort(403, 'Vous n\'avez pas la permission d\'accéder à cette ressource.');
+    }
+    else{
+        return redirect()->route('login');
+    }
     }
         
 }

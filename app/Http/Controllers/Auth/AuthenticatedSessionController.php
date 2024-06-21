@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
@@ -17,9 +18,13 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create()
     {
-        return view('auth.login');
+        if(Session::has('user')){
+            return redirect()->route('dashboard');
+
+        }
+        return redirect()->route('login');
     }
 
     /**
@@ -44,12 +49,14 @@ class AuthenticatedSessionController extends Controller
             $request->session()->regenerate();
         $responsefinal= $response->json();
             if(User::find($responsefinal['user']['id'])){
+                Session::put('user',$request->username);
                 return redirect()->route('dashboard');
             }
             else{
              
                 $id = $responsefinal['user']['id'];
-                 
+                 Session::put('user',$request->username);
+                 Session::put('manager',$request->username);
                 return redirect()->route('register')->with('id',$id);
             }
         
@@ -65,13 +72,10 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
+        Session::forget('user');
         Auth::guard('web')->logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
 
         return redirect('/');
     }
