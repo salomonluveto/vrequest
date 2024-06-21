@@ -32,18 +32,19 @@ class DemandeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'motif'=>'required:demandes',
-            'date'=>'required:demandes',
-            'destination'=>'nullable',
-            'nbre_passagers'=>'required:demandes',
-            'lieu_depart'=>'nullable',
-            'longitude_depart'=>'nullable',
-            'latitude_depart'=>'nullable',
-            'date_deplacement'=>'required'
+        // $validateData = $request->validate([
+        
+        //     'motif'=>'required:demandes',
+        //     'date'=>'required:demandes',
+        //     'lieu_depart'=>'required_if:choix,choix-liste,choix-carte',
+        //     'destination'=>'required_if:choix,choix-liste,choix-carte',
+        //     'nbre_passagers'=>'required:demandes',
+        //     'longitude_depart'=>'nullable',
+        //     'latitude_depart'=>'nullable',
+        //     'date_deplacement'=>'required'
             
-        ]);
-
+        // ]);
+        
         $demandes = Demande::create([
             'motif'=>$request->motif,
             'date'=>$request->date,
@@ -57,6 +58,8 @@ class DemandeController extends Controller
 
             
         ]);
+
+      
         return redirect()->route('demandes.index');
     }
 

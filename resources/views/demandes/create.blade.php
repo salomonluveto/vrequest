@@ -58,13 +58,13 @@
                         :</label>
                     <div>
                         <label class="text-gray-900 dark:text-white">
-                            <input type="radio" name="choix" value="liste" id="choix-liste"> Sur une liste
+                            <input type="radio" name="choix" value="choix-liste" id="choix-liste"> Sur une liste
                         </label>
                     </div>
 
                     <div>
                         <label class="text-gray-900 dark:text-white">
-                            <input type="radio" name="choix" value="carte" id="choix-carte"> Sur une carte
+                            <input type="radio" name="choix" value="choix-carte" id="choix-carte"> Sur une carte
                         </label>
                     </div>
                 </div>
@@ -80,11 +80,8 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value=""></option>
                                 @foreach ($sites as $site)
-                                    <option value="{{ $site->nom }}">{{ $site->nom }}</option>
-                                    <p class=" text-white" name="longitude_depart" required>
-                                        {{ $site->longitude }}
-                                    </p>
-                                    <span name="latitude_depart" required>{{ $site->latitude }}</span>
+                                    <option value="{{ $site->name }}">{{ $site->nom }}</option>
+                                    
                                 @endforeach
 
 
@@ -99,7 +96,7 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value=""></option>
                                 @foreach ($sites as $site)
-                                    <option value="{{ $site->nom }}">{{ $site->nom }}</option>
+                                    <option value="{{ $site->name }}">{{ $site->nom }}</option>
                                 @endforeach
 
                             </select>
@@ -137,10 +134,7 @@
                         style="height: 300px; width:860px;position: absolute; left: -1000000000000000px"></div>
                 </div>
 
-
-
-
-                <div class=" relative sm:col-span-2">
+                <div class="relative sm:col-span-2">
 
                     <div id="map" style=" height: 300px; width:860px; position: absolute;left:-100000000000px">
                     </div>
@@ -161,5 +155,6 @@
     <x-choixDestination/>
     <x-destinationCarte />
     <x-destinationListe />
+    <x-styleAutocomplete/>
 
 </x-app-layout>
