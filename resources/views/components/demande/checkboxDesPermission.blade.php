@@ -34,7 +34,7 @@
 </div>
 
 <script>
-          function DesLire(event){
+          function DesLireD(event){
             
              // var route = event.target.getAttribute('href');
              var route = document.querySelector('#d-lire_demande')
@@ -42,21 +42,21 @@
              form.setAttribute('action',route)
              
           }
-          function DesEnregistrer(event){
+          function DesEnregistrerD(event){
              // var route = event.target.getAttribute('href');
              var route = document.querySelector('#d-enregistrer_demande')
              var form = document.querySelector('#des-demande form')
              form.setAttribute('action',route)
              
           }
-          function DesModifier(event){
+          function DesModifierD(event){
              // var route = event.target.getAttribute('href');
              var route = document.querySelector('#d-modifier_demande')
              var form = document.querySelector('#des-demande form')
              form.setAttribute('action',route)
              
           }
-          function DesSupprimer(event){
+          function DesSupprimerD(event){
              // var route = event.target.getAttribute('href');
              var route = document.querySelector('#d-supprimer_demande')
              var form = document.querySelector('#des-demande form')

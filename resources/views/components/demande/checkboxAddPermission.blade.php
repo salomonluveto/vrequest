@@ -32,28 +32,28 @@
     </div>
 </div>
 <script>
-       function Lire(event){
+       function LireD(event){
              // var route = event.target.getAttribute('href');
              var route = document.querySelector('#check-lire_demande')
              var form = document.querySelector('#check-demande form')
              form.setAttribute('action',route)
              
           }
-          function Enregistrer(event){
+          function EnregistrerD(event){
              // var route = event.target.getAttribute('href');
              var route = document.querySelector('#check-enregistrer_demande')
              var form = document.querySelector('#check-demande form')
              form.setAttribute('action',route)
              
           }
-          function Modifier(event){
+          function ModifierD(event){
              // var route = event.target.getAttribute('href');
              var route = document.querySelector('#check-modifier_demande')
              var form = document.querySelector('#check-demande form')
              form.setAttribute('action',route)
              
           }
-          function Supprimer(event){
+          function SupprimerD(event){
              // var route = event.target.getAttribute('href');
              var route = document.querySelector('#check-supprimer_demande')
              var form = document.querySelector('#check-demande form')
