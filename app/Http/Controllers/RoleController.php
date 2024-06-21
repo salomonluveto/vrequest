@@ -81,10 +81,11 @@ class RoleController extends Controller
         
         $per = ["lire","enregistrer","modifier","supprimer"];
         $per_vehicule = ["lire_vehicule","enregistrer_vehicule","modifier_vehicule","supprimer_vehicule"];
+        $per_demande = ["lire_demande","enregistrer_demande","modifier_demande","supprimer_demande"];
         $roleId=$role->id;
   
         
-        return view('role.detail',compact('modelname','permissions','per','tab','roleId','per_vehicule'));
+        return view('role.detail',compact('modelname','permissions','per','tab','roleId','per_vehicule','per_demande'));
     }
 
     /**

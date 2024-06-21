@@ -19,6 +19,10 @@ class PermissionController extends Controller
         Permission::create(['name'=>'enregistrer_vehicule']);
         Permission::create(['name'=>'modifier_vehicule']);
         Permission::create(['name'=>'supprimer_vehicule']);
+        Permission::create(['name'=>'lire_demande']);
+        Permission::create(['name'=>'enregistrer_demande']);
+        Permission::create(['name'=>'modifier_demande']);
+        Permission::create(['name'=>'supprimer_demande']);
       
     }
     
