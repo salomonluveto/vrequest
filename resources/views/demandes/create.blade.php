@@ -57,7 +57,7 @@
                         un lieu
                         :</label>
                     <div>
-                        <label class="text-gray-900 dark:text-white">
+                        <label class="text-gray-900 dark:text-white" for="choix-liste">
                             <input type="radio" name="choix" value="choix-liste" id="choix-liste"> Sur une liste
                         </label>
                     </div>
@@ -73,30 +73,30 @@
 
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div class="col-span-1">
-                            <label for="category"
+                            <label for="lieuDepart"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lieu de
                                 depart</label>
-                            <select id="lieuDepart" name="lieu_depart"
+                            <select id="lieuDepart" name="lieu_depart1"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value=""></option>
                                 @foreach ($sites as $site)
-                                    <option value="{{ $site->name }}">{{ $site->nom }}</option>
-                                    
+                                    <option value="{{ $site->nom }}">{{ $site->nom }}</option>
                                 @endforeach
 
 
                             </select>
+                             
 
                         </div>
 
                         <div class="col-span-1">
-                            <label for="category"
+                            <label for="lieuArrivee"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Destination</label>
-                            <select id="lieuArrivee" name="destination"
+                            <select id="lieuArrivee" name="destination1"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value=""></option>
                                 @foreach ($sites as $site)
-                                    <option value="{{ $site->name }}">{{ $site->nom }}</option>
+                                    <option value="{{ $site->nom }}">{{ $site->nom }}</option>
                                 @endforeach
 
                             </select>
@@ -152,9 +152,9 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </div>
     <x-dateDemande />
-    <x-choixDestination/>
+    <x-choixDestination />
     <x-destinationCarte />
     <x-destinationListe />
-    <x-styleAutocomplete/>
+    <x-styleAutocomplete />
 
 </x-app-layout>
