@@ -26,7 +26,7 @@
                        {{$i+1}}
                     </th>
                     <td class="px-6 py-4">
-                      {{$item->name}}
+                      {{$item->username}}
                     </td>
                     <td class="px-6 py-4">
                         
