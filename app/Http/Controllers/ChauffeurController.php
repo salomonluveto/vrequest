@@ -31,13 +31,21 @@ class ChauffeurController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        // dd($request);
-        $chauffeur= Chauffeur::create([
-            'user_id'=>$request->user_id
+    {       
+    $existChauffeur = Chauffeur::where('user_id', $request->user_id)
+                            ->first();
 
-        ]);  
-            return back()->with('success', 'chauffeur enregistré avec succès.');
+    if ($existChauffeur) {
+        return back()->with('error', 'Ce chauffeur a déjà été enregistré.');
+    }
+    // Sinon, enregistrer le nouveau chauffeur
+    $chauffeur = Chauffeur::create([
+        'user_id' => $request->user_id,
+       
+    ]);
+
+    return back()->with('success', 'Chauffeur enregistré avec succès.');
+
     }
 
     /**
