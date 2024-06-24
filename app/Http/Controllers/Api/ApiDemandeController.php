@@ -13,7 +13,7 @@ class ApiDemandeController extends Controller
      */
     public function index()
     {
-        $demandes = Demande::all();
+        $demandes = Demande::orderBy('date', 'asc')->get();
        return response()->json($demandes);
     }
 
@@ -22,7 +22,11 @@ class ApiDemandeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $demande = Demande::create($request->all());
+        return response()->json([
+            'demande' =>$demande
+        ], 200);
+
     }
 
     /**
