@@ -25,3 +25,7 @@ Route::post('/login', function (Request $request) {
     return $user;
 });
 
+require __DIR__.'/apiMessage.php';
+require __DIR__.'/apiMessageGroupe.php';
+
+
