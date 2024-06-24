@@ -32,24 +32,27 @@ class DemandeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'motif'=>'required:demandes',
+        $validateData = $request->validate([
+             'choix'=>'required|in:choix-liste,choix-carte',
+             'motif'=>'required:demandes',
             'date'=>'required:demandes',
-            'destination'=>'nullable',
-            'nbre_passagers'=>'required:demandes',
-            'lieu_depart'=>'nullable',
+            'lieu_depart'=>'required_if:choix,choix-carte',
+            'destination'=>'required_if:choix,choix-carte',
+            'lieu_depart1'=>'required_if:choix,choix-liste',
+            'destination1'=>'required_if:choix,choix-liste',
+             'nbre_passagers'=>'required:demandes',
             'longitude_depart'=>'nullable',
-            'latitude_depart'=>'nullable',
+           'latitude_depart'=>'nullable',
             'date_deplacement'=>'required'
             
-        ]);
-
+         ]);
+         
         $demandes = Demande::create([
             'motif'=>$request->motif,
             'date'=>$request->date,
-            'destination'=>$request->destination,
+            'destination'=>!empty($request->destination) ? $request->destination : $request->destination1,
             'nbre_passagers'=>$request->nbre_passagers,
-            'lieu_depart'=>$request->lieu_depart,
+            'lieu_depart'=> !empty($request->lieu_depart) ? $request->lieu_depart : $request->lieu_depart1  ,
             'longitude_depart'=>$request->longitude_depart,
             'latitude_depart'=>$request->latitude_depart,
             'date_deplacement'=>$request->date_deplacement,
@@ -57,7 +60,9 @@ class DemandeController extends Controller
 
             
         ]);
-        return redirect()->route('demandes.index');
+
+      
+        return redirect()->route('demandes.index');  
     }
 
     /**

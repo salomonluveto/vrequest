@@ -16,7 +16,7 @@ class Vehicule extends Model
         return new \Illuminate\Database\Eloquent\Builder($vehicule->latest());
     }
     public function courses(){
-        return $this->hasMany(Course::class,'id_vehicule');
+        return $this->hasMany(Course::class,'vehicule_id');
     }
 
 }
