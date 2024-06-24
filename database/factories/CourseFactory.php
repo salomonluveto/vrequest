@@ -17,9 +17,9 @@ class CourseFactory extends Factory
     public function definition(): array
     {
         return [
-            'id_vehicule'=>Vehicule::factory(),
-            'id_chauffeur'=>Chauffeur::factory(),
-            'id_demande'=>Demande::factory(),
+            'vehicule_id'=>Vehicule::factory(),
+            'chauffeur_id'=>Chauffeur::factory(),
+            'demande_id'=>Demande::factory(),
             'status'=>$this->faker->rondomElement(['en_attente', 'en_cours', 'terminé']),
             'commentaire'=>$this->faker->sentence,
         ];

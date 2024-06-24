@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_vehicule')->onDelete('restrict');
-            $table->foreignId('id_chauffeur')->onDelete('restrict');
-            $table->foreignId('id_demande')->onDelete('restrict');
+            $table->foreignId('vehicule_id') ->constrained()->onDelete('restrict');
+            $table->foreignId('chauffeur_id') ->constrained()->onDelete('restrict');
+            $table->foreignId('demande_id') ->constrained()->onDelete('restrict');
             $table->string('status')->default('en_attente');
             $table->text('commentaire')->nullable();
             $table->timestamps();
