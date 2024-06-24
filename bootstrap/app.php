@@ -2,6 +2,7 @@
 
 
 use App\Http\Middleware\CheckRole;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\EditPermission;
 use App\Http\Middleware\SavePermission;
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role'=> \App\Http\Middleware\AgentRole::class,
             'check'=> CheckModelPermission::class,
+            'authenticate'=> Authenticate::class,
             
         ]);
     })

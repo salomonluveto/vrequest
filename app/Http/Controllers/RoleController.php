@@ -81,10 +81,15 @@ class RoleController extends Controller
         
         $per = ["lire","enregistrer","modifier","supprimer"];
         $per_vehicule = ["lire_vehicule","enregistrer_vehicule","modifier_vehicule","supprimer_vehicule"];
+        $per_demande = ["lire_demande","enregistrer_demande","modifier_demande","supprimer_demande"];
+        $per_site = ["lire_site","enregistrer_site","modifier_site","supprimer_site"];
+        $per_chauffeur = ["lire_chauffeur","enregistrer_chauffeur","modifier_chauffeur","supprimer_chauffeur"];
+        $per_course = ["lire_course","enregistrer_course","modifier_course","supprimer_course"];
+        $per_delegation = ["lire_delegation","enregistrer_delegation","modifier_delegation","supprimer_delegation"];
         $roleId=$role->id;
   
         
-        return view('role.detail',compact('modelname','permissions','per','tab','roleId','per_vehicule'));
+        return view('role.detail',compact('modelname','permissions','per','tab','roleId','per_vehicule','per_demande','per_site','per_chauffeur','per_course','per_delegation'));
     }
 
     /**
@@ -124,15 +129,40 @@ class RoleController extends Controller
         $assignRole =  $user->assignRole('agent');
         */
         $users = User::find($user);
-
-       $users->assignRole($role);
+        $users->assignRole($role);
+        $roles = Role::findByName($role);
+        $permissions = $roles->permissions;
+       
+        foreach($permissions as $permission){
+          $users->givePermissionTo($permission->name);
+        }
+       
+     
        return back()->with('status','rôle attribué avec succès');
     }
     public function desactiverRoles($role,$user){
         $users = User::find($user);
 
         $users->removeRole($role);
+        $roles = Role::findByName($role);
+        $permissions = $roles->permissions;
+        foreach($permissions as $permission){
+          $users->revokePermissionTo($permission->name);
+        }
+       
         return back()->with('status','rôle desactivé avec succès');
+    }
+    public function RoleAsPermissions(){
+        $charroi = Role::findByName('charroi');
+        $admin = Role::findByName('admin');
+        $admin->givePermissionTo('lire');
+        $admin->givePermissionTo('enregistrer');
+        $admin->givePermissionTo('modifier');
+        $admin->givePermissionTo('supprimer');
+        $charroi->givePermissionTo('lire_vehicule');
+        $charroi->givePermissionTo('enregistrer_vehicule');
+        $charroi->givePermissionTo('modifier_vehicule');
+        $charroi->givePermissionTo('supprimer_vehicule');
     }
     
 }

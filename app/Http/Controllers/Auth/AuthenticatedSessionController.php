@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
@@ -15,9 +18,13 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create()
     {
-        return view('auth.login');
+        if(Session::has('user')){
+           return redirect()->route('/dashboard');
+
+        }
+        return View('auth.login');
     }
 
     /**
@@ -27,7 +34,7 @@ class AuthenticatedSessionController extends Controller
     {
        
 
-        $request->session()->regenerate();
+        
         $data = [
             "username"=>$request->username,
             "password"=>$request->password
@@ -39,10 +46,23 @@ class AuthenticatedSessionController extends Controller
         ])->post('http://10.143.41.70:8000/promo2/odcapi/?method=login', $data);
     
         if ($response->successful()) {
-        // return $response->json();
-        return redirect()->route('dashboard');
+            $request->session()->regenerate();
+        $responsefinal= $response->json();
+            if(User::find($responsefinal['user']['id'])){
+                Session::put('user',$request->username);
+                return redirect()->route('dashboard');
+            }
+            else{
+             
+                $id = $responsefinal['user']['id'];
+                 Session::put('user',$request->username);
+                 Session::put('manager',$request->username);
+                return redirect()->route('register')->with('id',$id);
+            }
+        
        
-        } else {
+        } 
+        else {
             return redirect()->route('login');
         }
 
@@ -52,13 +72,10 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
+        Session::forget('user');
         Auth::guard('web')->logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
 
         return redirect('/');
     }

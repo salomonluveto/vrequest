@@ -19,6 +19,26 @@ class PermissionController extends Controller
         Permission::create(['name'=>'enregistrer_vehicule']);
         Permission::create(['name'=>'modifier_vehicule']);
         Permission::create(['name'=>'supprimer_vehicule']);
+        Permission::create(['name'=>'lire_demande']);
+        Permission::create(['name'=>'enregistrer_demande']);
+        Permission::create(['name'=>'modifier_demande']);
+        Permission::create(['name'=>'supprimer_demande']);
+        Permission::create(['name'=>'lire_site']);
+        Permission::create(['name'=>'enregistrer_site']);
+        Permission::create(['name'=>'modifier_site']);
+        Permission::create(['name'=>'supprimer_site']);
+        Permission::create(['name'=>'lire_chauffeur']);
+        Permission::create(['name'=>'enregistrer_chauffeur']);
+        Permission::create(['name'=>'modifier_chauffeur']);
+        Permission::create(['name'=>'supprimer_chauffeur']);
+        Permission::create(['name'=>'lire_course']);
+        Permission::create(['name'=>'enregistrer_course']);
+        Permission::create(['name'=>'modifier_course']);
+        Permission::create(['name'=>'supprimer_course']);
+        Permission::create(['name'=>'lire_delegation']);
+        Permission::create(['name'=>'enregistrer_delegation']);
+        Permission::create(['name'=>'modifier_delegation']);
+        Permission::create(['name'=>'supprimer_delegation']);
       
     }
     
@@ -38,6 +58,7 @@ class PermissionController extends Controller
         foreach ($users as $user) {
             $user->givePermissionTo($permission);
         }
+        $role->givePermissionTo($permission);
         return back()->with('status','Permission accordée');
     }
     public function desactiverPermission($permission, $roleId){
@@ -49,6 +70,7 @@ class PermissionController extends Controller
 
             $user->revokePermissionTo($permission);
         }
+        $role->revokePermissionTo($permission);
         return back()->with('status','Permission desactivée');
     }
 }
