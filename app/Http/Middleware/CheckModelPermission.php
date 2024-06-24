@@ -96,6 +96,44 @@ class CheckModelPermission
                 }
             
        }
+       elseif($model === 'Demande'){
+
+
+        if($methode==='GET'){
+
+            if ($user->can('lire_demande', 'App\Models\\'.$model)) {
+                
+            return  $next($request);
+            }
+        
+        }
+
+        else if($methode==='POST'){
+
+            if ($user->can('enregistrer_demande', 'App\Models\\'.$model)) {
+                    
+                return  $next($request);
+            }
+        }
+
+        else if($methode==='PUT'){
+
+            if ($user->can('modifier_demande', 'App\Models\\'.$model)) {
+                
+                return  $next($request);
+            }
+        }
+
+        else if($methode==='DELETE'){
+
+            if ($user->can('supprimer_demande', 'App\Models\\'.$model)) {
+                
+                return  $next($request);
+            }
+        }
+    
+}
+
 
 
 
