@@ -2,45 +2,80 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
+use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create()
     {
-        return view('auth.login');
+        if(Session::has('user')){
+            return redirect()->route('dashboard');
+
+        }
+        return redirect()->route('login');
     }
 
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        $request->authenticate();
+       
 
-        $request->session()->regenerate();
+        
+        $data = [
+            "username"=>$request->username,
+            "password"=>$request->password
+        ];
+    
+        
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json'
+        ])->post('http://10.143.41.70:8000/promo2/odcapi/?method=login', $data);
+    
+        if ($response->successful()) {
+            $request->session()->regenerate();
+        $responsefinal= $response->json();
+            if(User::find($responsefinal['user']['id'])){
+                Session::put('user',$request->username);
+                return redirect()->route('dashboard');
+            }
+            else{
+             
+                $id = $responsefinal['user']['id'];
+                 Session::put('user',$request->username);
+                 Session::put('manager',$request->username);
+                return redirect()->route('register')->with('id',$id);
+            }
+        
+       
+        } 
+        else {
+            return redirect()->route('login');
+        }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+       
     }
 
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
+        Session::forget('user');
         Auth::guard('web')->logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
 
         return redirect('/');
     }

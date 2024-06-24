@@ -38,6 +38,7 @@ class PermissionController extends Controller
         foreach ($users as $user) {
             $user->givePermissionTo($permission);
         }
+        $role->givePermissionTo($permission);
         return back()->with('status','Permission accordée');
     }
     public function desactiverPermission($permission, $roleId){
@@ -49,6 +50,7 @@ class PermissionController extends Controller
 
             $user->revokePermissionTo($permission);
         }
+        $role->revokePermissionTo($permission);
         return back()->with('status','Permission desactivée');
     }
 }
