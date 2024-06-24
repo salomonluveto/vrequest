@@ -44,7 +44,7 @@
                 <tbody>
                     
                     @for($j = 0; $j<count($modelname);$j++)
-                    
+
                         @if ($modelname[$j] === 'UserInfo')
                             @continue
                         @endif
@@ -62,6 +62,10 @@
                         @include('role.user')
                         @include('role.vehicule')
                         @include('role.demande')
+                        @include('role.site')
+                        @include('role.chauffeur')
+                        @include('role.course')
+                        @include('role.delegation')
 
 
                         
