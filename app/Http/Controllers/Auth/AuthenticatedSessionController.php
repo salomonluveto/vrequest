@@ -21,10 +21,10 @@ class AuthenticatedSessionController extends Controller
     public function create()
     {
         if(Session::has('user')){
-            return redirect()->route('dashboard');
+           return redirect()->route('/dashboard');
 
         }
-        return redirect()->route('login');
+        return View('auth.login');
     }
 
     /**
