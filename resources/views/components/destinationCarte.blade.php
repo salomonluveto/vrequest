@@ -32,7 +32,7 @@
                 // Centrer la carte sur le lieu sélectionné
                 mapid.setView([ui.item.lat, ui.item.lon], 13);
                 var markerDepart = L.marker([ui.item.lat, ui.item.lon], 13).addTo(mapid);
-                markerDepart.bindPopup('<b>Depart:</b><br>' + results.value).openPopup();
+                markerDepart.bindPopup('<b>Depart:</b><br>' + ui.item.value).openPopup();
             },
             minLength: 2 // Nombre de caractères minimum pour déclencher l'autocomplétion
         }).autocomplete("instance")._renderItem = function(ul, item) {
@@ -68,7 +68,7 @@
                 // Centrer la carte sur le lieu sélectionné
                 mapid.setView([ui.item.lat, ui.item.lon], 13);
                 var markerDepart = L.marker([ui.item.lat, ui.item.lon], 13).addTo(mapid);
-                markerDepart.bindPopup('<b>Depart:</b><br>' + results.data).openPopup();
+                markerDepart.bindPopup('<b>Destination:</b><br>' + ui.item.value).openPopup();
             },
             minLength: 2 // Nombre de caractères minimum pour déclencher l'autocomplétion
         }).autocomplete("instance")._renderItem = function(ul, item) {
