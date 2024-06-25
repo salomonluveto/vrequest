@@ -22,11 +22,25 @@ class ApiDemandeController extends Controller
      */
     public function store(Request $request)
     {
-        $demande = Demande::create($request->all());
-        return response()->json([
-            'demande' =>$demande
-        ], 200);
+       
+        $request->validate([
+            "motif"=>"required|max:60|min:3",
+            "date_deplacement"=>"required|date_format:Y-m-d H:i",
+            "lieu_depart"=>"required|string",
+            "destination"=>"required|string",
+            "nbre_passagers"=>"required|integer",
+            "longitude_depart"=>"nullable",
+            "latitude_depart"=>"nullable",
+            "longitude_destination"=>"nullable",
+            "latitude_destination"=>"nullable"
 
+        ]);
+        $demande = Demande::create($request->all());
+           
+        return response()->json([
+            'demande'=>$demande],200);
+
+   
     }
 
     /**
