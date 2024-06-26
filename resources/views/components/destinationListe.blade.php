@@ -1,5 +1,4 @@
 <script>
-
     // Choisir la destination sur la liste 
     var greenIcon = new L.Icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -57,4 +56,27 @@
 
     // Mettre à jour la carte lorsque la page est chargée
     updateMap();
+</script>
+<script>
+    // Récupérez les éléments du formulaire
+    const lieuDepartInput = document.getElementById('lieuDepart');
+    const longitudeDepartInput = document.getElementById('longitude_depart');
+    const latitudeDepartInput = document.getElementById('latitude_depart');
+
+    const lieuArriveeInput = document.getElementById('lieuArrivee');
+    const longitudeDestinationInput = document.getElementById('longitude_destination');
+    const latitudeDestinationInput = document.getElementById('latitude_destination');
+
+    // Écoutez les changements dans les listes déroulantes
+    lieuDepartInput.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        longitudeDepartInput.value = selectedOption.dataset.longitude;
+        latitudeDepartInput.value = selectedOption.dataset.latitude;
+    });
+
+    lieuArriveeInput.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        longitudeDestinationInput.value = selectedOption.dataset.longitude;
+        latitudeDestinationInput.value = selectedOption.dataset.latitude;
+    });
 </script>
