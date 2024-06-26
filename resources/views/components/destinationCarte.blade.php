@@ -1,10 +1,58 @@
 <script>
+    // Couleur du marker
+    var greenIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
     // Choisir la destination sur la carte
     var mapid = L.map('mapid').setView([15.3031, -4.3322], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(mapid);
+    // Stocker les marqueurs de départ et de destination
+    var departMarker = null;
+    var destinationMarker = null;
 
+    // Ajouter un événement de clic sur la carte
+    mapid.on('click', function(e) {
+        // Supprimer les marqueurs précédents, s'ils existent
+        if (departMarker) {
+            mapid.removeLayer(departMarker);
+        }
+        if (destinationMarker) {
+            mapid.removeLayer(destinationMarker);
+        }
+
+        // Effectuer la recherche via l'API Nominatim de OpenStreetMap
+        axios.get('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&zoom=18&addressdetails=1')
+            .then(function(res) {
+                var data = res.data;
+                var placeName = data.display_name;
+
+                // Ajouter un marqueur sur la carte
+                if (document.activeElement.id === 'depart') {
+                    departMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mapid);
+                    departMarker.bindPopup('<b>' + placeName + '</b>').openPopup();
+                    $('#latitude_depart1').val(e.latlng.lat);
+                    $('#longitude_depart1').val(e.latlng.lng);
+                    $('#depart').val(placeName);
+                } else {
+                    destinationMarker = L.marker([e.latlng.lat, e.latlng.lng],{icon: greenIcon}).addTo(mapid);
+                    destinationMarker.bindPopup('<b>' + placeName + '</b>').openPopup();
+                    $('#latitude_destination1').val(e.latlng.lat);
+                    $('#longitude_destination1').val(e.latlng.lng);
+                    $('#destination').val(placeName);
+                }
+            })
+            .catch(function(error) {
+                console.error('Erreur lors de la recherche:', error);
+            });
+    });
     $(function() {
         $("#depart, #destination").autocomplete({
             source: function(request, response) {
@@ -38,7 +86,6 @@
 
                 // Ajouter un marqueur sur la carte
                 var marker = L.marker([latitude, longitude], 13).addTo(mapid);
-
                 // Afficher le nom du lieu dans le popup du marqueur
                 if (event.target.id === 'depart') {
                     marker.bindPopup('<b>Départ:</b><br>' + ui.item.value).openPopup();
