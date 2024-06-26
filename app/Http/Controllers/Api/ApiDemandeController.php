@@ -29,10 +29,10 @@ class ApiDemandeController extends Controller
             "lieu_depart"=>"required|string",
             "destination"=>"required|string",
             "nbre_passagers"=>"required|integer",
-            "longitude_depart"=>"nullable",
-            "latitude_depart"=>"nullable",
-            "longitude_destination"=>"nullable",
-            "latitude_destination"=>"nullable"
+            "longitude_depart"=>"required",
+            "latitude_depart"=>"required",
+            "longitude_destination"=>"required",
+            "latitude_destination"=>"required"
 
         ]);
         $demande = Demande::create($request->all());
