@@ -67,9 +67,7 @@ class DemandeController extends Controller
             'user_id'=>$request->user_id
         ]);
 
-        
-       
-        // return redirect()->route('demandes.index');  
+        return redirect()->route('demandes.index');  
     }
 
     /**
