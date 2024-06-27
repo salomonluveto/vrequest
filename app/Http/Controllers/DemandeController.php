@@ -2,9 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Site;
+use App\Models\User;
 use App\Models\Demande;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
+use App\Mail\ChefCharroiEmail;
+use Illuminate\Support\Facades\Mail;
+use App\Notifications\ManagerNotification ;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ChefCharroiEmail as NotificationsChefCharroiEmail;
 
 class DemandeController extends Controller
 {
@@ -57,12 +65,11 @@ class DemandeController extends Controller
             'latitude_depart'=>$request->latitude_depart,
             'date_deplacement'=>$request->date_deplacement,
             'user_id'=>$request->user_id
-
-            
         ]);
 
-      
-        return redirect()->route('demandes.index');  
+        
+       
+        // return redirect()->route('demandes.index');  
     }
 
     /**
@@ -110,4 +117,60 @@ class DemandeController extends Controller
         return back()->with("success","suppression reussie");
     }
 
+    public function submit(Request $request){
+        return redirect()->route('demande.success');       
+    }
+    public function envoyerMailManager(Demande $demandes){
+
+        //Trouver le manager à partir de  la demande de l'agent
+
+        $user=User::findOrFail($demandes->user_id);
+        $user_info=UserInfo::where('user_id',$user->id)->get();
+        $email_manager=$user_info->email_manager;
+        $manager=User::where('email', $email_manager)->get();
+
+        dd($manager);
+        
+        $data = (object) [
+                'id' => $demandes->id,
+                'url' => 'demandes.index',
+                'subject' => 'Nouvelle demande'
+            ];
+    
+            try{
+                Notification::send($manager, new ManagerNotification($data));
+                print('Message Envoyé');
+            }catch(Exception $e){
+                print($e);
+            }
+          
+        return redirect()->route('demande.index')->with('success', 'Votre demande a été créée avec succès!');
+        
+        
+    }
+
+    public function envoyerMailAuChefCharroi(Demande $demandes){
+        
+        $chef_charroi = User::where('email', 'oliviapala16@gmail.com')->get();
+        //dd($chef_charroi);
+        
+        $data = (object) [
+            'id' => 1,
+            'url' => 'demandes.index',
+            'subject' => 'Nouvelle demande'
+        ];
+    
+        try{
+            //$chef_charroi->notify(new NotificationsChefCharroiEmail($data));
+            Notification::send($chef_charroi, new NotificationsChefCharroiEmail($data));
+            //print("Demande Envoye");
+        }catch(Exception $e){
+            //print($e);
+        }
+        
+        // return redirect()->route('demandes.index');
+        return back()->with("success","demande validée avec succès");
+    }
+    
+    
 }

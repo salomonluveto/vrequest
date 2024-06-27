@@ -24,7 +24,17 @@
 
         </div>
     </x-slot>
-
+    @if(session('success'))
+        <div class="flex p-4 mb-4 text-sm rounded-lg bg-green-500 " id="success-message">
+            {{session('success')}}
+        </div>
+        <script>
+            // Faire disparaître le message de succès après 5 secondes
+            setTimeout(function() {
+                document.getElementById('success-message').style.display = 'none';
+            }, 5000) 
+        </script>
+    @endif
     <div class=" py-12 relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -54,13 +64,13 @@
                     <th scope="col" class="px-6 py-3">
                         Statut
                     </th>
-
+                    <th></th>
+                    <th></th>
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
-                    <th>
-
-                    </th>
+                    <th></th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -96,16 +106,31 @@
                             {{ $item->status }}
 
                         </td>
-                        <td>
+                        <td class="px-6 py-4">
                             <a href="{{route('demandes.edit', $item->id)}}"
                                 class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
                                     Editer
+                            </a>
+                        </td> 
+                        <td>  
+                            <a onclick="supprimer(event);" data-modal-target="delete-modal"
+                                data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}"
+                                class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                    Supprimer
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{route('envoyermailauchefcharroi')}}"
+                                class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
+                                    Valider
                             </a>
                         </td>
                         <td>
                             <a onclick="supprimer(event);" data-modal-target="delete-modal"
                                 data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}"
-                                class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Supprimer</a>
+                                class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                    Annuler
+                            </a>
 
                         </td>
                     </tr>
