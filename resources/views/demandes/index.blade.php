@@ -133,6 +133,10 @@
                                             <a href="{{route('envoyermailauchefcharroi')}} " id="ButtonValider" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>  
                                         </li>
                                         <li>
+                                            <a onclick="editdemande(event, {{$item->id}});" data-modal-target="crud-modal"
+                                            data-modal-toggle="crud-modal" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">traiter</a>
+                                        </li>
+                                        <li>
                                             <a onclick="supprimer(event);" data-modal-target="delete-modal"
                                             data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
                                         </li>
@@ -148,6 +152,17 @@
         </table>
     </div>
     <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')" />
+    <x-savecourse :demandes="$demandes" :vehicules="$vehicules" :chauffeurs="$chauffeurs"  :message="__('Voulez-vous enregistrer une course ?')" />
+    <script>
+        function editdemande(event, demandeId) {
+            event.preventDefault();
+            form = document.querySelector('#crud-modal div div form div div #demande_id');
+            value = form.getAttribute('value');
+            form.setAttribute('value',demandeId);
+            console.log(value);
+        }
+    </script>
+
 
    
 </x-app-layout>
