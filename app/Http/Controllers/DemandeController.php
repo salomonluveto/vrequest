@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Mail;
 use App\Notifications\ManagerNotification ;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ChefCharroiEmail as NotificationsChefCharroiEmail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class DemandeController extends Controller
 {
@@ -24,15 +27,15 @@ class DemandeController extends Controller
         $demandes = Demande::all();
         return view('demandes.index', compact('demandes'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {   
+    {
         $sites = Site::all();
-        return view ('demandes.create', compact('sites'));
+        return view('demandes.create', compact('sites'));
     }
 
     /**
@@ -41,35 +44,48 @@ class DemandeController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-             'choix'=>'required|in:choix-liste,choix-carte',
-             'motif'=>'required:demandes',
-            'date'=>'required:demandes',
-            'lieu_depart'=>'required_if:choix,choix-carte',
-            'destination'=>'required_if:choix,choix-carte',
-            'lieu_depart1'=>'required_if:choix,choix-liste',
-            'destination1'=>'required_if:choix,choix-liste',
-             'nbre_passagers'=>'required:demandes',
-            'longitude_depart'=>'nullable',
-           'latitude_depart'=>'nullable',
-            'date_deplacement'=>'required'
-            
-         ]);
-         
-        $demandes = Demande::create([
-            'motif'=>$request->motif,
-            'date'=>$request->date,
-            'destination'=>!empty($request->destination) ? $request->destination : $request->destination1,
-            'nbre_passagers'=>$request->nbre_passagers,
-            'lieu_depart'=> !empty($request->lieu_depart) ? $request->lieu_depart : $request->lieu_depart1  ,
-            'longitude_depart'=>$request->longitude_depart,
-            'latitude_depart'=>$request->latitude_depart,
-            'date_deplacement'=>$request->date_deplacement,
-            'user_id'=>$request->user_id
+
+            'choix' => 'required|in:choix-liste,choix-carte',
+            'motif' => 'required:demandes',
+            'date' => 'required:demandes',
+            'lieu_depart' => 'required_if:choix,choix-carte',
+            'destination' => 'required_if:choix,choix-carte',
+            'lieu_depart1' => 'required_if:choix,choix-liste',
+            'destination1' => 'required_if:choix,choix-liste',
+            'nbre_passagers' => 'required:demandes',
+            'longitude_depart' => 'required_if:choix,choix-liste',
+            'latitude_depart' => 'required_if:choix,choix-liste',
+            'longitude_destination' => 'required_if:choix,choix-liste',
+            'latitude_destination' => 'required_if:choix,choix-liste',
+            'longitude_depart1' => 'required_if:choix,choix-carte',
+            'latitude_depart1' => 'required_if:choix,choix-carte',
+            'longitude_destination1' => 'required_if:choix,choix-carte',
+            'latitude_destination1' => 'required_if:choix,choix-carte',
+            'date_deplacement' => 'required'
+
         ]);
 
-        return redirect()->route('demandes.index');  
-    }
+        $demandes = Demande::create([
+            'motif' => $request->motif,
+            'date' => $request->date,
+            'destination' => !empty($request->destination) ? $request->destination : $request->destination1,
+            'nbre_passagers' => $request->nbre_passagers,
+            'lieu_depart' => !empty($request->lieu_depart) ? $request->lieu_depart : $request->lieu_depart1,
+            'longitude_depart' =>!empty ($request->longitude_depart) ? $request->longitude_depart : $request->longitude_depart1,
+            'latitude_depart' =>!empty ($request->latitude_depart) ? $request->latitude_depart : $request->latitude_depart1,
+            'longitude_destination' => !empty ($request->longitude_destination) ? $request->longitude_destination : $request->longitude_destination1,
+            'latitude_destination' =>!empty ($request->latitude_destination) ? $request->latitude_destination : $request->latitude_destination1,
+            'date_deplacement' => $request->date_deplacement,
+            'user_id' => $request->user_id
 
+
+
+        ]);
+
+
+        return redirect()->route('demandes.index');
+    }
+    
     /**
      * Display the specified resource.
      */
@@ -85,7 +101,7 @@ class DemandeController extends Controller
     {
         $demandes = $demande;
         $sites = Site::all();
-        return view('demandes.edit', compact('demandes','sites'));
+        return view('demandes.edit', compact('demandes', 'sites'));
     }
 
     /**
@@ -94,15 +110,15 @@ class DemandeController extends Controller
     public function update(Request $request, Demande $demande)
     {
         $demande->update([
-            'motif'=>$request->motif,
-            'destination'=>$request->destination,
-            'nbre_passagers'=>$request->nbre_passagers,
-            'lieu_depart'=>$request->lieu_depart,
-            'date_deplacement'=>$request->date_deplacement
+            'motif' => $request->motif,
+            'destination' => $request->destination,
+            'nbre_passagers' => $request->nbre_passagers,
+            'lieu_depart' => $request->lieu_depart,
+            'date_deplacement' => $request->date_deplacement
 
         ]);
-       
-       return redirect()->route('demandes.index')->with('success', 'Votre demande a été mise à jour avec succès.');
+
+        return redirect()->route('demandes.index')->with('success', 'Votre demande a été mise à jour avec succès.');
 
     }
 
@@ -112,40 +128,14 @@ class DemandeController extends Controller
     public function destroy(Demande $demande)
     {
         $demande->delete();
-        return back()->with("success","suppression reussie");
+        return back()->with("success", "suppression reussie");
     }
+
 
     public function submit(Request $request){
         return redirect()->route('demande.success');       
     }
-    public function envoyerMailManager(Demande $demandes){
-
-        //Trouver le manager à partir de  la demande de l'agent
-
-        $user=User::findOrFail($demandes->user_id);
-        $user_info=UserInfo::where('user_id',$user->id)->get();
-        $email_manager=$user_info->email_manager;
-        $manager=User::where('email', $email_manager)->get();
-
-        dd($manager);
-        
-        $data = (object) [
-                'id' => $demandes->id,
-                'url' => 'demandes.index',
-                'subject' => 'Nouvelle demande'
-            ];
     
-            try{
-                Notification::send($manager, new ManagerNotification($data));
-                print('Message Envoyé');
-            }catch(Exception $e){
-                print($e);
-            }
-          
-        return redirect()->route('demande.index')->with('success', 'Votre demande a été créée avec succès!');
-        
-        
-    }
 
     public function envoyerMailAuChefCharroi(Demande $demandes){
         
@@ -171,4 +161,5 @@ class DemandeController extends Controller
     }
     
     
+
 }

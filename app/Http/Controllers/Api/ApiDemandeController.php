@@ -13,7 +13,7 @@ class ApiDemandeController extends Controller
      */
     public function index()
     {
-        $demandes = Demande::all();
+        $demandes = Demande::orderBy('date', 'asc')->get();
        return response()->json($demandes);
     }
 
@@ -22,7 +22,25 @@ class ApiDemandeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       
+        $request->validate([
+            "motif"=>"required|max:60|min:3",
+            "date_deplacement"=>"required|date_format:Y-m-d H:i",
+            "lieu_depart"=>"required|string",
+            "destination"=>"required|string",
+            "nbre_passagers"=>"required|integer",
+            "longitude_depart"=>"required",
+            "latitude_depart"=>"required",
+            "longitude_destination"=>"required",
+            "latitude_destination"=>"required"
+
+        ]);
+        $demande = Demande::create($request->all());
+           
+        return response()->json([
+            'demande'=>$demande],200);
+
+   
     }
 
     /**

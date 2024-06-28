@@ -80,12 +80,14 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value=""></option>
                                 @foreach ($sites as $site)
-                                    <option value="{{ $site->nom }}">{{ $site->nom }}</option>
+                                    <option value="{{ $site->nom }}" data-longitude="{{ $site->longitude }}"
+                                        data-latitude="{{ $site->latitude }}">{{ $site->nom }}</option>
                                 @endforeach
 
-
                             </select>
-                             
+                            <input type="hidden" id="longitude_depart" name="longitude_depart" value="">
+                            <input type="hidden" id="latitude_depart" name="latitude_depart" value="">
+
 
                         </div>
 
@@ -96,15 +98,20 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value=""></option>
                                 @foreach ($sites as $site)
-                                    <option value="{{ $site->nom }}">{{ $site->nom }}</option>
+                                    <option value="{{ $site->nom }}" data-longitude="{{ $site->longitude }}"
+                                        data-latitude="{{ $site->latitude }}">{{ $site->nom }}</option>
                                 @endforeach
 
                             </select>
+                            <input type="hidden" id="longitude_destination" name="longitude_destination"
+                                value="">
+                            <input type="hidden" id="latitude_destination" name="latitude_destination" value="">
                         </div>
 
                     </div>
 
                 </div>
+
                 <div id="carte-lieux" style="display: none;" class="col-span-2 grid gap-4 sm:grid-cols-2">
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div class="col-span-1">
@@ -114,6 +121,8 @@
                             </label>
                             <input type="text" name="lieu_depart" id="depart"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <input type="hidden" name="latitude_depart1" id="latitude_depart1">
+                            <input type="hidden" name="longitude_depart1" id="longitude_depart1">
                             <ul id="results"></ul>
                         </div>
                         <div class="col-span-1">
@@ -123,6 +132,8 @@
                             </label>
                             <input type="text" name="destination" id="destination"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <input type="hidden" name="latitude_destination1" id="latitude_destination1">
+                            <input type="hidden" name="longitude_destination1" id="longitude_destination1">
                         </div>
                     </div>
 
@@ -145,14 +156,6 @@
                 class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
                     Demander une course
             </a>
-            <!--
-                <a href="{{route('envoyermailmanager')}}">
-                    <button type="submit" 
-                        class="inline-flex items-center  mt-2 sm:mt-6  text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ">
-                        Demander une course
-                    </button>
-                </a>
-            -->
         </form>
         <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

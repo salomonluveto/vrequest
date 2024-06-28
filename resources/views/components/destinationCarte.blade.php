@@ -6,7 +6,7 @@
     }).addTo(mapid);
 
     $(function() {
-        $("#depart").autocomplete({
+        $("#depart, #destination").autocomplete({
             source: function(request, response) {
                 // Effectuer la recherche via l'API Nominatim de OpenStreetMap
                 axios.get('https://nominatim.openstreetmap.org/search?format=json&q=' + request
@@ -29,46 +29,26 @@
                     });
             },
             select: function(event, ui) {
+                // Récupérer la latitude et la longitude du lieu sélectionné
+                var latitude = ui.item.lat;
+                var longitude = ui.item.lon;
+
                 // Centrer la carte sur le lieu sélectionné
-                mapid.setView([ui.item.lat, ui.item.lon], 13);
-                var markerDepart = L.marker([ui.item.lat, ui.item.lon], 13).addTo(mapid);
-                markerDepart.bindPopup('<b>Depart:</b><br>' + results.value).openPopup();
-            },
-            minLength: 2 // Nombre de caractères minimum pour déclencher l'autocomplétion
-        }).autocomplete("instance")._renderItem = function(ul, item) {
-            return $("<li>")
-                .append("<div>" + item.label + "</div>")
-                .appendTo(ul);
-        };
-    });
-    $(function() {
-        $("#destination").autocomplete({
-            source: function(request, response) {
-                // Effectuer la recherche via l'API Nominatim de OpenStreetMap
-                axios.get('https://nominatim.openstreetmap.org/search?format=json&q=' + request
-                        .term)
-                    .then(function(res) {
-                        var data = res.data;
-                        var results = data.map(function(item) {
-                            return {
-                                label: item.display_name,
-                                value: item.display_name,
-                                lat: parseFloat(item.lat),
-                                lon: parseFloat(item.lon)
-                            };
-                        });
-                        response(results);
-                    })
-                    .catch(function(error) {
-                        console.error('Erreur lors de la recherche:', error);
-                        response([]);
-                    });
-            },
-            select: function(event, ui) {
-                // Centrer la carte sur le lieu sélectionné
-                mapid.setView([ui.item.lat, ui.item.lon], 13);
-                var markerDepart = L.marker([ui.item.lat, ui.item.lon], 13).addTo(mapid);
-                markerDepart.bindPopup('<b>Depart:</b><br>' + results.data).openPopup();
+                mapid.setView([latitude, longitude], 13);
+
+                // Ajouter un marqueur sur la carte
+                var marker = L.marker([latitude, longitude], 13).addTo(mapid);
+
+                // Afficher le nom du lieu dans le popup du marqueur
+                if (event.target.id === 'depart') {
+                    marker.bindPopup('<b>Départ:</b><br>' + ui.item.value).openPopup();
+                    $('#latitude_depart1').val(latitude);
+                    $('#longitude_depart1').val(longitude);
+                } else {
+                    marker.bindPopup('<b>Destination:</b><br>' + ui.item.value).openPopup();
+                    $('#latitude_destination1').val(latitude);
+                    $('#longitude_destination1').val(longitude);
+                }
             },
             minLength: 2 // Nombre de caractères minimum pour déclencher l'autocomplétion
         }).autocomplete("instance")._renderItem = function(ul, item) {
