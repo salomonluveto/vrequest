@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Demande;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DemandeResource;
 
 class ApiDemandeController extends Controller
 {
@@ -13,8 +14,7 @@ class ApiDemandeController extends Controller
      */
     public function index()
     {
-        $demandes = Demande::orderBy('date', 'asc')->get();
-       return response()->json($demandes);
+        return response()->json(DemandeResource::collection($demandes = Demande::orderByDesc('created_at')->get()));
     }
 
     /**
