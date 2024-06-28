@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Chauffeur;
+use Illuminate\Notifications\Notification;
 
 class User extends Authenticatable
 {
@@ -64,5 +65,13 @@ class User extends Authenticatable
     public function chauffeur(){
         return $this->hasMany(Chauffeur::class);
 
+    }
+    public function routeNotificationForMail(Notification $notification): array|string
+    {
+        // Return email address only...
+        return $this->email;
+ 
+        // Return email address and name...
+        return [$this->email => $this->first_name];
     }
 }
