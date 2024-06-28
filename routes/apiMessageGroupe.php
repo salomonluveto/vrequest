@@ -1,4 +1,4 @@
 <?php
 use App\Http\Controllers\Api\ApiMessageGroupeController;
 use Illuminate\Support\Facades\Route;
-Route::apiResource('/message_groupes',ApiMessageGroupeController::class);
+Route::apiResource('/message_groupes',ApiMessageGroupeController::class);//->middleware('auth:sanctum');

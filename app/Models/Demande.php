@@ -17,7 +17,7 @@ class Demande extends Model
         return $this->belongsTo(Site::class,'site_id', 'id');
     }
     public function courses(){
-        return $this->hasMany(Course::class, 'id_demande');
+        return $this->hasMany(Course::class, 'demande_id');
     }
     public function user()
     {

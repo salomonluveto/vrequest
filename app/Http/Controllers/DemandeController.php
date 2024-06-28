@@ -2,13 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Site;
 use App\Models\User;
 use App\Models\Demande;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
+use App\Mail\ChefCharroiEmail;
+use Illuminate\Support\Facades\Mail;
+use App\Notifications\ManagerNotification ;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ChefCharroiEmail as NotificationsChefCharroiEmail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+
 
 class DemandeController extends Controller
 {
@@ -37,6 +45,7 @@ class DemandeController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
+
             'choix' => 'required|in:choix-liste,choix-carte',
             'motif' => 'required:demandes',
             'date' => 'required:demandes',
@@ -72,6 +81,7 @@ class DemandeController extends Controller
             'latitude_destination' =>!empty ($request->latitude_destination) ? $request->latitude_destination : $request->latitude_destination1,
             'date_deplacement' => $request->date_deplacement,
             'user_id' => User::all()->random(1)->first()->id
+
 
 
         ]);
@@ -126,5 +136,34 @@ class DemandeController extends Controller
     }
 
 
+    public function submit(Request $request){
+        return redirect()->route('demande.success');       
+    }
+    
+
+    public function envoyerMailAuChefCharroi(Demande $demandes){
+        
+        $chef_charroi = User::where('email', 'oliviapala16@gmail.com')->get();
+        //dd($chef_charroi);
+        
+        $data = (object) [
+            'id' => 1,
+            'url' => 'demandes.index',
+            'subject' => 'Nouvelle demande'
+        ];
+    
+        try{
+            //$chef_charroi->notify(new NotificationsChefCharroiEmail($data));
+            Notification::send($chef_charroi, new NotificationsChefCharroiEmail($data));
+            //print("Demande Envoye");
+        }catch(Exception $e){
+            //print($e);
+        }
+        
+        // return redirect()->route('demandes.index');
+        return back()->with("success","demande validée avec succès");
+    }
+    
+    
 
 }

@@ -134,8 +134,157 @@ class CheckModelPermission
     
 }
 
+elseif($model === 'Site'){
 
 
+    if($methode==='GET'){
+
+        if ($user->can('lire_site', 'App\Models\\'.$model)) {
+            
+        return  $next($request);
+        }
+    
+    }
+
+    else if($methode==='POST'){
+
+        if ($user->can('enregistrer_site', 'App\Models\\'.$model)) {
+                
+            return  $next($request);
+        }
+    }
+
+    else if($methode==='PUT'){
+
+        if ($user->can('modifier_site', 'App\Models\\'.$model)) {
+            
+            return  $next($request);
+        }
+    }
+
+    else if($methode==='DELETE'){
+
+        if ($user->can('supprimer_site', 'App\Models\\'.$model)) {
+            
+            return  $next($request);
+        }
+    }
+
+}
+
+elseif($model === 'Chauffeur'){
+
+
+    if($methode==='GET'){
+
+        if ($user->can('lire_chauffeur', 'App\Models\\'.$model)) {
+            
+        return  $next($request);
+        }
+    
+    }
+
+    else if($methode==='POST'){
+
+        if ($user->can('enregistrer_chauffeur', 'App\Models\\'.$model)) {
+                
+            return  $next($request);
+        }
+    }
+
+    else if($methode==='PUT'){
+
+        if ($user->can('modifier_chauffeur', 'App\Models\\'.$model)) {
+            
+            return  $next($request);
+        }
+    }
+
+    else if($methode==='DELETE'){
+
+        if ($user->can('supprimer_chauffeur', 'App\Models\\'.$model)) {
+            
+            return  $next($request);
+        }
+    }
+
+}
+
+elseif($model === 'Course'){
+
+
+    if($methode==='GET'){
+
+        if ($user->can('lire_course', 'App\Models\\'.$model)) {
+            
+        return  $next($request);
+        }
+    
+    }
+
+    else if($methode==='POST'){
+
+        if ($user->can('enregistrer_course', 'App\Models\\'.$model)) {
+                
+            return  $next($request);
+        }
+    }
+
+    else if($methode==='PUT'){
+
+        if ($user->can('modifier_course', 'App\Models\\'.$model)) {
+            
+            return  $next($request);
+        }
+    }
+
+    else if($methode==='DELETE'){
+
+        if ($user->can('supprimer_course', 'App\Models\\'.$model)) {
+            
+            return  $next($request);
+        }
+    }
+
+}
+
+elseif($model === 'Delegation'){
+
+
+    if($methode==='GET'){
+
+        if ($user->can('lire_delegation', 'App\Models\\'.$model)) {
+            
+        return  $next($request);
+        }
+    
+    }
+
+    else if($methode==='POST'){
+
+        if ($user->can('enregistrer_delegation', 'App\Models\\'.$model)) {
+                
+            return  $next($request);
+        }
+    }
+
+    else if($methode==='PUT'){
+
+        if ($user->can('modifier_delegation', 'App\Models\\'.$model)) {
+            
+            return  $next($request);
+        }
+    }
+
+    else if($methode==='DELETE'){
+
+        if ($user->can('supprimer_delegation', 'App\Models\\'.$model)) {
+            
+            return  $next($request);
+        }
+    }
+
+}
 
       
        

@@ -5,10 +5,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AuthenticateController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+/*
 
 Route::post('/login', function (Request $request) {
     $request->validate([
@@ -24,6 +26,10 @@ Route::post('/login', function (Request $request) {
 
     return $user;
 });
+*/
+
+
+require __DIR__.'/apiUser.php';
 
 require __DIR__.'/apiMessage.php';
 require __DIR__.'/apiMessageGroupe.php';

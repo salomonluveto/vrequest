@@ -20,6 +20,6 @@ class Chauffeur extends Vehicule
         return $this->belongsTo(User::class);
     }
     public function courses(){
-        return $this->hasMany(Course::class, 'id_chauffeur');
+        return $this->hasMany(Course::class, 'chauffeur_id');
     }
 }
