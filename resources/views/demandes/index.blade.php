@@ -130,8 +130,7 @@
                                             data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
                                         </li>
                                         <li>
-                                            <a href="{{route('envoyermailauchefcharroi')}} " id="ButtonValider" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>
-                                            <p id="myText" class="hidden">Demande validée</p>
+                                            <a href="{{route('envoyermailauchefcharroi')}} " id="ButtonValider" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>  
                                         </li>
                                         <li>
                                             <a onclick="supprimer(event);" data-modal-target="delete-modal"
@@ -150,19 +149,5 @@
     </div>
     <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')" />
 
-    <button id="myButton">Cliquez ici</button>
-    
-        <script>
-            const button = document.getElementById('myButton');
-            const text = document.getElementById('myText');
-
-            button.addEventListener('click', () => {
-                button.classList.add('hidden');
-                text.classList.remove('hidden');
-            });
-
-            .hidden {
-                display: none;
-            }
-        </script>
+   
 </x-app-layout>
