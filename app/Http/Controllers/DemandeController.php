@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\ChefCharroiEmail as NotificationsChefCharroiEmail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 
 class DemandeController extends Controller
@@ -65,7 +66,10 @@ class DemandeController extends Controller
 
         ]);
 
+        $ticket = Str::random(8);
+
         $demandes = Demande::create([
+            'ticket' => $ticket,
             'motif' => $request->motif,
             'date' => $request->date,
             'destination' => !empty($request->destination) ? $request->destination : $request->destination1,
@@ -76,7 +80,7 @@ class DemandeController extends Controller
             'longitude_destination' => !empty ($request->longitude_destination) ? $request->longitude_destination : $request->longitude_destination1,
             'latitude_destination' =>!empty ($request->latitude_destination) ? $request->latitude_destination : $request->latitude_destination1,
             'date_deplacement' => $request->date_deplacement,
-            'user_id' => $request->user_id
+            'user_id' => User::all()->random(1)->first()->id
 
 
 

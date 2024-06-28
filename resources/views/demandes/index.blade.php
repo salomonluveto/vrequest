@@ -46,6 +46,9 @@
                         Date
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Ticket
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Motifs
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -82,6 +85,9 @@
                         </th>
                         <td class="px-6 py-4">
                             {{ $item->date }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $item->ticket }}
                         </td>
                         <td class="px-6 py-4">
                             {{ $item->motif }}

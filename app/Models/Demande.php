@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Demande extends Model
 {
     use HasFactory;
-    protected $fillable = ['motif', 'destination', 'nbre_passagers','lieu_depart','date_deplacement','date','status','site_id','longitude_destination','latitude_destination','longitude_depart','latitude_depart'];
+    protected $fillable = ['ticket','motif', 'destination', 'nbre_passagers','lieu_depart','date_deplacement','date','status','site_id','longitude_destination','latitude_destination','longitude_depart','latitude_depart','user_id'];
 
 
     public function site(){
@@ -18,5 +18,9 @@ class Demande extends Model
     }
     public function courses(){
         return $this->hasMany(Course::class, 'demande_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
