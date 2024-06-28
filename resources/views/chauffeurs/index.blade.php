@@ -81,7 +81,7 @@
                                 <td class="px-6 py-4">{{ $chauffeur->id }}</td>
                                 <td class="px-6 py-4">{{ $chauffeur->created_at->format('d-m-Y') }}</td>
 
-                                <td class="px-6 py-4">{{ $chauffeur->user->name }}</td>
+                                <td class="px-6 py-4">{{ $chauffeur->user->username }}</td>
                                 <td class="px-6 py-4">
                                     <a onclick="supprimer(event);" data-modal-target="delete-modal"
                                    data-modal-toggle="delete-modal" href="{{ route('chauffeurs.destroy', $chauffeur->id) }}"

@@ -83,7 +83,7 @@
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <td class="px-6 py-4">{{ $course->id }}</td>
                                 <td class="px-6 py-4">{{ $course->vehicule->plaque }}</td>
-                                <td class="px-6 py-4">{{ $course->chauffeur->user->name }}</td>
+                                <td class="px-6 py-4">{{ $course->chauffeur->user->username }}</td>
                                 <td class="px-6 py-4">{{ $course->demande->motif }}</td>
                                 <td class="px-6 py-4">{{ $course->status }}</td>
                                 <td class="px-6 py-4">{{ $course->commentaire }}</td>

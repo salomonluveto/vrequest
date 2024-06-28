@@ -6,6 +6,8 @@ use Exception;
 use App\Models\Site;
 use App\Models\User;
 use App\Models\Demande;
+use App\Models\Vehicule;
+use App\Models\Chauffeur;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use App\Mail\ChefCharroiEmail;
@@ -26,7 +28,9 @@ class DemandeController extends Controller
     public function index()
     {
         $demandes = Demande::all();
-        return view('demandes.index', compact('demandes'));
+        $vehicules = Vehicule::all();
+        $chauffeurs = Chauffeur::all();
+        return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
     }
 
 
