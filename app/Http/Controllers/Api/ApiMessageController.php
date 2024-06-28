@@ -1,68 +1,47 @@
 <?php
-
 namespace App\Http\Controllers\Api;
-
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MessageResource;
+use App\Models\Demande;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\Message;
-
-
+use App\Models\MessageGroupe;
 class ApiMessageController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request):JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $count=Message::count();
-
-        //$messages= Message::all();
-        
-        $messages= Message::simplePaginate(5);//->only('messages','current_page','per_page','last_page');
-
-        //$messages=$messages->groupBy('demande_id');
-        
-        return response()->json([
-            'count'=> $count,
-            'data'=> $messages,
-            //'current_page'=> $messages->currentPage(),
-            //'from'=>$messages->firstMessage(),
-            //'to'=>$messages->lastMessage(),
-            /*
-            'per_page'=> $messages->perPage(),
-            'last_page'=> $messages->lastPage(),    
-        
-            'first'=>$messages->url(1),
-            'last'=>$messages->url($messages->lastPage()),
-            'prev'=>$messages->previousPageUrl(),
-            'next'=>$messages->nextPageUrl(),
-            */    
-        ]);
+        return response()->json(MessageResource::collection($messages = Message::all()));
     }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $message=Message::create($request->all());
+        $request->validate([
+            'user_id'=>'required|min:1',
+            'message_groupe_id' => 'required|min:1',
+            'contenu'=>'required|string',
+            // 'time'=>'required',
+        ]);
+        Message::create($request->all());
         return response()->json([
-            'message'=>$message
-        ], 200);
+            'added' => true
+        ]);
     }
-
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        $message=Message::find($id);
+        $message = Message::find($id);
         return response()->json([
-            'message'=>$message
+            'message' => $message
         ]);
     }
-
     /**
      * Update the specified resource in storage.
      */
@@ -70,7 +49,6 @@ class ApiMessageController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      */
