@@ -1,5 +1,5 @@
 <x-app-layout>
-    @include('layouts.item')
+   
 
 
 
