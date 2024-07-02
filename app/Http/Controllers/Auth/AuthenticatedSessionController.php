@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\UserInfo;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,7 +22,7 @@ class AuthenticatedSessionController extends Controller
     public function create()
     {
         if(Session::has('user')){
-           return redirect()->route('/dashboard');
+           return view('/dashboard');
 
         }
         return View('auth.login');
@@ -48,8 +49,21 @@ class AuthenticatedSessionController extends Controller
         if ($response->successful()) {
             $request->session()->regenerate();
         $responsefinal= $response->json();
-            if(User::find($responsefinal['user']['id'])){
+
+            if(User::where('email',$responsefinal['user']['email'])->first()){
+                
                 Session::put('user',$request->username);
+                $user = User::find($responsefinal['user']['id']);
+                $email = $user->email;
+                $manager = UserInfo::where('email_manager',$email)->first();
+                if($manager != null){
+                    Session::put('userIsManager',$manager);
+                   
+                }
+                
+              
+                
+                Session::put('authUser',$user);
                 return redirect()->route('dashboard');
             }
             else{
@@ -74,7 +88,10 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
+
         Session::forget('user');
+        Session::forget('authUser');
+        Session::forget('userIsManager');
         Auth::guard('web')->logout();
 
         return redirect('/');
