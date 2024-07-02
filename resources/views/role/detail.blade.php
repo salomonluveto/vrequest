@@ -1,5 +1,5 @@
 <x-app-layout>
-    @include('layouts.item')
+    
 
 
         <div class="relative overflow-x-auto">
@@ -46,6 +46,12 @@
                     @for($j = 0; $j<count($modelname);$j++)
 
                         @if ($modelname[$j] === 'UserInfo')
+                            @continue
+                        @endif
+                        @if ($modelname[$j] === 'Message')
+                            @continue
+                        @endif
+                        @if ($modelname[$j] === 'MessageGroupe')
                             @continue
                         @endif
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">

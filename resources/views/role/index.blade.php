@@ -1,5 +1,5 @@
 <x-app-layout>
-  @include('layouts.item')
+
 <br>
 <h1> Liste des Roles</h1>
 

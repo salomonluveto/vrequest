@@ -50,7 +50,7 @@
              // var route = event.target.getAttribute('href');
              var route = document.querySelector('#check-modifier_course')
              var form = document.querySelector('#check-course form')
-             form.setAttributeCr('action',route)
+             form.setAttribute('action',route)
              
           }
           function SupprimerCr(event){
