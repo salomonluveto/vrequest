@@ -1,6 +1,6 @@
 
 <x-app-layout>
-    @include('layouts.delegation_menu')
+   
        <x-slot name="header">
            <div class="flex justify-between item-center">
                <h2 class="font-semibold text-xl text-white-800 dark:text-gray-200 leading-tight">
