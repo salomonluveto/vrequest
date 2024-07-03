@@ -1,10 +1,10 @@
-{{-- @props(['vehicules','chauffeurs','demandes'])
+@props(['vehicules','chauffeurs','demandes'])
 <x-app-layout>
    
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
-                {{$demande->motif}}
+                {{ __('details de la Demande') }}
             </h2>
         </div>
     </x-slot>
@@ -30,30 +30,47 @@
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3">N°</th>
+                            <th scope="col" class="px-6 py-3">id</th>
+                            <th scope="col" class="px-6 py-3">Date</th>
+                            <th scope="col" class="px-6 py-3">Ticket</th>
+                            <th scope="col" class="px-6 py-3">Motifs</th>
+                            <th scope="col" class="px-6 py-3">Lieu de depart</th>
+                            <th scope="col" class="px-6 py-3">Destination</th>
+                            <th scope="col" class="px-6 py-3">Date et Heure de deplacement</th>
+                            <th scope="col" class="px-6 py-3">Nbr de passagers</th>                            
                             <th scope="col" class="px-6 py-3">vehicule</th>
                             <th scope="col" class="px-6 py-3">chauffeur</th>
-                            <th scope="col" class="px-6 py-3">demande</th>
                             <th scope="col" class="px-6 py-3">commentaire</th>
                             
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($courses as $course)
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <td class="px-6 py-4">{{ $course->id }}</td>
+                                <td class="px-6 py-4">{{ $demandes->id }}</td>
+                                <td class="px-6 py-4">{{ $demandes->date }}</td>
+                                <td class="px-6 py-4">{{ $demandes->ticket }}</td>
+                                <td class="px-6 py-4">{{ $demandes->motif }}</td>
+                                <td class="px-6 py-4">{{ $demandes->lieu_depart }}</td>
+                                <td class="px-6 py-4">{{ $demandes->destination }}</td>
+                                <td class="px-6 py-4">{{ $demandes->date_deplacement }}</td>
+                                <td class="px-6 py-4">{{ $demandes->nbre_passagers }}</td>
+                                @if ($courses->count() > 0)
+                                @foreach ($courses as $course)
                                 <td class="px-6 py-4">{{ $course->vehicule->plaque }}</td>
                                 <td class="px-6 py-4">{{ $course->chauffeur->user->username }}</td>
-                                <td class="px-6 py-4">{{ $course->demande->motif }}</td>
                                 <td class="px-6 py-4">{{ $course->commentaire }}</td>
                                 
                             </tr>
                         @endforeach
+                        @else
+                            <p class="my-4 px-4">Aucune course associée à cette demande.</p>
+                        @endif
                     </tbody>                      
                 </table>
                 </div>            
+
 <x-savecourse :vehicules="$vehicules" :chauffeurs="$chauffeurs" :demandes="$demandes" :message="__('Voulez-vous enregistrer une course ?')" />
     <x-slot name="scripts">      
     </x-slot>
-</x-app-layout> --}}
+</x-app-layout>
