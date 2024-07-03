@@ -71,6 +71,7 @@ class DemandeController extends Controller
         ]);
 
         $ticket = Str::random(8);
+        $status = ' En attente';
 
         $demandes = Demande::create([
             'ticket' => $ticket,
@@ -84,7 +85,8 @@ class DemandeController extends Controller
             'longitude_destination' => !empty ($request->longitude_destination) ? $request->longitude_destination : $request->longitude_destination1,
             'latitude_destination' =>!empty ($request->latitude_destination) ? $request->latitude_destination : $request->latitude_destination1,
             'date_deplacement' => $request->date_deplacement,
-            'user_id' => User::all()->random(1)->first()->id
+            'user_id' => User::all()->random(1)->first()->id,
+            'status'=>$status
 
 
 
