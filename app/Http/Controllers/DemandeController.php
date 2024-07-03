@@ -28,9 +28,7 @@ class DemandeController extends Controller
     public function index()
     {
         $demandes = Demande::all();
-        $vehicules = Vehicule::all();
-        $chauffeurs = Chauffeur::all();
-        return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
+        return view('demandes.index', compact('demandes'));
     }
 
 
