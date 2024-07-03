@@ -145,6 +145,9 @@
                                             data-modal-toggle="crud-modal" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">traiter</a>
                                         </li>
                                         <li>
+                                            <a href="{{route('demandes.show', $item->id)}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">voir</a>
+                                        </li>
+                                        <li>
                                             <a onclick="supprimer(event);" data-modal-target="delete-modal"
                                             data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
                                         </li>

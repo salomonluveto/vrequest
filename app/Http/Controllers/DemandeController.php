@@ -101,7 +101,11 @@ class DemandeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $demandes=Demande::with('courses')->findOrFail($id);
+        $courses = $demandes->courses;
+        $vehicules = Vehicule::all();
+        $chauffeurs = Chauffeur::all();
+        return view("demandes.show",compact('demandes','courses','vehicules','chauffeurs'));
     }
 
     /**
