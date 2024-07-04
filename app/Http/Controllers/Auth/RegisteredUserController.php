@@ -71,7 +71,18 @@ class RegisteredUserController extends Controller
                             'email_manager'=>$manager_firstname['email'],
                             
                        ]);
-                       Session::forget('manager');
+                       $user = User::find($user['id']);
+                       $email = $user->email;
+                       $manager = UserInfo::where('email_manager',$email)->first();
+                        if($manager != null){
+                             Session::put('userIsManager',$manager);
+                   
+                         }
+                
+              
+                
+                        Session::put('authUser',$user);
+                        Session::forget('manager');
                        return redirect()->route('dashboard');
                     } 
                 }

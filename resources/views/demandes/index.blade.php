@@ -1,5 +1,6 @@
+
 <x-app-layout>
-    @include('layouts.itemdemande')
+   
     <x-slot name="header">
         <div class="flex items-center justify-between px-0">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
@@ -146,10 +147,15 @@
                                                 href="{{ route('demandes.destroy', $item->id) }}"
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
                                         </li>
+                                        @if (Session::get('userIsManager'))
                                         <li>
+<<<<<<< HEAD
                                             <a href="{{ route('envoyermailauchefcharroi',$item->id) }}"
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                                 onclick="changerStatus($demande)">Valider</a>
+=======
+                                            <a href="{{route('envoyermailauchefcharroi')}} " id="ButtonValider" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>  
+>>>>>>> d94f365aed37ebe4bc982bc4f25069f6a6c5bc45
                                         </li>
                                         <li>
                                             <a onclick="supprimer(event);" data-modal-target="delete-modal"
@@ -157,6 +163,21 @@
                                                 href="{{ route('demandes.destroy', $item->id) }}"
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
                                         </li>
+                                        @endif
+                                        @if (Session::get('authUser')->hasRole('charroi'))
+                                        <li>
+                                            <a onclick="editdemande(event, {{$item->id}});" data-modal-target="crud-modal"
+                                            data-modal-toggle="crud-modal" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">traiter</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('demandes.show', $item->id)}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">voir</a>
+                                        </li>
+                                        <li>
+                                            <a onclick="supprimer(event);" data-modal-target="delete-modal"
+                                            data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
+                                        </li>
+                                        @endif
+                                      
                                     </ul>
 
                                 </div>
@@ -170,6 +191,7 @@
             {{ $demandes->links() }}
         </table>
     </div>
+
 
 
      {{-- <script>
@@ -206,4 +228,20 @@
             }
     </script>
     <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')"/>
+
+    <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')" />
+    <x-savecourse :demandes="$demandes" :vehicules="$vehicules" :chauffeurs="$chauffeurs"  :message="__('Voulez-vous enregistrer une course ?')" />
+    <script>
+        function editdemande(event, demandeId) {
+            event.preventDefault();
+            form = document.querySelector('#crud-modal div div form div div #demande_id');
+            value = form.getAttribute('value');
+            form.setAttribute('value',demandeId);
+            console.log(value);
+        }
+    </script>
+
+
+   
+
 </x-app-layout>

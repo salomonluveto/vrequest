@@ -23,7 +23,7 @@
               @csrf
                 <div class="grid gap-4 mb-4 grid-cols-2">
                   <div class="col-span-2">
-                      {{-- <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">nom</label> --}}
+                    <input type="hidden" id="demande_id" name="demande_id" value="">
                       <label for="vehicule_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">vehicule</label>
                       <select name="vehicule_id" id="vehicule_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                           <option value="">Sélectionnez un vehicule</option>
@@ -36,22 +36,15 @@
                       <select name="chauffeur_id" id="chauffeur_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                           <option value="">Sélectionnez un chauffeur</option>
                           @foreach($chauffeurs as $chauffeur)
-                          <option value="{{ $chauffeur->id}}">{{ $chauffeur->user->name}}</option>
+                          <option value="{{ $chauffeur->id}}">{{ $chauffeur->user->username}}</option>
                           @endforeach
-                      </select>
-                      <label for="demande_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">demande</label>
-                      <select name="demande_id" id="demande_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                          <option value="">Sélectionnez une demande</option>
-                          @foreach($demandes as $demande)
-                          <option value="{{ $demande->id}}">{{ $demande->motif}}</option>
-                          @endforeach
-                      </select>
-                      <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">status</label>
+                      </select>                      
+                      {{-- <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">status</label>
                       <select name="status" id="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                           <option value="en_attente">En attente</option>
                           <option value="en_cours">En cours</option>
                           <option value="terminé">Terminé</option>
-                      </select>
+                      </select> --}}
                       <label for="commentaire" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">commentaire</label>
                       <textarea name="commentaire" id="commentaire" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                         </textarea>

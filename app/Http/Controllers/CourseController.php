@@ -16,11 +16,11 @@ class CourseController extends Controller
     public function index()
     {
         // avoir directement accès aux infos du chauffeur appartir de la course
-        $courses = Course::with(['vehicule', 'chauffeur', 'demande'])->get();
-        $vehicules = Vehicule::all();
-        $chauffeurs=Chauffeur::all();
-        $demandes=Demande::all();
-         return view("courses.index",compact('courses','vehicules','chauffeurs','demandes'));
+        // $courses = Course::with(['vehicule', 'chauffeur', 'demande'])->get();
+        // $vehicules = Vehicule::all();
+        // $chauffeurs=Chauffeur::all();
+        // $demandes=Demande::all();
+        //  return view("courses.index",compact('courses','vehicules','chauffeurs','demandes'));
     }
 
     /**
@@ -36,11 +36,11 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
+        
         $course = Course::create([
             'vehicule_id' => $request->vehicule_id,
             'chauffeur_id' => $request->chauffeur_id,
             'demande_id'=>$request->demande_id,
-            'status'=>$request->status,
             'commentaire'=>$request->commentaire
         ]);
     

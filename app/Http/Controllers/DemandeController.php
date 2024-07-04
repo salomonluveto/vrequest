@@ -7,15 +7,18 @@ use App\Models\Site;
 use App\Models\User;
 use App\Models\Demande;
 use App\Models\UserInfo;
+use App\Models\Vehicule;
+use App\Models\Chauffeur;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Mail\ChefCharroiEmail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use App\Notifications\ManagerNotification ;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ChefCharroiEmail as NotificationsChefCharroiEmail;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 
 class DemandeController extends Controller
@@ -25,12 +28,23 @@ class DemandeController extends Controller
      */
     public function index()
     {
+/*
         $demandes = Demande::all();
 
         return view('demandes.index',[
             'demandes'=> DB::table('demandes')->paginate(10)
         ]);
+        */
         
+
+        $user_id = Session::get('authUser')->id;
+        $demandes = Demande::Where('user_id',$user_id)->get()->paginate(10);
+       
+      
+        $vehicules = Vehicule::all();
+        $chauffeurs = Chauffeur::where('status',1)->get();
+        return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
+
     }
 
 
@@ -72,6 +86,8 @@ class DemandeController extends Controller
 
         $ticket = Str::random(8);
         $status = ' En attente';
+        $user_id = Session::get('authUser')->id;
+      
 
         $demandes = Demande::create([
             'ticket' => $ticket,
@@ -85,7 +101,7 @@ class DemandeController extends Controller
             'longitude_destination' => !empty ($request->longitude_destination) ? $request->longitude_destination : $request->longitude_destination1,
             'latitude_destination' =>!empty ($request->latitude_destination) ? $request->latitude_destination : $request->latitude_destination1,
             'date_deplacement' => $request->date_deplacement,
-            'user_id' => User::all()->random(1)->first()->id,
+            'user_id' => $user_id,
             'status'=>$status
 
 
@@ -102,7 +118,11 @@ class DemandeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $demandes=Demande::with('courses')->findOrFail($id);
+        $courses = $demandes->courses;
+        $vehicules = Vehicule::all();
+        $chauffeurs = Chauffeur::all();
+        return view("demandes.show",compact('demandes','courses','vehicules','chauffeurs'));
     }
 
     /**
@@ -164,6 +184,7 @@ class DemandeController extends Controller
         try{
             //$chef_charroi->notify(new NotificationsChefCharroiEmail($data));
             Notification::send($chef_charroi, new NotificationsChefCharroiEmail($data));
+<<<<<<< HEAD
             $status = "Validé";
             $demande->status = $status;
             $demande->update();
@@ -174,12 +195,32 @@ class DemandeController extends Controller
             //         ]
             //     );
             //print("Demande Envoye");
+=======
+            //print("Demande Envoy
+>>>>>>> d94f365aed37ebe4bc982bc4f25069f6a6c5bc45
         }catch(Exception $e){
             //print($e);
         }
           
         // return redirect()->route('demandes.index');
         return back()->with("success","demande validée avec succès");
+    }
+
+    public function demandeCollaborateurs(){
+       ;
+        $email_manager = Session::get('userIsManager')->email_manager;
+        $collaborateurs = Session::get('userIsManager')::where('email_manager',$email_manager)->get();
+        foreach($collaborateurs as $collaborateur){
+            $id[] = $collaborateur->user_id;
+        }
+     
+      $demandes = DB::table('demandes')
+           ->whereIn('user_id', $id)
+           ->get();
+        
+        $vehicules = Vehicule::all();
+        $chauffeurs = Chauffeur::where('status',1)->get();
+        return view('demandes.collaborateurs', compact('demandes','chauffeurs','vehicules'));
     }
     
     
