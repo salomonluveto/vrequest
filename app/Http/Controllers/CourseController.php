@@ -36,6 +36,7 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
+        
         $course = Course::create([
             'vehicule_id' => $request->vehicule_id,
             'chauffeur_id' => $request->chauffeur_id,

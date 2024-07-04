@@ -33,7 +33,7 @@ class DemandeController extends Controller
        
       
         $vehicules = Vehicule::all();
-        $chauffeurs = Chauffeur::all();
+        $chauffeurs = Chauffeur::where('status',1)->get();
         return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
     }
 
@@ -202,7 +202,7 @@ class DemandeController extends Controller
            ->get();
         
         $vehicules = Vehicule::all();
-        $chauffeurs = Chauffeur::all();
+        $chauffeurs = Chauffeur::where('status',1)->get();
         return view('demandes.collaborateurs', compact('demandes','chauffeurs','vehicules'));
     }
     
