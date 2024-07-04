@@ -9,7 +9,8 @@
                 <a href="{{ route('demandes.create') }}" data-tooltip-target="tooltip-new" type="button"
                     class="inline-flex items-center justify-center w-14 h-14 font-medium bg-orange-400 rounded-full hover:bg-gray-700 group focus:ring-4 focus:ring-blue-200 focus:outline-none dark:focus:ring-gray-700">
                     <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 18 18">
+         
+                    viewBox="0 0 18 18">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 1v16M1 9h16" />
                     </svg>
@@ -18,25 +19,32 @@
             </div>
             <div id="tooltip-new" role="tooltip"
                 class="absolute z-10 invisible inline-block px-3 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                    Demander une course
+                Demander une course
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
+         
+
 
         </div>
+        <a href="{{route('sites')}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sites</a>
     </x-slot>
-    @if(session('success'))
+    @if (session('success'))
         <div class="flex p-4 mb-4 text-sm rounded-lg bg-green-500 " id="success-message">
-            {{session('success')}}
+            {{ session('success') }}
         </div>
         <script>
             // Faire disparaître le message de succès après 5 secondes
             setTimeout(function() {
                 document.getElementById('success-message').style.display = 'none';
-            }, 5000) 
+            }, 5000)
         </script>
     @endif
+
+
+
+
     <div class=" py-12 relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table id="example" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
@@ -67,12 +75,12 @@
                     <th scope="col" class="px-6 py-3">
                         Statut
                     </th>
-                    
+
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
-                  
-                    
+
+
                 </tr>
             </thead>
             <tbody>
@@ -112,41 +120,90 @@
 
                         </td>
 
-                    <td>
-                            <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots{{$i}}" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-                                    <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                        <td>
+                            <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots{{ $i }}"
+                                class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                type="button">
+                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor" viewBox="0 0 4 15">
+                                    <path
+                                        d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
                                 </svg>
-                                
-                                
+
+
                                 <!-- Dropdown menu -->
-                                <div id="dropdownDots{{$i}}"  class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
+                                <div id="dropdownDots{{ $i }}"
+                                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                        aria-labelledby="dropdownMenuIconButton">
                                         <li>
-                                            <a href="{{route('demandes.edit', $item->id)}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editer</a>
+                                            <a href="{{ route('demandes.edit', $item->id) }}"
+                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editer</a>
                                         </li>
                                         <li>
                                             <a onclick="supprimer(event);" data-modal-target="delete-modal"
-                                            data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
+                                                data-modal-toggle="delete-modal"
+                                                href="{{ route('demandes.destroy', $item->id) }}"
+                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
                                         </li>
                                         <li>
-                                            <a href="{{route('envoyermailauchefcharroi')}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>
+                                            <a href="{{ route('envoyermailauchefcharroi',$item->id) }}"
+                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                onclick="changerStatus($demande)">Valider</a>
                                         </li>
                                         <li>
                                             <a onclick="supprimer(event);" data-modal-target="delete-modal"
-                                            data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
+                                                data-modal-toggle="delete-modal"
+                                                href="{{ route('demandes.destroy', $item->id) }}"
+                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
                                         </li>
                                     </ul>
-                                    
+
                                 </div>
-                            </button>  
-                            
-                        </td>     
+                            </button>
+
+                        </td>
                     </tr>
                 @endforeach
+                
             </tbody>
+            {{ $demandes->links() }}
         </table>
     </div>
-    <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')" />
-    
+
+
+     {{-- <script>
+        new DataTable('#example', {
+            ordering: false,
+            layout: {
+                topStart: 'info',
+                bottom: 'paging',
+                bottomStart: null,
+                bottomEnd: null
+             },
+            // language: {
+            //     paginate: {
+            //         next: '<span class="next-page">Suivant</span>',
+            //         previous: '<span class="prev-page">Précédent</span>'
+            //     }
+            // },
+            // initComplete: function() {
+            //     // Modifier la couleur de la pagination
+            //     $('.dataTables_paginate .pagination .page-item.active .page-link').css('background-color',
+            //         '#ff0000');
+            //     $('.dataTables_paginate .pagination .page-item .page-link').css('color', '#ff0000');
+            // }
+        });
+    </script>  --}}
+    <script>
+        function changerStatus($demande) {
+            $status = "Validé"
+            $demande->update(
+                    [
+                        'status'=>$status
+                    ]
+                );
+            }
+    </script>
+    <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')"/>
 </x-app-layout>
