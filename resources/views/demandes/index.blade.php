@@ -1,6 +1,5 @@
-
 <x-app-layout>
-   
+
     <x-slot name="header">
         <div class="flex items-center justify-between px-0">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
@@ -10,8 +9,7 @@
                 <a href="{{ route('demandes.create') }}" data-tooltip-target="tooltip-new" type="button"
                     class="inline-flex items-center justify-center w-14 h-14 font-medium bg-orange-400 rounded-full hover:bg-gray-700 group focus:ring-4 focus:ring-blue-200 focus:outline-none dark:focus:ring-gray-700">
                     <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-         
-                    viewBox="0 0 18 18">
+                        viewBox="0 0 18 18">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 1v16M1 9h16" />
                     </svg>
@@ -23,11 +21,10 @@
                 Demander une course
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
-         
+
 
 
         </div>
-        <a href="{{route('sites')}}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sites</a>
     </x-slot>
     @if (session('success'))
         <div class="flex p-4 mb-4 text-sm rounded-lg bg-green-500 " id="success-message">
@@ -148,36 +145,40 @@
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
                                         </li>
                                         @if (Session::get('userIsManager'))
-                                        <li>
-<<<<<<< HEAD
-                                            <a href="{{ route('envoyermailauchefcharroi',$item->id) }}"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                onclick="changerStatus($demande)">Valider</a>
-=======
-                                            <a href="{{route('envoyermailauchefcharroi')}} " id="ButtonValider" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>  
->>>>>>> d94f365aed37ebe4bc982bc4f25069f6a6c5bc45
-                                        </li>
-                                        <li>
-                                            <a onclick="supprimer(event);" data-modal-target="delete-modal"
-                                                data-modal-toggle="delete-modal"
-                                                href="{{ route('demandes.destroy', $item->id) }}"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
-                                        </li>
+                                            <li>
+                                                <a href="{{ route('envoyermailauchefcharroi', $item->id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    onclick="changerStatus($demande)">Valider</a>
+
+                                                <a href="{{ route('envoyermailauchefcharroi') }} " id="ButtonValider"
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>
+
+                                            </li>
+                                            <li>
+                                                <a onclick="supprimer(event);" data-modal-target="delete-modal"
+                                                    data-modal-toggle="delete-modal"
+                                                    href="{{ route('demandes.destroy', $item->id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
+                                            </li>
                                         @endif
                                         @if (Session::get('authUser')->hasRole('charroi'))
-                                        <li>
-                                            <a onclick="editdemande(event, {{$item->id}});" data-modal-target="crud-modal"
-                                            data-modal-toggle="crud-modal" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">traiter</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{route('demandes.show', $item->id)}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">voir</a>
-                                        </li>
-                                        <li>
-                                            <a onclick="supprimer(event);" data-modal-target="delete-modal"
-                                            data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
-                                        </li>
+                                            <li>
+                                                <a onclick="editdemande(event, {{ $item->id }});"
+                                                    data-modal-target="crud-modal" data-modal-toggle="crud-modal"
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">traiter</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('demandes.show', $item->id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">voir</a>
+                                            </li>
+                                            <li>
+                                                <a onclick="supprimer(event);" data-modal-target="delete-modal"
+                                                    data-modal-toggle="delete-modal"
+                                                    href="{{ route('demandes.destroy', $item->id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
+                                            </li>
                                         @endif
-                                      
+
                                     </ul>
 
                                 </div>
@@ -186,7 +187,7 @@
                         </td>
                     </tr>
                 @endforeach
-                
+
             </tbody>
             {{ $demandes->links() }}
         </table>
@@ -194,7 +195,7 @@
 
 
 
-     {{-- <script>
+    {{-- <script>
         new DataTable('#example', {
             ordering: false,
             layout: {
@@ -220,28 +221,28 @@
     <script>
         function changerStatus($demande) {
             $status = "Validé"
-            $demande->update(
-                    [
-                        'status'=>$status
-                    ]
-                );
-            }
+            $demande - > update(
+                [
+                    'status' => $status
+                ]
+            );
+        }
     </script>
-    <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')"/>
+    <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')" />
 
     <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')" />
-    <x-savecourse :demandes="$demandes" :vehicules="$vehicules" :chauffeurs="$chauffeurs"  :message="__('Voulez-vous enregistrer une course ?')" />
+    <x-savecourse :demandes="$demandes" :vehicules="$vehicules" :chauffeurs="$chauffeurs" :message="__('Voulez-vous enregistrer une course ?')" />
     <script>
         function editdemande(event, demandeId) {
             event.preventDefault();
             form = document.querySelector('#crud-modal div div form div div #demande_id');
             value = form.getAttribute('value');
-            form.setAttribute('value',demandeId);
+            form.setAttribute('value', demandeId);
             console.log(value);
         }
     </script>
 
 
-   
+
 
 </x-app-layout>
