@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 
 use App\Models\User;
+use App\Models\Chauffeur;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
 use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
@@ -130,6 +132,11 @@ class RoleController extends Controller
         */
         $users = User::find($user);
         $users->assignRole($role);
+        if($role == 'chauffeur'){
+            Chauffeur::create([
+                'user_id' =>$user
+            ]);
+        }
         $roles = Role::findByName($role);
         $permissions = $roles->permissions;
        
@@ -144,6 +151,10 @@ class RoleController extends Controller
         $users = User::find($user);
 
         $users->removeRole($role);
+        if($role == 'chauffeur'){
+           $chaffeur = Chauffeur::where('user_id',$user);
+           $chaffeur->delete();
+        }
         $roles = Role::findByName($role);
         $permissions = $roles->permissions;
         foreach($permissions as $permission){
