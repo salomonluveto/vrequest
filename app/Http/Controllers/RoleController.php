@@ -49,7 +49,7 @@ class RoleController extends Controller
     {
     
         $role = Role::find($id);
-       
+       /*
         $rolename = $role->name;
 
     
@@ -59,6 +59,9 @@ class RoleController extends Controller
                 $q->where('name', $rolename);
             });
         })->get();
+        */
+        $permissions = $role->permissions;
+     
         
        
         
@@ -137,8 +140,11 @@ class RoleController extends Controller
                 'user_id' =>$user
             ]);
         }
+       
         $roles = Role::findByName($role);
+        
         $permissions = $roles->permissions;
+        
        
         foreach($permissions as $permission){
           $users->givePermissionTo($permission->name);
