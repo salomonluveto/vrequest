@@ -9,18 +9,7 @@
         </div>
     </x-slot>
 
-    <div class="flex text-end items-center justify-end my-4">
-        <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"  data-tooltip-target="tooltip-new" type="button" class="inline-flex items-center justify-center w-14 h-14 font-medium bg-orange-400 rounded-full hover:bg-gray-700 group focus:ring-4 focus:ring-blue-200 focus:outline-none dark:focus:ring-gray-700">
-            <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-            </svg>
-            <span class="sr-only">New item</span>
-        </button>
-    </div>
-    <div id="tooltip-new" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-        Ajouter un chauffeur
-        <div class="tooltip-arrow" data-popper-arrow></div>
-    </div>  
+  
         @if (session('error'))
     <div id="alert-3" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-200 dark:bg-gray-800 dark:text-red-700" role="alert">
         <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -50,20 +39,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($chauffeurs as $chauffeur)
+                        @foreach ($chauffeurs as $i=>$chauffeur)
+                          
+                              
+                         
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <td class="px-6 py-4">{{ $chauffeur->id }}</td>
+                                <td class="px-6 py-4">{{ $i+1}}</td>
                                 <td class="px-6 py-4">{{ $chauffeur->created_at->format('d-m-Y') }}</td>
 
                                 <td class="px-6 py-4">{{ $chauffeur->user->username }}</td>
                                 <td class="px-6 py-4">
-                                    <a onclick="supprimer(event);" data-modal-target="delete-modal"
-                                   data-modal-toggle="delete-modal" href="{{ route('chauffeurs.destroy', $chauffeur->id) }}"
-                                   class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2">Supprimer</a>
+                                    @if ($chauffeur->status==1)
+                                        
+                                   
+                                    <a  href="{{ route('chauffeurs-status', $chauffeur->id) }}"
+                                   class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2">Desactiver</a>
+                                   @endif
+                                   @if ($chauffeur->status==0)
+                                   <a href="{{route('chauffeurs-status',$chauffeur->id)}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Activer</a>
+                                   @endif
                                </td>
                                
                             </tr>
+                            
                         @endforeach
                     </tbody>                      
                 </table>

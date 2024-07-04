@@ -7,7 +7,8 @@ use App\Http\Controllers\CourseController;
 
 Route::middleware('authenticate')->group(function(){
     Route::resource("vehicules",VehiculeController::class)->middleware('check:Vehicule');
-    Route::resource("chauffeurs",ChauffeurController::class)->middleware('check:Chauffeur');;
+    Route::resource("chauffeurs",ChauffeurController::class)->middleware('check:Chauffeur');
+    Route::get('chauffeurs-status/{id}',[ChauffeurController::class,'chauffeurStatus'])->name('chauffeurs-status');
     Route::resource("courses",CourseController::class)->middleware('check:Course');;
     Route::get("vehicules-search",[VehiculeController::class, 'search'])->name('vehicules.search');
 });

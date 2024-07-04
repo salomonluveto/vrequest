@@ -33,7 +33,7 @@ class DemandeController extends Controller
        
       
         $vehicules = Vehicule::all();
-        $chauffeurs = Chauffeur::all();
+        $chauffeurs = Chauffeur::where('status',1)->get();
         return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
     }
 
@@ -171,7 +171,7 @@ class DemandeController extends Controller
         try{
             //$chef_charroi->notify(new NotificationsChefCharroiEmail($data));
             Notification::send($chef_charroi, new NotificationsChefCharroiEmail($data));
-            //print("Demande Envoye");
+            //print("Demande Envoy
         }catch(Exception $e){
             //print($e);
         }
@@ -193,7 +193,7 @@ class DemandeController extends Controller
            ->get();
         
         $vehicules = Vehicule::all();
-        $chauffeurs = Chauffeur::all();
+        $chauffeurs = Chauffeur::where('status',1)->get();
         return view('demandes.collaborateurs', compact('demandes','chauffeurs','vehicules'));
     }
     
