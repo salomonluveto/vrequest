@@ -41,6 +41,7 @@ class DemandeController extends Controller
         $vehicules = Vehicule::all();
         $chauffeurs = Chauffeur::where('status',1)->get();
         return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
+
     }
 
 
@@ -106,6 +107,7 @@ class DemandeController extends Controller
         return redirect()->route('demandes.index');
     }
     
+    
     /**
      * Display the specified resource.
      */
@@ -162,6 +164,7 @@ class DemandeController extends Controller
     
 
     public function envoyerMailAuChefCharroi($id){
+    public function envoyerMailAuChefCharroi($id){
         
         $chef_charroi = User::where('email', 'sdouble1@hibu.com')->first();
         // $chef_charroi['name'] = $chef_charroi['firstname'];
@@ -189,7 +192,7 @@ class DemandeController extends Controller
         }catch(Exception $e){
             $e->getMessage();
         }
-        
+          
         // return redirect()->route('demandes.index');
         return back()->with("success","demande validée avec succès");
     }
@@ -210,7 +213,6 @@ class DemandeController extends Controller
         $chauffeurs = Chauffeur::where('status',1)->get();
         return view('demandes.collaborateurs', compact('demandes','chauffeurs','vehicules'));
     }
-    
-    
+       
 
 }

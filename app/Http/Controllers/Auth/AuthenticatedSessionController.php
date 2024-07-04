@@ -22,7 +22,10 @@ class AuthenticatedSessionController extends Controller
     public function create()
     {
         if(Session::has('user')){
-           return view('/dashboard');
+
+           return view('dashboard');
+
+          
 
         }
         return View('auth.login');

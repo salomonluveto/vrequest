@@ -1,6 +1,5 @@
-
 <x-app-layout>
-   
+
     <x-slot name="header">
         <div class="flex items-center justify-between px-0">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
@@ -19,25 +18,31 @@
             </div>
             <div id="tooltip-new" role="tooltip"
                 class="absolute z-10 invisible inline-block px-3 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                    Demander une course
+                Demander une course
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
 
+
+
         </div>
     </x-slot>
-    @if(session('success'))
+    @if (session('success'))
         <div class="flex p-4 mb-4 text-sm rounded-lg bg-green-500 " id="success-message">
-            {{session('success')}}
+            {{ session('success') }}
         </div>
         <script>
             // Faire disparaître le message de succès après 5 secondes
             setTimeout(function() {
                 document.getElementById('success-message').style.display = 'none';
-            }, 5000) 
+            }, 5000)
         </script>
     @endif
+
+
+
+
     <div class=" py-12 relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table id="example" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
@@ -73,12 +78,12 @@
                     <th scope="col" class="px-6 py-3">
                         Traitement
                     </th>
-                    
+
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
-                  
-                    
+
+
                 </tr>
             </thead>
             <tbody>
@@ -130,13 +135,17 @@
                             @endif
                         </td>
 
-                    <td>
-                            <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots{{$i}}" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-                                    <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                        <td>
+                            <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots{{ $i }}"
+                                class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                type="button">
+                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor" viewBox="0 0 4 15">
+                                    <path
+                                        d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
                                 </svg>
-                                
-                                
+
+
                                 <!-- Dropdown menu -->
                                 <div id="dropdownDots{{$i}}"  class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
@@ -178,28 +187,69 @@
                                         </li>
                                       
                                     </ul>
-                                    
+
                                 </div>
-                            </button>  
-                            
-                        </td>     
+                            </button>
+
+                        </td>
                     </tr>
                 @endforeach
+
             </tbody>
+            {{ $demandes->links() }}
         </table>
     </div>
+
+
+
+    {{-- <script>
+        new DataTable('#example', {
+            ordering: false,
+            layout: {
+                topStart: 'info',
+                bottom: 'paging',
+                bottomStart: null,
+                bottomEnd: null
+             },
+            // language: {
+            //     paginate: {
+            //         next: '<span class="next-page">Suivant</span>',
+            //         previous: '<span class="prev-page">Précédent</span>'
+            //     }
+            // },
+            // initComplete: function() {
+            //     // Modifier la couleur de la pagination
+            //     $('.dataTables_paginate .pagination .page-item.active .page-link').css('background-color',
+            //         '#ff0000');
+            //     $('.dataTables_paginate .pagination .page-item .page-link').css('color', '#ff0000');
+            // }
+        });
+    </script>  --}}
+    <script>
+        function changerStatus($demande) {
+            $status = "Validé"
+            $demande - > update(
+                [
+                    'status' => $status
+                ]
+            );
+        }
+    </script>
     <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')" />
-    <x-savecourse :demandes="$demandes" :vehicules="$vehicules" :chauffeurs="$chauffeurs"  :message="__('Voulez-vous enregistrer une course ?')" />
+
+    <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')" />
+    <x-savecourse :demandes="$demandes" :vehicules="$vehicules" :chauffeurs="$chauffeurs" :message="__('Voulez-vous enregistrer une course ?')" />
     <script>
         function editdemande(event, demandeId) {
             event.preventDefault();
             form = document.querySelector('#crud-modal div div form div div #demande_id');
             value = form.getAttribute('value');
-            form.setAttribute('value',demandeId);
+            form.setAttribute('value', demandeId);
             console.log(value);
         }
     </script>
 
 
-   
+
+
 </x-app-layout>
