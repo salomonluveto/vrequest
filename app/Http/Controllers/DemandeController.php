@@ -157,23 +157,32 @@ class DemandeController extends Controller
     }
     
 
-    public function envoyerMailAuChefCharroi(Demande $demandes){
+    public function envoyerMailAuChefCharroi($id){
         
-        $chef_charroi = User::where('email', 'oliviapala16@gmail.com')->get();
+        $chef_charroi = User::where('email', 'sdouble1@hibu.com')->first();
+        // $chef_charroi['name'] = $chef_charroi['firstname'];
+        // $chef_charroi['address'] = $chef_charroi['email'];
+
         //dd($chef_charroi);
-        
-        $data = (object) [
-            'id' => 1,
-            'url' => 'demandes.index',
+        $demande=Demande::find($id);
+        //dd($demande);
+        $data =(object)[
+            'id' => $demande->id ,
+            'url' => 'demandes.show',
             'subject' => 'Nouvelle demande'
         ];
-    
         try{
-            //$chef_charroi->notify(new NotificationsChefCharroiEmail($data));
+            // $chef_charroi->notify(new NotificationsChefCharroiEmail($data));
+            
             Notification::send($chef_charroi, new NotificationsChefCharroiEmail($data));
-            //print("Demande Envoye");
+            dd($chef_charroi);
+            print("Demande Envoye");
+            $status = "Demande Validée";
+            $demande->status = $status;
+            $demande->update();
+
         }catch(Exception $e){
-            //print($e);
+            $e->getMessage();
         }
         
         // return redirect()->route('demandes.index');

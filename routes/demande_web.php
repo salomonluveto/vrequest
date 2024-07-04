@@ -9,7 +9,7 @@ Route::get('/site/{nom}', [SiteController::class, 'getCoordinates']);
 Route::resource('/demandes', DemandeController::class);
 Route::get('/demande-collaborateurs',[DemandeController::class,'demandeCollaborateurs'])->name('demande-collaborateurs');
 Route::get('/envoyermailmanager',[DemandeController::class,'envoyerMailManager'])->name('envoyermailmanager');
-Route::get('/envoyermailauchefcharroi',[DemandeController::class,'envoyerMailAuChefCharroi'])->name('envoyermailauchefcharroi');
+Route::get('/envoyermailauchefcharroi/{id}',[DemandeController::class,'envoyerMailAuChefCharroi'])->name('envoyermailauchefcharroi');
 
 });
 

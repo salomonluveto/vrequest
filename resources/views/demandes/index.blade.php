@@ -132,7 +132,7 @@
                                         </li>
                                         @if (Session::get('userIsManager'))
                                         <li>
-                                            <a href="{{route('envoyermailauchefcharroi')}} " id="ButtonValider" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>  
+                                            <a href="{{route('envoyermailauchefcharroi',$item->id)}} " id="ButtonValider" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>  
                                         </li>
                                         <li>
                                             <a onclick="supprimer(event);" data-modal-target="delete-modal"

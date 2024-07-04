@@ -1,9 +1,11 @@
 {
     "private": true,
-    "type": "commonjs",
+    "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "serve": "npx concurrently \"npm run dev\" \"php artisan serve\"",
+        "build": "vite build",
+        "preview":"vite preview"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
