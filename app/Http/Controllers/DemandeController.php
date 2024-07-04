@@ -164,7 +164,6 @@ class DemandeController extends Controller
     
 
     public function envoyerMailAuChefCharroi($id){
-    public function envoyerMailAuChefCharroi($id){
         
         $chef_charroi = User::where('email', 'sdouble1@hibu.com')->first();
         // $chef_charroi['name'] = $chef_charroi['firstname'];
