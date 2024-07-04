@@ -184,7 +184,7 @@ class DemandeController extends Controller
         try{
             //$chef_charroi->notify(new NotificationsChefCharroiEmail($data));
             Notification::send($chef_charroi, new NotificationsChefCharroiEmail($data));
-<<<<<<< HEAD
+
             $status = "Validé";
             $demande->status = $status;
             $demande->update();
@@ -195,9 +195,8 @@ class DemandeController extends Controller
             //         ]
             //     );
             //print("Demande Envoye");
-=======
-            //print("Demande Envoy
->>>>>>> d94f365aed37ebe4bc982bc4f25069f6a6c5bc45
+
+
         }catch(Exception $e){
             //print($e);
         }
