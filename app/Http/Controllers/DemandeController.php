@@ -38,7 +38,8 @@ class DemandeController extends Controller
         
 
         $user_id = Session::get('authUser')->id;
-        $demandes = Demande::Where('user_id',$user_id)->get()->paginate(10);
+        $demandes = Demande::Where('user_id',$user_id)->paginate(10);
+       
        
       
         $vehicules = Vehicule::all();
