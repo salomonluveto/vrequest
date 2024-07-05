@@ -10,7 +10,7 @@ use App\Models\Course;
 class Vehicule extends Model
 {
     use HasFactory;
-    protected $fillable=['plaque','marque','capacite'];
+    protected $fillable=['plaque','marque','capacite','disponibilite'];
     public function newEloquentBuilder($vehicule)
     {
         return new \Illuminate\Database\Eloquent\Builder($vehicule->latest());
