@@ -28,13 +28,24 @@ class DemandeController extends Controller
      */
     public function index()
     {
+/*
+        $demandes = Demande::all();
+
+        return view('demandes.index',[
+            'demandes'=> DB::table('demandes')->paginate(10)
+        ]);
+        */
+        
+
         $user_id = Session::get('authUser')->id;
-        $demandes = Demande::Where('user_id',$user_id)->get();
+        $demandes = Demande::Where('user_id',$user_id)->paginate(10);
+       
        
       
         $vehicules = Vehicule::where('disponibilite',0)->get();
         $chauffeurs = Chauffeur::where('status',1)->get();
         return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
+
     }
 
 
@@ -102,6 +113,7 @@ class DemandeController extends Controller
         return redirect()->route('demandes.index');
     }
     
+    
     /**
      * Display the specified resource.
      */
@@ -157,10 +169,12 @@ class DemandeController extends Controller
     }
     
 
-    public function envoyerMailAuChefCharroi(Demande $demandes){
+    public function envoyerMailAuChefCharroi($id){
         
-        $chef_charroi = User::where('email', 'oliviapala16@gmail.com')->get();
+        $chef_charroi = User::where('email', 'mazanosh1504@gmail.com')->get();
         //dd($chef_charroi);
+        $demande = Demande::find($id);
+       
         
         $data = (object) [
             'id' => 1,
@@ -171,11 +185,23 @@ class DemandeController extends Controller
         try{
             //$chef_charroi->notify(new NotificationsChefCharroiEmail($data));
             Notification::send($chef_charroi, new NotificationsChefCharroiEmail($data));
-            //print("Demande Envoy
+
+            $status = "Validé";
+            $demande->status = $status;
+            $demande->update();
+            
+            // $demandes->update(
+            //         [
+            //             'status'=>$status
+            //         ]
+            //     );
+            //print("Demande Envoye");
+
+
         }catch(Exception $e){
             //print($e);
         }
-        
+          
         // return redirect()->route('demandes.index');
         return back()->with("success","demande validée avec succès");
     }
