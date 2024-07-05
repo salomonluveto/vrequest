@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -23,6 +24,7 @@ class UserManagerResource extends JsonResource
         $response = Http::get('http://10.143.41.70:8000/promo2/odcapi/?method=getUsers');
         $users = $response->json();
         $manager = collect($users['users'])->firstWhere('email', $email);
+        $role = User::find($this->id)->getRoleNames();
 
         
         return [
@@ -41,7 +43,8 @@ class UserManagerResource extends JsonResource
             'email_verified_at'=>$this->email_verified_at,
             'created_at' => $this->created_at, 
             'updated_at' => $this->updated_at,
-            'token'=>$this->token
+            'token'=>$this->token,
+            'role'=>$role
            
       ];
     }
