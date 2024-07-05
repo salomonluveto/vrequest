@@ -13,7 +13,7 @@ Route::get('/site', [SiteController::class,'index'])->name('site');
 
 Route::get('/demande-collaborateurs',[DemandeController::class,'demandeCollaborateurs'])->name('demande-collaborateurs');
 Route::get('/envoyermailmanager',[DemandeController::class,'envoyerMailManager'])->name('envoyermailmanager');
-Route::get('/envoyermailauchefcharroi',[DemandeController::class,'envoyerMailAuChefCharroi'])->name('envoyermailauchefcharroi');
+Route::get('/envoyermailauchefcharroi/{id}',[DemandeController::class,'envoyerMailAuChefCharroi'])->name('envoyermailauchefcharroi');
 
 });
 

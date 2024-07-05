@@ -70,8 +70,13 @@
                     <th scope="col" class="px-6 py-3">
                         Nbr de passagers
                     </th>
+                    @if (!Session::get('authUser')->hasRole('charroi'))
+                        <th scope="col" class="px-6 py-3">
+                            Validation
+                        </th>
+                    @endif
                     <th scope="col" class="px-6 py-3">
-                        Statut
+                        Traitement
                     </th>
 
                     <th scope="col" class="px-6 py-3">
@@ -113,9 +118,21 @@
                             {{ $item->nbre_passagers }}
 
                         </td>
+                        @if (!Session::get('authUser')->hasRole('charroi'))
+                            <td class="px-6 py-4">
+                                @if($item->is_validated == 1)
+                                    {{ __("Validée") }}
+                                @else
+                                    {{ __("En attente") }}
+                                @endif
+                            </td>
+                        @endif
                         <td class="px-6 py-4">
-                            {{ $item->status }}
-
+                            @if($item->status == 1)
+                                {{ __("Traitée") }}
+                            @else
+                                {{ __("En attente") }}
+                            @endif
                         </td>
 
                         <td>
@@ -130,55 +147,45 @@
 
 
                                 <!-- Dropdown menu -->
-                                <div id="dropdownDots{{ $i }}"
-                                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                        aria-labelledby="dropdownMenuIconButton">
-                                        <li>
-                                            <a href="{{ route('demandes.edit', $item->id) }}"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editer</a>
-                                        </li>
-                                        <li>
-                                            <a onclick="supprimer(event);" data-modal-target="delete-modal"
-                                                data-modal-toggle="delete-modal"
-                                                href="{{ route('demandes.destroy', $item->id) }}"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
-                                        </li>
-                                        @if (Session::get('userIsManager'))
+                                <div id="dropdownDots{{$i}}"  class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
+                                        @if($item->is_validated == 0 )
                                             <li>
-                                                <a href="{{ route('envoyermailauchefcharroi', $item->id) }}"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                    onclick="changerStatus($demande)">Valider</a>
-
-                                                <a href="{{ route('envoyermailauchefcharroi') }} " id="ButtonValider"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>
-
+                                                <a href="{{route('demandes.edit', $item->id)}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editer</a>
                                             </li>
                                             <li>
                                                 <a onclick="supprimer(event);" data-modal-target="delete-modal"
-                                                    data-modal-toggle="delete-modal"
-                                                    href="{{ route('demandes.destroy', $item->id) }}"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
+                                                data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
                                             </li>
+                                        @endif
+                                        @if (Session::get('userIsManager'))
+                                            @if($item->is_validated == 0 )
+                                                <li>
+                                                    <a href="{{route('envoyermailauchefcharroi',$item->id)}} " id="ButtonValider" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>  
+                                                </li>
+                                                <li>
+                                                    <a onclick="supprimer(event);" data-modal-target="delete-modal"
+                                                    data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
+                                                </li>
+                                            @endif
                                         @endif
                                         @if (Session::get('authUser')->hasRole('charroi'))
-                                            <li>
-                                                <a onclick="editdemande(event, {{ $item->id }});"
-                                                    data-modal-target="crud-modal" data-modal-toggle="crud-modal"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">traiter</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('demandes.show', $item->id) }}"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">voir</a>
-                                            </li>
-                                            <li>
-                                                <a onclick="supprimer(event);" data-modal-target="delete-modal"
-                                                    data-modal-toggle="delete-modal"
-                                                    href="{{ route('demandes.destroy', $item->id) }}"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
-                                            </li>
-                                        @endif
+                                            @if(($item->is_validated == 1) && ($item->status == 0) )
+                                                <li>
+                                                    <a onclick="editdemande(event, {{$item->id}});" data-modal-target="crud-modal"
+                                                    data-modal-toggle="crud-modal" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">traiter</a>
+                                                </li>
+                                            @endif
 
+                                            {{-- <li>
+                                                <a onclick="supprimer(event);" data-modal-target="delete-modal"
+                                                data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
+                                            </li> --}}
+                                        @endif
+                                        <li>
+                                            <a href="{{route('demandes.show', $item->id)}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">voir</a>
+                                        </li>
+                                      
                                     </ul>
 
                                 </div>

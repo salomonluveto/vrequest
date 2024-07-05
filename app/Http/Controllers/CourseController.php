@@ -36,6 +36,10 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
+
+        $demande = Demande::findOrFail($request->demande_id);
+        $demande->status = 1;
+        $demande->update();
         
         $course = Course::create([
             'vehicule_id' => $request->vehicule_id,

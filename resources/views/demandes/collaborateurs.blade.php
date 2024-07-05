@@ -51,7 +51,10 @@
                         Nbr de passagers
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Statut
+                        Validation
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Traitement
                     </th>
                     
                     <th scope="col" class="px-6 py-3">
@@ -94,8 +97,18 @@
 
                         </td>
                         <td class="px-6 py-4">
-                            {{ $item->status }}
-
+                            @if($item->is_validated == 1)
+                                {{ __("Validée") }}
+                            @else
+                                {{ __("En attente") }}
+                            @endif
+                        </td>
+                        <td class="px-6 py-4">
+                            @if($item->status == 1)
+                                {{ __("Traitée") }}
+                            @else
+                                {{ __("En attente") }}
+                            @endif
                         </td>
 
                     <td>
@@ -110,13 +123,15 @@
                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
                                        
                                         @if (Session::get('userIsManager'))
-                                        <li>
-                                            <a href="{{route('envoyermailauchefcharroi')}} " id="ButtonValider" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>  
-                                        </li>
-                                        <li>
-                                            <a onclick="supprimer(event);" data-modal-target="delete-modal"
-                                            data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
-                                        </li>
+                                            @if($item->is_validated == 0 )
+                                                <li>
+                                                    <a href="{{route('envoyermailauchefcharroi',$item->id)}} " id="ButtonValider" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>  
+                                                </li>
+                                                <li>
+                                                    <a onclick="supprimer(event);" data-modal-target="delete-modal"
+                                                    data-modal-toggle="delete-modal" href="{{ route('demandes.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
+                                                </li>
+                                            @endif
                                         @endif
                                        
                                     </ul>
