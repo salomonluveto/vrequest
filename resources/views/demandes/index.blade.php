@@ -189,35 +189,33 @@
                 @endforeach
 
             </tbody>
-            {{ $demandes->links() }}
+           
         </table>
+        {{ $demandes->links() }}
     </div>
 
 
 
-    {{-- <script>
+    <script>
         new DataTable('#example', {
+            info: false,
             ordering: false,
-            layout: {
-                topStart: 'info',
-                bottom: 'paging',
-                bottomStart: null,
-                bottomEnd: null
-             },
-            // language: {
-            //     paginate: {
-            //         next: '<span class="next-page">Suivant</span>',
-            //         previous: '<span class="prev-page">Précédent</span>'
-            //     }
-            // },
-            // initComplete: function() {
-            //     // Modifier la couleur de la pagination
-            //     $('.dataTables_paginate .pagination .page-item.active .page-link').css('background-color',
-            //         '#ff0000');
-            //     $('.dataTables_paginate .pagination .page-item .page-link').css('color', '#ff0000');
-            // }
+            paging: false
+        
+        // language: {
+        //     paginate: {
+        //         next: '<span class="next-page">Suivant</span>',
+        //         previous: '<span class="prev-page">Précédent</span>'
+        //     }
+        // },
+        // initComplete: function() {
+        //     // Modifier la couleur de la pagination
+        //     $('.dataTables_paginate .pagination .page-item.active .page-link').css('background-color',
+        //         '#ff0000');
+        //     $('.dataTables_paginate .pagination .page-item .page-link').css('color', '#ff0000');
+        // }
         });
-    </script>  --}}
+    </script>
     <script>
         function changerStatus($demande) {
             $status = "Validé"
