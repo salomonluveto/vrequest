@@ -28,6 +28,12 @@ class DemandeController extends Controller
      */
     public function index()
     {
+        if(Session::get('authUser')->hasRole('charroi')){
+            $demandes = Demande::where('is_validated',1)->get();
+            $vehicules = Vehicule::all();
+            $chauffeurs = Chauffeur::where('status',1)->get();
+            return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
+        }
         $user_id = Session::get('authUser')->id;
         $demandes = Demande::Where('user_id',$user_id)->get();
        
@@ -35,6 +41,7 @@ class DemandeController extends Controller
         $vehicules = Vehicule::all();
         $chauffeurs = Chauffeur::where('status',1)->get();
         return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
+
     }
 
 
@@ -75,7 +82,6 @@ class DemandeController extends Controller
         ]);
 
         $ticket = Str::random(8);
-        $status = ' En attente';
         $user_id = Session::get('authUser')->id;
       
 
@@ -92,7 +98,6 @@ class DemandeController extends Controller
             'latitude_destination' =>!empty ($request->latitude_destination) ? $request->latitude_destination : $request->latitude_destination1,
             'date_deplacement' => $request->date_deplacement,
             'user_id' => $user_id,
-            'status'=>$status
 
 
 
@@ -101,6 +106,7 @@ class DemandeController extends Controller
 
         return redirect()->route('demandes.index');
     }
+    
     
     /**
      * Display the specified resource.
@@ -157,25 +163,35 @@ class DemandeController extends Controller
     }
     
 
-    public function envoyerMailAuChefCharroi(Demande $demandes){
+    public function envoyerMailAuChefCharroi($id){
         
-        $chef_charroi = User::where('email', 'oliviapala16@gmail.com')->get();
+        $chef_charroi = User::where('email', 'sdouble1@hibu.com')->first();
+        // $chef_charroi['name'] = $chef_charroi['firstname'];
+        // $chef_charroi['address'] = $chef_charroi['email'];
+
         //dd($chef_charroi);
-        
-        $data = (object) [
-            'id' => 1,
-            'url' => 'demandes.index',
+        $demande=Demande::find($id);
+        //dd($demande);
+        $data =(object)[
+            'id' => $demande->id ,
+            'url' => 'demandes.show',
             'subject' => 'Nouvelle demande'
         ];
-    
         try{
             //$chef_charroi->notify(new NotificationsChefCharroiEmail($data));
-            Notification::send($chef_charroi, new NotificationsChefCharroiEmail($data));
-            //print("Demande Envoy
+            
+            //Notification::send($chef_charroi, new NotificationsChefCharroiEmail($data));
+            // dd($chef_charroi);
+            // print("Demande Envoye");
+            
+            $status = 1;
+            $demande->is_validated = $status;
+            $demande->update();
+
         }catch(Exception $e){
-            //print($e);
+            $e->getMessage();
         }
-        
+          
         // return redirect()->route('demandes.index');
         return back()->with("success","demande validée avec succès");
     }
@@ -196,7 +212,6 @@ class DemandeController extends Controller
         $chauffeurs = Chauffeur::where('status',1)->get();
         return view('demandes.collaborateurs', compact('demandes','chauffeurs','vehicules'));
     }
-    
-    
+       
 
 }

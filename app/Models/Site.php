@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Site extends Model
 {
     use HasFactory;
-    protected $fillable = ['nom'];
+    protected $fillable = ['nom','longitude','latitude'];
 
     public function demandes(){
         return $this->hasMany(Demande::class,'site_id', 'id');
