@@ -34,6 +34,7 @@ class VehiculeController extends Controller
         'plaque'=>$request->plaque,
         'marque'=>$request->marque,
         'capacite'=>$request->capacite,
+        'disponible'=>1,
         $request->session()->flash('success', 'Le véhicule a été enregistré avec succès.'),
     ]);  
         return redirect()->route('vehicules.index');
@@ -96,5 +97,21 @@ class VehiculeController extends Controller
     $data['result'] = $vehicules->paginate(10);
 
     return view('/vehicules/show', $data);
+}
+    public function vehiculeDisponibilite($id){
+
+
+        $vehicule = Vehicule::find($id);
+
+        if($vehicule->disponibilite == 1){
+        $vehicule->disponibilite = 0;
+        $vehicule->update();
+        return back();
+    }
+    else if($vehicule->disponibilite == 0){
+        $vehicule->disponibilite = 1;
+        $vehicule->update();
+        return back();
+    }
 }
 }
