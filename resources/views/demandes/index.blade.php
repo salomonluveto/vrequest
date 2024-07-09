@@ -15,7 +15,7 @@
                     </svg>
                     <span class="sr-only">New item</span>
                 </a>
-            </div>
+            </div>      
             <div id="tooltip-new" role="tooltip"
                 class="absolute z-10 invisible inline-block px-3 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                 Demander une course
@@ -78,7 +78,7 @@
                     <th scope="col" class="px-6 py-3">
                         Traitement
                     </th>
-
+                    
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
@@ -196,7 +196,7 @@
                 @endforeach
 
             </tbody>
-            {{ $demandes->links() }}
+            {{-- {{ $demandes->links() }} --}}
         </table>
     </div>
 

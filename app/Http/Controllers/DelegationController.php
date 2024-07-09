@@ -12,6 +12,11 @@ class DelegationController extends Controller
     
     return view ('delegations.index',compact('delegations'));
    }
+   public function create()
+    {
+        $delegations = Delegation::all();
+        return view('delegations.create', compact('delegations'));
+    }
 
     public function store(Request $request)
     {
@@ -33,8 +38,8 @@ class DelegationController extends Controller
     }
     
     public function edit(Delegation $delegation)
-    {
-        
+    {    
+        $delegations = $delegation;
         return view('delegations.edit', compact('delegation'));
     }
     
@@ -43,7 +48,6 @@ class DelegationController extends Controller
        
         $delegation->update([
             'user_id'=>$request->user_id,
-            'manager_id'=>$request->manager_id,
             'date_debut'=>$request->date_debut,
             'date_fin'=>$request->date_fin,
         ]);
@@ -55,7 +59,7 @@ class DelegationController extends Controller
     public function destroy(Delegation $delegation)
     {
         $delegation->delete();
-        return back()->with('success', 'supprimer');
+        return back()->with('success', 'délégation supprimée');
     }
 }
 

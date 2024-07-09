@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Session;
 use App\Notifications\ManagerNotification ;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ChefCharroiEmail as NotificationsChefCharroiEmail;
-
+use App\Http\Controllers\envoyerMailAuManager;
 
 class DemandeController extends Controller
 {
@@ -100,10 +100,9 @@ class DemandeController extends Controller
             'user_id' => $user_id,
 
 
-
         ]);
-
-
+        $demandes_id=$demandes->id;
+        $demandes->envoyerMailAuManager($demandes_id);
         return redirect()->route('demandes.index');
     }
     
@@ -161,35 +160,54 @@ class DemandeController extends Controller
     public function submit(Request $request){
         return redirect()->route('demande.success');       
     }
-    
-
-    public function envoyerMailAuChefCharroi($id){
-        
-        $chef_charroi = User::where('email', 'sdouble1@hibu.com')->first();
-        // $chef_charroi['name'] = $chef_charroi['firstname'];
-        // $chef_charroi['address'] = $chef_charroi['email'];
-
-        //dd($chef_charroi);
+    public function envoyerMailAuManager($id){
         $demande=Demande::find($id);
-        //dd($demande);
+        $user_id=$demande->user_id;
+        $email_manager=UserInfo::where('user_id',$user_id);
+        $manager=User::where('email',$email_manager)->first();
+       
+        //Session::get('userIsManager')::where('email_manager',$email_manager)->get();
+
         $data =(object)[
             'id' => $demande->id ,
             'url' => 'demandes.show',
             'subject' => 'Nouvelle demande'
         ];
+        
         try{
-            //$chef_charroi->notify(new NotificationsChefCharroiEmail($data));
-            
-            //Notification::send($chef_charroi, new NotificationsChefCharroiEmail($data));
-            // dd($chef_charroi);
-            // print("Demande Envoye");
+            $manager->notify(new NotificationsChefCharroiEmail($data));   
+        }
+        catch(Exception $e){
+            print($e);
+        }
+          
+        // return redirect()->route('demandes.index');
+        //return back()->with("success","demande envoyé avec succès");
+    }
+
+    public function envoyerMailAuChefCharroi($id){
+        
+        //$chef_charroi = User::where('email', 'oliviapala16@gmail.com')->first();
+        $chef_charroi = Session::get('authUser')->hasRole('charroi');
+        $demande=Demande::find($id);
+    
+        $data =(object)[
+            'id' => $demande->id ,
+            'url' => 'demandes.show',
+            'subject' => 'Nouvelle demande'
+        ];
+        
+        try{
+            $chef_charroi->notify(new NotificationsChefCharroiEmail($data));
             
             $status = 1;
             $demande->is_validated = $status;
             $demande->update();
 
-        }catch(Exception $e){
-            $e->getMessage();
+        }
+        catch(Exception $e){
+            
+            print($e);
         }
           
         // return redirect()->route('demandes.index');
@@ -211,6 +229,9 @@ class DemandeController extends Controller
         $vehicules = Vehicule::all();
         $chauffeurs = Chauffeur::where('status',1)->get();
         return view('demandes.collaborateurs', compact('demandes','chauffeurs','vehicules'));
+    }
+    public function envoiMailRetourAgent($id){
+        
     }
        
 

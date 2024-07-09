@@ -12,7 +12,7 @@ Route::post('/sites', [SiteController::class, 'store'])->name('sites');
 Route::get('/site', [SiteController::class,'index'])->name('site');
 
 Route::get('/demande-collaborateurs',[DemandeController::class,'demandeCollaborateurs'])->name('demande-collaborateurs');
-Route::get('/envoyermailmanager',[DemandeController::class,'envoyerMailManager'])->name('envoyermailmanager');
+Route::get('/envoyerMailAuManager/{id}',[DemandeController::class,'envoyerMailManager'])->name('envoyermailmanager');
 Route::get('/envoyermailauchefcharroi/{id}',[DemandeController::class,'envoyerMailAuChefCharroi'])->name('envoyermailauchefcharroi');
 
 });

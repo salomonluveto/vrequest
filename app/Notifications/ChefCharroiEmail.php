@@ -13,7 +13,7 @@ class ChefCharroiEmail extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(public object $data)
+    public function __construct(protected $data)
     {
 
     }
