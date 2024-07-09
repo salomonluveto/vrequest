@@ -69,6 +69,7 @@
                     <th scope="col" class="px-6 py-3">plaque</th>
                     <th scope="col" class="px-6 py-3">Marque</th>
                     <th scope="col" class="px-6 py-3">capacité</th>
+                    <th scope="col" class="px-6 py-3">disponibilité</th>
                     <th scope="col" class="px-6 py-3">Action</th>
                 </tr>
             </thead>
@@ -81,6 +82,18 @@
                         <td class="px-6 py-4">{{ $item->plaque }}</td>
                         <td class="px-6 py-4">{{ $item->marque }}</td>
                         <td class="px-6 py-4">{{ $item->capacite }}</td>
+                        <td class="px-6 py-4">
+                            @if ($item->disponibilite==1)
+                                
+                           
+                            <a  href="{{ route('vehicules-disponibilite', $item->id) }}"
+                           class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2">occupé</a>
+                           @endif
+                           @if ($item->disponibilite==0)
+                           <a href="{{route('vehicules-disponibilite',$item->id)}}" class="text-white bg-gradient-to-r from-gray-400 via-gray-400 to-gray-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 shadow-lg shadow-gray-500/50 dark:shadow-lg dark:shadow-gray-800/80 font-medium rounded-lg text-xs px-7 py-2.5 text-center me-4 mb-2" >
+                            disponible</a>
+                           @endif
+                       </td>
                         <td class="px-6 py-4">
                             <a onclick="edit(event)" href="{{ route('vehicules.update',$item->id) }}" data-modal-target="crud-modal1" data-modal-toggle="crud-modal1"
                                 class="text-white bg-gradient-to-r from-gray-400 via-gray-400 to-gray-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 shadow-lg shadow-gray-500/50 dark:shadow-lg dark:shadow-gray-800/80 font-medium rounded-lg text-xs px-7 py-2.5 text-center me-4 mb-2" >
