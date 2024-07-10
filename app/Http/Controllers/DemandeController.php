@@ -101,8 +101,30 @@ class DemandeController extends Controller
 
 
         ]);
+
+    //CODE POUR ENVOYER UN MAIL AU MANAGER DE L'AGENT QUI SOUMET SA DEMANDE
+        
+        //Récupération du manager
         $demandes_id=$demandes->id;
-        $demandes->envoyerMailAuManager($demandes_id);
+        $demande=Demande::find($demandes_id);
+        $user_id=$demande->user_id;
+        $user_info=UserInfo::where('user_id',$user_id)->first();
+        $email_manager=$user_info->email_manager;
+        $manager=User::where('email',$email_manager)->first();
+        
+        $data =(object)[
+            'id' => $demande->id ,
+            'url' => 'demandes.show',
+            'subject' => 'Nouvelle demande'
+        ];
+        
+        try{
+            $manager->notify(new NotificationsChefCharroiEmail($data));   
+        }
+        catch(Exception $e){
+            print($e);
+        }
+          
         return redirect()->route('demandes.index');
     }
     
@@ -167,10 +189,10 @@ class DemandeController extends Controller
         $manager=User::where('email',$email_manager)->first();
        
         //Session::get('userIsManager')::where('email_manager',$email_manager)->get();
-
+        dd($manager);
         $data =(object)[
             'id' => $demande->id ,
-            'url' => 'demandes.show',
+            'url' => 'demandes.index',
             'subject' => 'Nouvelle demande'
         ];
         
@@ -188,9 +210,13 @@ class DemandeController extends Controller
     public function envoyerMailAuChefCharroi($id){
         
         //$chef_charroi = User::where('email', 'oliviapala16@gmail.com')->first();
-        $chef_charroi = Session::get('authUser')->hasRole('charroi');
+        $user = Session::get('authUser')->hasRole('charroi');
         $demande=Demande::find($id);
-    
+        
+       if($user){
+        $chef_charroi = Session::get('authUser');
+        //dd($user);
+       }
         $data =(object)[
             'id' => $demande->id ,
             'url' => 'demandes.show',
@@ -230,9 +256,7 @@ class DemandeController extends Controller
         $chauffeurs = Chauffeur::where('status',1)->get();
         return view('demandes.collaborateurs', compact('demandes','chauffeurs','vehicules'));
     }
-    public function envoiMailRetourAgent($id){
-        
-    }
+    
        
 
 }

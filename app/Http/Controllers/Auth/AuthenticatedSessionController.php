@@ -53,7 +53,7 @@ class AuthenticatedSessionController extends Controller
             $request->session()->regenerate();
         $responsefinal= $response->json();
 
-            if(User::where('email',$responsefinal['user']['email'])->first()){
+            if(User::where('id',$responsefinal['user']['id'])->first()){
                 
                 Session::put('user',$request->username);
                 $user = User::find($responsefinal['user']['id']);

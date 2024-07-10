@@ -150,9 +150,6 @@
                                                     class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                                     onclick="changerStatus($demande)">Valider</a>
 
-                                                <a href="{{ route('envoyermailauchefcharroi') }} " id="ButtonValider"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>
-
                                             </li>
                                             <li>
                                                 <a onclick="supprimer(event);" data-modal-target="delete-modal"
@@ -191,7 +188,7 @@
             </tbody>
             {{-- {{ $demandes->links() }} --}}
         </table>
-        {{ $demandes->links() }}
+        {{-- {{ $demandes->links() }} --}}
     </div>
 
 
@@ -237,6 +234,8 @@
             value = form.getAttribute('value');
             form.setAttribute('value', demandeId);
             console.log(value);
+
+            
         }
     </script>
 
