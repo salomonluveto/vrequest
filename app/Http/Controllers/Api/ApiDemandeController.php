@@ -6,6 +6,7 @@ use App\Models\Demande;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DemandeResource;
+use Illuminate\Support\Facades\Session;
 
 class ApiDemandeController extends Controller
 {
@@ -66,4 +67,22 @@ class ApiDemandeController extends Controller
     {
         //
     }
+    public function userDemande(Request $request){
+
+        $id = $request->id;
+        $demande_encours = Demande::where('user_id',$id)->where('status',0)->count();
+        $demande_traite = Demande::where('user_id',$id)->where('status',1)->count();
+        $demande_total = Demande::where('user_id',$id)->count();
+        $demande_tab = [
+            "demande_encours" => $demande_encours,
+            "demande_traite" =>$demande_traite,
+            "demande_total" =>$demande_total
+        ];
+        
+        return response()->json($demande_tab);
+    }
+    public function lastDemande(Request $request){
+        return response()->json(Demande::where('user_id',$request->id)->latest()->take(3)->get());
+    }
+
 }
