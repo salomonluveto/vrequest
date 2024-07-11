@@ -39,7 +39,7 @@ class DemandeController extends Controller
         $demandes = Demande::Where('user_id',$user_id)->paginate(10);
        
       
-        $vehicules = Vehicule::all();
+        $vehicules = Vehicule::where('disponibilite',0)->get();
         $chauffeurs = Chauffeur::where('status',1)->get();
         return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
 
