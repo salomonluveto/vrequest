@@ -22,12 +22,11 @@ class AuthenticatedSessionController extends Controller
     public function create()
     {
         if(Session::has('user')){
-
-           return view('dashboard');
-
           
 
+           return redirect()->route('dashboard');
         }
+        
         return View('auth.login');
     }
 
@@ -97,6 +96,6 @@ class AuthenticatedSessionController extends Controller
         Session::forget('userIsManager');
         Auth::guard('web')->logout();
 
-        return redirect('/');
+        return redirect()->route('login');
     }
 }

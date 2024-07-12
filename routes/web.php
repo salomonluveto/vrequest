@@ -7,26 +7,13 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    
-        // $chef_charroi = User::findOrFail(1);
-
-        // $data = (object) [
-        //     'id' => 2,
-        //     'url' => route('demandes.index'),
-        //     'subject' => 'Nouvelle demande'
-        // ];
-    
-        // try{
-        //     $chef_charroi->notify(new ChefCharroiEmail($data));
-        //     print('message envoyé');
-        // }catch(Exception $e){
-        //     //print($e);
-        // }
-      
-        //return redirect()->route('demandes.index');  
-        
-
-    return view('welcome');
+    if(Session::has('user')){
+        return view('dashboard');
+    }
+    else{
+        return view('auth.login');
+    }
+   
 });
 
 Route::get('/dashboard', function () {
