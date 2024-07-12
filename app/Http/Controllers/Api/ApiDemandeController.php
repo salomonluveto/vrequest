@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Demande;
+use App\Models\Vehicule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DemandeResource;
@@ -73,10 +74,20 @@ class ApiDemandeController extends Controller
         $demande_encours = Demande::where('user_id',$id)->where('status',0)->count();
         $demande_traite = Demande::where('user_id',$id)->where('status',1)->count();
         $demande_total = Demande::where('user_id',$id)->count();
+        $demande_nonvalide = Demande::where('status',0)->count();
+         
+        $vehicule_nondispo = Vehicule::where('disponibilite',1)->count();
+        $vehicule_disponible = Vehicule::where('disponibilite',0)->count();
+        $vehicule_total = Vehicule::all()->count();
+       
         $demande_tab = [
             "demande_encours" => $demande_encours,
             "demande_traite" =>$demande_traite,
-            "demande_total" =>$demande_total
+            "demande_total" =>$demande_total,
+            "demande_nonvalide"=>$demande_nonvalide,
+            "Vehicule_nondispo" => $vehicule_nondispo,
+            "Vehicule_disponible" =>$vehicule_disponible,
+            "Vehicule_total" =>$vehicule_total
         ];
         
         return response()->json($demande_tab);
@@ -84,5 +95,6 @@ class ApiDemandeController extends Controller
     public function lastDemande(Request $request){
         return response()->json(Demande::where('user_id',$request->id)->latest()->take(3)->get());
     }
+    
 
 }

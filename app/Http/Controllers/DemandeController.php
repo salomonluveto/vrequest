@@ -30,7 +30,7 @@ class DemandeController extends Controller
     {
         if(Session::get('authUser')->hasRole('charroi')){
             $demandes = Demande::where('is_validated',1)->paginate(10);
-            $vehicules = Vehicule::all();
+            $vehicules = Vehicule::where('disponibilite',0)->get();
             $chauffeurs = Chauffeur::where('status',1)->get();
             
             return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
