@@ -115,11 +115,11 @@ class DemandeController extends Controller
         $data =(object)[
             'id' => $demande->id ,
             'url' => 'demandes.show',
-            'subject' => 'Nouvelle demande'
+            'subject' => 'Nouvelle demande',
         ];
         
         try{
-            $manager->notify(new NotificationsChefCharroiEmail($data));   
+            $manager->notify(new ManagerNotification($data));   
         }
         catch(Exception $e){
             print($e);
