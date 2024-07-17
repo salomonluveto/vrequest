@@ -83,14 +83,19 @@
                         <td class="px-6 py-4">{{ $item->marque }}</td>
                         <td class="px-6 py-4">{{ $item->capacite }}</td>
                         <td class="px-6 py-4">
+                            
                             @if ($item->disponibilite==1)
                                 
                            
-                            <a  href="{{ route('vehicules-disponibilite', $item->id) }}"
-                           class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2">occupé</a>
+                            <a onclick="changerDisponibilite(event);" data-modal-target="disponibilite"
+                            data-modal-toggle="disponibilite" href="{{ route('vehicules-disponibilite', $item->id) }}"
+                           class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2">
+                           occupé</a>
                            @endif
                            @if ($item->disponibilite==0)
-                           <a href="{{route('vehicules-disponibilite',$item->id)}}" class="text-white bg-gradient-to-r from-gray-400 via-gray-400 to-gray-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 shadow-lg shadow-gray-500/50 dark:shadow-lg dark:shadow-gray-800/80 font-medium rounded-lg text-xs px-7 py-2.5 text-center me-4 mb-2" >
+                           
+                           <a onclick="changerIndisponibilite(event);" data-modal-target="indisponibilite"
+                           data-modal-toggle="indisponibilite" href="{{route('vehicules-disponibilite',$item->id)}}" class="text-white bg-gradient-to-r from-gray-400 via-gray-400 to-gray-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 shadow-lg shadow-gray-500/50 dark:shadow-lg dark:shadow-gray-800/80 font-medium rounded-lg text-xs px-7 py-2.5 text-center me-4 mb-2" >
                             disponible</a>
                            @endif
                        </td>
@@ -112,6 +117,10 @@
     <x-deleteVehicule :message="__('Voulez-vous vraiment supprimer ce vehicule ?')" />
     <x-enregistrer :message="__('Voulez-vous enregistrer un vehicule ?')" />
     <x-editVehicule :message="__('Voulez-vous modifier un vehicule ?')" />
+    <x-modifDisponibilite :message="__('Ce vehicule est-il maintenant disponible ?')" />
+    <x-modifIndisponibilite :message="__('Ce vehicule est-il occupé ?')" />
+
+
     <x-slot name="scripts">      
     </x-slot>   
 </x-app-layout>
