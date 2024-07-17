@@ -53,11 +53,14 @@
                                     @if ($chauffeur->status==0)
                                         
                                    
-                                    <a  href="{{ route('chauffeurs-status', $chauffeur->id) }}"
+                                    <a onclick="desactiver(event);" data-modal-target="desactiver"
+                                    data-modal-toggle="desactiver" href="{{ route('chauffeurs-status', $chauffeur->id) }}"
                                    class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-2">Desactiver</a>
+                                  
                                    @endif
                                    @if ($chauffeur->status==1)
-                                   <a href="{{route('chauffeurs-status',$chauffeur->id)}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Activer</a>
+                                   <a onclick="activer(event);" data-modal-target="activer"
+                                   data-modal-toggle="activer" href="{{route('chauffeurs-status',$chauffeur->id)}}" class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Activer</a>
                                    @endif
                                </td>
                                
@@ -73,6 +76,8 @@
 </div>
 <x-savechauffeur :users="$users" :message="__('Voulez-vous enregistrer un chauffeur ?')" />
 <x-deleteVehicule :message="__('Voulez-vous vraiment supprimer ce chauffeur ?')" />
+<x-desactiverchauffeur :message="__('Voulez-vous vraiment activer ce chauffeur ?')" />
+<x-activerChauffeur :message="__('Voulez-vous vraiment desactiver ce chauffeur ?')" />
 
     <x-slot name="scripts">      
     </x-slot>
