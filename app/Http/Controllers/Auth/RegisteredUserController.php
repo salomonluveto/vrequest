@@ -56,6 +56,9 @@ class RegisteredUserController extends Controller
                 $manager_lastname = collect($users['users'])->firstWhere('last_name', $lastname);
                 $user = collect($users['users'])->firstWhere('id', $request->user_id);
                 if($manager_firstname === $manager_lastname){
+                    $users = User::all()->count();
+                         
+                    if($users==0){
                     if ($user) {
                         User::create([
                             'id'=>$user['id'],
@@ -72,14 +75,46 @@ class RegisteredUserController extends Controller
                             
                        ]);
                        $user = User::find($user['id']);
+                      $user->assignRole('admin');
                        $email = $user->email;
                        $manager = UserInfo::where('email_manager',$email)->first();
                         if($manager != null){
                              Session::put('userIsManager',$manager);
                    
                          }
+                        
                 
-              
+                        Session::put('authUser',$user);
+                        Session::forget('manager');
+                       return redirect()->route('dashboard');
+                    } 
+                }
+
+                else if($users>0){
+                    if ($user) {
+                        User::create([
+                            'id'=>$user['id'],
+                            'first_name'=>$user['first_name'],
+                            'username' =>$user['username'],
+                            'last_name'=>$user['last_name'],
+                            'email' => $user['email'],
+                            'phone'=> $user['phone'],
+                            'password' => Hash::make($request->password),
+                        ]);
+                        UserInfo::create([
+                            'user_id'=>$request->user_id,
+                            'email_manager'=>$manager_firstname['email'],
+                            
+                       ]);
+                       $user = User::find($user['id']);
+                       
+                       $email = $user->email;
+                       $manager = UserInfo::where('email_manager',$email)->first();
+                        if($manager != null){
+                             Session::put('userIsManager',$manager);
+                   
+                         }
+                        
                 
                         Session::put('authUser',$user);
                         Session::forget('manager');
@@ -88,7 +123,7 @@ class RegisteredUserController extends Controller
                 }
                 
                 
-        
+            }
                
             
           

@@ -72,6 +72,7 @@ class ApiDemandeController extends Controller
 
         $id = $request->id;
         $demande_encours = Demande::where('user_id',$id)->where('status',0)->count();
+        $demandes_encours = Demande::where('user_id',$id)->where('status',0)->get();
         $demande_traite = Demande::where('user_id',$id)->where('status',1)->count();
         $demande_total = Demande::where('user_id',$id)->count();
         $demande_nonvalide = Demande::where('status',0)->count();
@@ -87,7 +88,8 @@ class ApiDemandeController extends Controller
             "demande_nonvalide"=>$demande_nonvalide,
             "Vehicule_nondispo" => $vehicule_nondispo,
             "Vehicule_disponible" =>$vehicule_disponible,
-            "Vehicule_total" =>$vehicule_total
+            "Vehicule_total" =>$vehicule_total,
+            "demandes_encours" => $demandes_encours,
         ];
         
         return response()->json($demande_tab);
