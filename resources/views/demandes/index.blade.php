@@ -136,6 +136,8 @@
                                             <a href="{{ route('demandes.show', $item->id) }}"
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">voir</a>
                                         </li>
+
+                                        @if ($item->is_validated == 0)
                                         <li>
                                             <a href="{{ route('demandes.edit', $item->id) }}"
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editer</a>
@@ -146,24 +148,9 @@
                                                 href="{{ route('demandes.destroy', $item->id) }}"
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
                                         </li>
-                                        @if (Session::get('userIsManager'))
-                                            <li>
-                                                <a href="{{ route('envoyermailauchefcharroi', $item->id) }}"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                    onclick="changerStatus($demande)">Valider</a>
-
-                                                {{-- <a href="{{ route('envoyermailauchefcharroi') }} " id="ButtonValider"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a> --}}
-
-                                            </li>
-                                            <li>
-                                                <a onclick="supprimer(event);" data-modal-target="delete-modal"
-                                                    data-modal-toggle="delete-modal"
-                                                    href="{{ route('demandes.destroy', $item->id) }}"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
-                                            </li>
                                         @endif
-                                        @if (Session::get('authUser')->hasRole('charroi'))
+
+                                        @if (Session::get('authUser')->hasRole('charroi') && ($item->is_validated == 1))
                                             <li>
                                                 <a onclick="editdemande(event, {{ $item->id }});"
                                                     data-modal-target="crud-modal" data-modal-toggle="crud-modal"
