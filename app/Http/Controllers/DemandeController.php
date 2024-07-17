@@ -20,6 +20,7 @@ use App\Notifications\ManagerNotification ;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ChefCharroiEmail as NotificationsChefCharroiEmail;
 use App\Http\Controllers\envoyerMailAuManager;
+use App\Notifications\AgentNotification;
 
 class DemandeController extends Controller
 {
@@ -31,6 +32,12 @@ class DemandeController extends Controller
         if(Session::get('authUser')->hasRole('charroi')){
             $demandes = Demande::where('is_validated',1)->paginate(10);
             $vehicules = Vehicule::where('disponibilite',0)->get();
+            $demandes = Demande::where('is_validated',1)->paginate(10);
+            $demandes_validees = $demandes;
+            $demandes_traitees = Demande :: where('status',1)->get();
+            $demandes_en_attente = Demande :: where('status',0)->get();
+            
+            $vehicules = Vehicule::all();
             $chauffeurs = Chauffeur::where('status',1)->get();
             
             return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
@@ -38,6 +45,10 @@ class DemandeController extends Controller
         $user_id = Session::get('authUser')->id;
         $demandes = Demande::Where('user_id',$user_id)->paginate(10);
        
+        $demandes = Demande::Where('user_id',$user_id)->paginate(10);
+        $demandes_validees = Demande :: where('is_validated',1)->get();
+        $demandes_traitees = Demande :: where('status',1)->get();
+        // $demandes_en_attente = Demande :: where('')
       
         $vehicules = Vehicule::where('disponibilite',0)->get();
         $chauffeurs = Chauffeur::where('status',1)->get();
@@ -84,7 +95,8 @@ class DemandeController extends Controller
 
         $ticket = Str::random(8);
         $user_id = Session::get('authUser')->id;
-      
+        $status= 0;
+        $is_validated=0;
 
         $demandes = Demande::create([
             'ticket' => $ticket,
@@ -99,8 +111,8 @@ class DemandeController extends Controller
             'latitude_destination' =>!empty ($request->latitude_destination) ? $request->latitude_destination : $request->latitude_destination1,
             'date_deplacement' => $request->date_deplacement,
             'user_id' => $user_id,
-
-
+            'status' => $status,
+            'is_validated' => $is_validated
         ]);
 
     //CODE POUR ENVOYER UN MAIL AU MANAGER DE L'AGENT QUI SOUMET SA DEMANDE
@@ -183,6 +195,7 @@ class DemandeController extends Controller
     public function submit(Request $request){
         return redirect()->route('demande.success');       
     }
+
     public function envoyerMailAuManager($id){
         $demande=Demande::find($id);
         $user_id=$demande->user_id;
@@ -201,7 +214,7 @@ class DemandeController extends Controller
             $manager->notify(new NotificationsChefCharroiEmail($data));   
         }
         catch(Exception $e){
-            print($e);
+            //print($e);
         }
           
         // return redirect()->route('demandes.index');
@@ -213,17 +226,17 @@ class DemandeController extends Controller
         //$chef_charroi = User::where('email', 'oliviapala16@gmail.com')->first();
         $user = Session::get('authUser')->hasRole('charroi');
         $demande=Demande::find($id);
-        
        if($user){
         $chef_charroi = Session::get('authUser');
-        //dd($user);
+        
+        
        }
         $data =(object)[
             'id' => $demande->id ,
             'url' => 'demandes.show',
-            'subject' => 'Nouvelle demande'
+            'subject' => 'Nouvelle demande',
+            
         ];
-        
         try{
             $chef_charroi->notify(new NotificationsChefCharroiEmail($data));
             
@@ -234,15 +247,57 @@ class DemandeController extends Controller
         }
         catch(Exception $e){
             
-            print($e);
+            // print($e);
         }
-          
+        $is_validated = 1;
+        $demande->is_validated = $is_validated;
+        
+        
+        $demande->update();
+        
+        // dd($demande->is_validated);
         // return redirect()->route('demandes.index');
         return back()->with("success","demande validée avec succès");
     }
 
+    public function mailAnnulationDemandeParLeManager(Request $request,$id){
+            $demande=Demande::find($id);
+            $user_id=$demande->user_id;
+            $agent= User::where('id',$user_id)->first();
+           
+            $demande->raison = $request->raison;
+
+            $data =(object)[
+                'id' => $demande->id ,
+                'url' => 'demandes.show',
+                'subject' => 'Demande Annulée',
+                'raison'=> $request->raison,
+                'etat' => ' a été rejetée'
+            ];
+        
+        try{
+            $agent->notify(new AgentNotification($data));
+            $is_validated = 2;
+            $demande->is_validated = $is_validated;
+            
+            
+            $demande->update();
+            
+            // dd($demande);
+        }
+        catch(Exception $e){
+            
+            // print($e);
+        }
+        
+        // dd($demande);
+        
+        return back()->with("success","demande annulée avec succès");
+    }
+
+
     public function demandeCollaborateurs(){
-       ;
+       
         $email_manager = Session::get('userIsManager')->email_manager;
         $collaborateurs = Session::get('userIsManager')::where('email_manager',$email_manager)->get();
         foreach($collaborateurs as $collaborateur){
