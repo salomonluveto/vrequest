@@ -85,10 +85,10 @@
 
                 @foreach ($demandes->sortByDesc('id') as $i => $item)
                     <tr class="bg-white border rounded-lg dark:bg-gray-800 ">
-                        <th scope="row"
+                        <td scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $i + 1 }}
-                        </th>
+                        </td>
                         <td class="px-6 py-4 ">
                             {{ $item->date }}
                         </td>
@@ -136,21 +136,20 @@
                                             <a href="{{ route('demandes.show', $item->id) }}"
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">voir</a>
                                         </li>
-
                                         @if ($item->is_validated == 0)
-                                        <li>
-                                            <a href="{{ route('demandes.edit', $item->id) }}"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editer</a>
-                                        </li>
-                                        <li>
-                                            <a onclick="supprimer(event);" data-modal-target="delete-modal"
-                                                data-modal-toggle="delete-modal"
-                                                href="{{ route('demandes.destroy', $item->id) }}"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
-                                        </li>
+                                            <li>
+                                                <a href="{{ route('demandes.edit', $item->id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editer</a>
+                                            </li>
+                                            <li>
+                                                <a onclick="supprimer(event);" data-modal-target="delete-modal"
+                                                    data-modal-toggle="delete-modal"
+                                                    href="{{ route('demandes.destroy', $item->id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
+                                            </li>
                                         @endif
-
-                                        @if (Session::get('authUser')->hasRole('charroi') && ($item->is_validated == 1))
+                                        
+                                        @if ((Session::get('authUser')->hasRole('charroi')) && ($item->is_validated == 0))
                                             <li>
                                                 <a onclick="editdemande(event, {{ $item->id }});"
                                                     data-modal-target="crud-modal" data-modal-toggle="crud-modal"
