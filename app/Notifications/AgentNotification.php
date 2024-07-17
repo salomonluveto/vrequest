@@ -7,15 +7,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ChefCharroiEmail extends Notification
+class AgentNotification extends Notification
 {
     use Queueable;
+
     /**
      * Create a new notification instance.
      */
     public function __construct(protected $data)
     {
-
+        //
     }
 
     /**
@@ -34,13 +35,15 @@ class ChefCharroiEmail extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                ->from(env('MAIL_FROM_ADDRESS'),env('APP_NAME'))
-                ->subject($this->data->subject)
-                ->greeting('Nos salutations cher chef de charroi')
-                ->line('Une nouvelle demande a été envoyée')
-                ->line('Demande n° '.$this->data->id)
-                ->action('Voir plus', route('demandes.show',$this->data->id))
-                ->line('Merci d\'utiliser '.env('APP_NAME'));
+                    ->from(env('MAIL_FROM_ADDRESS'),env('APP_NAME'))
+                    ->subject($this->data->subject)
+                    ->greeting('Bonjour monsieur')
+                    ->line('Demande n° '.$this->data->id)
+                    ->line('Votre demande a été '.$this->data->etat)
+                    ->line('Motif de rejet : '.$this->data->raison)
+                    ->action('Voir plus', $this->data->url)
+                    ->line('Merci d\'utiliser '.env('APP_NAME'));
+                    
     }
 
     /**

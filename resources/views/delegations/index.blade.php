@@ -9,9 +9,17 @@
            
 
        <!-- Modal toggle -->
-       <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class=" block text-white text-center bg-gray-900 hover:bg-orange-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-orange-700 dark:focus:ring-orange-700" type="button">
-       Creer une delegation
-       </button>
+            <div class="flex items-center justify-between my-4">
+                <a href="{{ route('delegations.create') }}" data-tooltip-target="tooltip-new" type="button"
+                    class="inline-flex items-center justify-center w-14 h-14 font-medium bg-orange-400 rounded-full hover:bg-gray-700 group focus:ring-4 focus:ring-blue-200 focus:outline-none dark:focus:ring-gray-700">
+                    <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 18 18">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 1v16M1 9h16" />
+                    </svg>
+                    <span class="sr-only">New item</span>
+                </a>
+            </div>
        
            </div>
                
@@ -37,26 +45,15 @@
                        <th scope="col" class="px-6 py-3">
                            Date Fin
                        </th>
+                       <th>
+                         Action
+                       </th>
                        
                    </tr>
 
                </thead>
                <tbody>
 
-                   <tr class="bg-gray-800 border-b border-gray-400">
-
-                   </tr>
-
-                   
-                   <tr class="bg-gray-800 border-b border-gray-400">
-
-                      
-                       <tr class="bg-gray-600 border-b border-gray-400">   
-                       </tr>
-                       <tr class="bg-gray-600 border-b border-gray-400">   
-                       </tr>
-   
-   
                    @foreach ($delegations as $i => $item)
 
                        <tr class="bg-gray-800 border-b border-gray-400">
@@ -71,11 +68,50 @@
                            </td>
                           
                            <td class="px-6 py-4">
-                            {{date('d-m-y', strtotime($item->date_debut))}}
+                                {{date('d-m-y', strtotime($item->date_debut))}}
                            </td>
                            <td class="px-6 py-4">
-                           {{date('d-m-y', strtotime($item->date_fin))}}
+                                {{date('d-m-y', strtotime($item->date_debut))}}
                            </td>
+                           <td>
+                                <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots{{ $i }}"
+                                    class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                    type="button">
+                                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            fill="currentColor" viewBox="0 0 4 15">
+                                            <path
+                                                d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                                        </svg>
+
+
+                                <!-- Dropdown menu -->
+                                    <div id="dropdownDots{{$i}}"  class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
+                                            
+                                                <li>
+                                                    <a href="{{route('delegations.edit', $item->id)}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editer la délégation</a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="supprimer(event);" data-modal-target="delete-modal"
+                                                    data-modal-toggle="delete-modal" href="{{ route('delegations.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer la délégation</a>
+                                                </li>
+                                           
+{{--                                            
+                                                    <li>
+                                                        <a href="{{route('envoyermailauchefcharroi',$item->id)}} " id="ButtonValider" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a>  
+                                                    </li> --}}
+                                                    
+                                            
+                                                <li>
+                                                    <a href="{{route('delegations.show', $item->id)}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">voir la délégation</a>
+                                                </li>
+                                        
+                                        </ul>
+
+                                    </div>
+                                </button>
+
+                        </td>
                            
                        </tr>
                    @endforeach
@@ -85,72 +121,7 @@
        </div>
 
 
-       <!-- Main modal -->
-       <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-           <div class="relative p-4 w-full max-w-md max-h-full">
-               <!-- Modal content -->
-               <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                   <!-- Modal header -->
-                   <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                       <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                           Creer une nouvelle delegation
-                       </h3>
-                       <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
-                           <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                           </svg>
-                           <span class="sr-only">Close modal</span>
-                       </button>
-                   </div>
-                   <!-- Modal body -->
-                   
-                       
-                   
-                   <form class="p-4 md:p-5" action="{{route('delegations.store')}}" method="post">
-                       
-                       @csrf
-                       <div class="grid gap-4 mb-4 grid-cols-2">
-
-                          
-
-                           
-
-                           <div class="col-span-4 sm:col-span-2">
-                               <label for="user_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Collaborateur</label>
-                               <input  type="number" name="user_id" id="user_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-700 dark:focus:border-orange-700" placeholder="Entrer un nombre" required="">
-                           </div>
-
-
-                           <div class="col-span-4  sm:col-span-2 ">
-                               <label for="date_debut" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date début</label>
-                               <input  type="date" name="date_debut" id="date_debut" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-700 dark:focus:border-orange-700" placeholder="Entrer une date" required="">
-                           </div>
-                           
-
-                           <div class="col-span-4  sm:col-span-2 ">
-                               <label for="date_fin" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date fin</label>
-                               <input   type="date" name="date_fin" id="date_fin" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-700  dark:focus:border-orange-700" placeholder="Entrer une date" required="">
-                           </div>
-                           
-
-                       
-                       </div>
-
-
-
-                       <button type="submit" class=" flex text-white inline-flex items-center bg-orange-700 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-700 dark:hover:bg-orange-700 dark:focus:ring-gray-800">
-                           {{-- <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg> --}}
-                           Valider
-                       </button>
-
-                       
-                       </button>
-                   </form>
-                  
-               </div>
-           </div>
-       </div> 
-      
+       {{--  --}}
        
    </x-app-layout> 
 

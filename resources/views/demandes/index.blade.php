@@ -15,7 +15,7 @@
                     </svg>
                     <span class="sr-only">New item</span>
                 </a>
-            </div>
+            </div>      
             <div id="tooltip-new" role="tooltip"
                 class="absolute z-10 invisible inline-block px-3 py-1 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                 Demander une course
@@ -85,10 +85,10 @@
 
                 @foreach ($demandes->sortByDesc('id') as $i => $item)
                     <tr class="bg-white border rounded-lg dark:bg-gray-800 ">
-                        <th scope="row"
+                        <td scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $i + 1 }}
-                        </th>
+                        </td>
                         <td class="px-6 py-4 ">
                             {{ $item->date }}
                         </td>
@@ -136,34 +136,20 @@
                                             <a href="{{ route('demandes.show', $item->id) }}"
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">voir</a>
                                         </li>
-                                        <li>
-                                            <a href="{{ route('demandes.edit', $item->id) }}"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editer</a>
-                                        </li>
-                                        <li>
-                                            <a onclick="supprimer(event);" data-modal-target="delete-modal"
-                                                data-modal-toggle="delete-modal"
-                                                href="{{ route('demandes.destroy', $item->id) }}"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
-                                        </li>
-                                        @if (Session::get('userIsManager'))
+                                        @if ($item->is_validated == 0)
                                             <li>
-                                                <a href="{{ route('envoyermailauchefcharroi', $item->id) }}"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                    onclick="changerStatus($demande)">Valider</a>
-
-                                                {{-- <a href="{{ route('envoyermailauchefcharroi') }} " id="ButtonValider"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a> --}}
-
+                                                <a href="{{ route('demandes.edit', $item->id) }}"
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editer</a>
                                             </li>
                                             <li>
                                                 <a onclick="supprimer(event);" data-modal-target="delete-modal"
                                                     data-modal-toggle="delete-modal"
                                                     href="{{ route('demandes.destroy', $item->id) }}"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
                                             </li>
                                         @endif
-                                        @if (Session::get('authUser')->hasRole('charroi'))
+                                        
+                                        @if ((Session::get('authUser')->hasRole('charroi')) && ($item->is_validated == 0))
                                             <li>
                                                 <a onclick="editdemande(event, {{ $item->id }});"
                                                     data-modal-target="crud-modal" data-modal-toggle="crud-modal"
@@ -188,9 +174,9 @@
                 @endforeach
 
             </tbody>
-           
+            {{-- {{ $demandes->links() }} --}}
         </table>
-        {{ $demandes->links() }}
+        {{-- {{ $demandes->links() }} --}}
     </div>
     
 
@@ -237,6 +223,8 @@
             value = form.getAttribute('value');
             form.setAttribute('value', demandeId);
             console.log(value);
+
+            
         }
     </script>
 
