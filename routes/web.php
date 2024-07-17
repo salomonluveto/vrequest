@@ -1,24 +1,40 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Models\User;
-use App\Notifications\ChefCharroiEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Notifications\ChefCharroiEmail;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 
-Route::get('/', function () {
-    if(Session::has('user')){
-        return view('dashboard');
-    }
-    else{
-        return view('auth.login');
-    }
-   
-});
+// Route::get('/', function () {
+    
+//         // $chef_charroi = User::findOrFail(1);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard')->middleware('authenticate');
+//         // $data = (object) [
+//         //     'id' => 2,
+//         //     'url' => route('demandes.index'),
+//         //     'subject' => 'Nouvelle demande'
+//         // ];
+    
+//         // try{
+//         //     $chef_charroi->notify(new ChefCharroiEmail($data));
+//         //     print('message envoyé');
+//         // }catch(Exception $e){
+//         //     //print($e);
+//         // }
+      
+//         //return redirect()->route('demandes.index');  
+        
+
+//     return view('dashboard');
+// })->middleware('authenticate');
+Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('authenticate');
+Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('authenticate');
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->name('dashboard')->middleware('authenticate');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

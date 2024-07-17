@@ -37,9 +37,10 @@ class AgentNotification extends Notification
         return (new MailMessage)
                     ->from(env('MAIL_FROM_ADDRESS'),env('APP_NAME'))
                     ->subject($this->data->subject)
-                    ->greeting('Nos salutations cher monsieur')
-                    ->line('Votre demande a été traité avec Succès!')
+                    ->greeting('Bonjour monsieur')
                     ->line('Demande n° '.$this->data->id)
+                    ->line('Votre demande a été '.$this->data->etat)
+                    ->line('Motif de rejet : '.$this->data->raison)
                     ->action('Voir plus', $this->data->url)
                     ->line('Merci d\'utiliser '.env('APP_NAME'));
                     
