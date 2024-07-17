@@ -41,39 +41,39 @@
 
 
 
-    <div class=" py-12 relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table id="example" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
+    <div class=" py-12 relative  overflow-x-auto ">
+        <table id="example" class="  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-md sm:rounded-lg">
+            <thead class="text-xs text-gray-700 uppercase  bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr class="my-6 py-6 px-2">
                     <th scope="col" class="px-6 py-3">
-                        Id
+                        Numéro
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 my-6 py-4">
                         Date
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    {{-- <th scope="col" class="px-6 py-3">
                         Ticket
-                    </th>
+                    </th> --}}
                     <th scope="col" class="px-6 py-3">
                         Motifs
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    {{-- <th scope="col" class="px-6 py-3">
                         Lieu de depart
-                    </th>
+                    </th> --}}
                     <th scope="col" class="px-6 py-3">
                         Destination
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    {{-- <th scope="col" class="px-6 py-3">
                         Date et Heure de deplacement
-                    </th>
+                    </th> --}}
 
-                    <th scope="col" class="px-6 py-3">
+                    {{-- <th scope="col" class="px-6 py-3">
                         Nbr de passagers
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Statut
-                    </th>
-                    
+                    </th> --}}
+
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
@@ -83,40 +83,38 @@
             </thead>
             <tbody>
 
-                @foreach ($demandes as $i => $item)
-                    <tr class="bg-white border-b dark:bg-gray-800">
+                @foreach ($demandes->sortByDesc('id') as $i => $item)
+                    <tr class="bg-white border rounded-lg dark:bg-gray-800 ">
                         <th scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $i + 1 }}
                         </th>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 ">
                             {{ $item->date }}
                         </td>
-                        <td class="px-6 py-4">
-                            {{ $item->ticket }}
-                        </td>
-                        <td class="px-6 py-4">
+                        
+                        <td class="px-6 py-4 ">
                             {{ $item->motif }}
                         </td>
-                        <td class="px-6 py-4">
+                        {{-- <td class="px-6 py-4">
                             {{ $item->lieu_depart }}
-                        </td>
-                        <td class="px-6 py-4">
+                        </td> --}}
+                        <td class="px-6 py-4 ">
                             {{ $item->destination }}
                         </td>
 
-                        <td class="px-6 py-4">
+                        {{-- <td class="px-6 py-4">
                             {{ $item->date_deplacement }}
 
-                        </td>
-                        <td class="px-6 py-4">
+                        </td> --}}
+                        {{-- <td class="px-6 py-4">
                             {{ $item->nbre_passagers }}
 
                         </td>
                         <td class="px-6 py-4">
                             {{ $item->status }}
 
-                        </td>
+                        </td> --}}
 
                         <td>
                             <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots{{ $i }}"
@@ -135,6 +133,10 @@
                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                         aria-labelledby="dropdownMenuIconButton">
                                         <li>
+                                            <a href="{{ route('demandes.show', $item->id) }}"
+                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">voir</a>
+                                        </li>
+                                        <li>
                                             <a href="{{ route('demandes.edit', $item->id) }}"
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editer</a>
                                         </li>
@@ -150,6 +152,9 @@
                                                     class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                                     onclick="changerStatus($demande)">Valider</a>
 
+                                                {{-- <a href="{{ route('envoyermailauchefcharroi') }} " id="ButtonValider"
+                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Valider</a> --}}
+
                                             </li>
                                             <li>
                                                 <a onclick="supprimer(event);" data-modal-target="delete-modal"
@@ -164,10 +169,7 @@
                                                     data-modal-target="crud-modal" data-modal-toggle="crud-modal"
                                                     class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">traiter</a>
                                             </li>
-                                            <li>
-                                                <a href="{{ route('demandes.show', $item->id) }}"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">voir</a>
-                                            </li>
+                                           
                                             <li>
                                                 <a onclick="supprimer(event);" data-modal-target="delete-modal"
                                                     data-modal-toggle="delete-modal"
@@ -190,6 +192,7 @@
         </table>
         {{-- {{ $demandes->links() }} --}}
     </div>
+    
 
 
 
@@ -226,7 +229,7 @@
     <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')" />
 
     <x-deleteDemande :message="__('Voulez-vous vraiment supprimer cette demande ?')" />
-    <x-savecourse :demandes="$demandes" :vehicules="$vehicules" :chauffeurs="$chauffeurs" :message="__('Voulez-vous enregistrer une course ?')" />
+    {{-- <x-savecourse :demandes="$demandes" :vehicules="$vehicules" :chauffeurs="$chauffeurs" :message="__('Voulez-vous enregistrer une course ?')" /> --}}
     <script>
         function editdemande(event, demandeId) {
             event.preventDefault();

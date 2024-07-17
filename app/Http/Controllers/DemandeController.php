@@ -29,13 +29,14 @@ class DemandeController extends Controller
     public function index()
     {
         if(Session::get('authUser')->hasRole('charroi')){
-            $demandes = Demande::where('is_validated',1)->get();
-            $vehicules = Vehicule::all();
+            $demandes = Demande::where('is_validated',1)->paginate(10);
+            $vehicules = Vehicule::where('disponibilite',0)->get();
             $chauffeurs = Chauffeur::where('status',1)->get();
+            
             return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
         }
         $user_id = Session::get('authUser')->id;
-        $demandes = Demande::Where('user_id',$user_id)->get();
+        $demandes = Demande::Where('user_id',$user_id)->paginate(10);
        
       
         $vehicules = Vehicule::where('disponibilite',0)->get();
