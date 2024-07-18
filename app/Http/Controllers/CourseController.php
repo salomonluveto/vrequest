@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Models\User;
 use App\Models\Course;
+use App\Models\Demande;
+use App\Models\UserInfo;
 use App\Models\Vehicule;
 use App\Models\Chauffeur;
-use App\Models\Demande;
 use Illuminate\Http\Request;
+use App\Notifications\AgentNotification;
+use App\Notifications\ManagerNotification;
+use App\Notifications\ChauffeurNotification;
+use App\Notifications\AgentNotificationDemandeAcceptee;
 
 class CourseController extends Controller
 {
@@ -47,8 +54,44 @@ class CourseController extends Controller
             'demande_id'=>$request->demande_id,
             'commentaire'=>$request->commentaire
         ]);
+
+       
+        $user_id=$demande->user_id;
+        $agent= User::findOrFail($user_id);
+
+        //dd($agent);
+        $user_info=UserInfo::where('user_id',$user_id)->first();
+        $email_manager=$user_info->email_manager;
+        $manager=User::where('email',$email_manager)->first();
+        
+
+        $chauffeur_id = $course -> chauffeur_id;
+        $chauffeur_info = Chauffeur::where('id', $chauffeur_id)->first();
+        // dd( $chauffeur_info);
+        $chauffeur_user_id = $chauffeur_info -> user_id;
+        
+        $chauffeur = User :: where('id',$chauffeur_user_id)->first();
+        // dd($chauffeur);
+        $data =(object)[
+            'id' => $demande->id ,
+            'subject' => 'Nouvelle demande',
+            'manager_name' => $manager->username,
+            'agent_name' => $agent -> username,
+            'chauffeur' => $chauffeur -> username,
+            'etat' => ' traitée'
+        ];
+        
+        try{
+            $agent -> notify(new AgentNotificationDemandeAcceptee($data));
+            $manager -> notify(new ManagerNotification($data));  
+            $chauffeur -> notify(new ChauffeurNotification($data)); 
+        }
+        catch(Exception $e){
+            //print($e);
+        }
+          
     
-        return back()->with('success', 'course enregistré avec succès.');
+        return back()->with('success', 'course enregistrée avec succès.');
     }
 
     /**
