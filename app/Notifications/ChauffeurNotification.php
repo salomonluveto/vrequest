@@ -37,10 +37,10 @@ class ChauffeurNotification extends Notification
         return (new MailMessage)
                 ->from(env('MAIL_FROM_ADDRESS'),env('APP_NAME'))
                 ->subject($this->data->subject)
-                ->greeting('Bonjour cher monsieur')
+                ->greeting('Cher '.$this->data->chauffeur)
                 ->line('Demande n° '.$this->data->demande_id)
-                ->line('Vous êtes assigné à la course '.$this->data->course_id)
-                ->action('Voir plus', $this->data->url)
+                ->line('Vous êtes affecté à la course '.$this->data->course_id)
+                ->action('Voir plus',route('demandes.show',$this->data->id))
                 ->line('Merci d\'utiliser '.env('APP_NAME'));   
     }
 
