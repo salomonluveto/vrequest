@@ -124,19 +124,22 @@ class DemandeController extends Controller
         $user_info=UserInfo::where('user_id',$user_id)->first();
         $email_manager=$user_info->email_manager;
         $manager=User::where('email',$email_manager)->first();
-        
+        // dd($manager);
+
+        // Données à envoyer
         $data =(object)[
             'id' => $demande->id ,
-            'url' => 'demandes.show',
             'subject' => 'Nouvelle demande',
+            'name' => $manager->username,
         ];
         
         try{
             $manager->notify(new ManagerNotification($data));   
         }
         catch(Exception $e){
-            print($e);
+            // print($e);
         }
+        // dd($demande);
           
         return redirect()->route('demandes.index');
     }
@@ -206,7 +209,6 @@ class DemandeController extends Controller
         dd($manager);
         $data =(object)[
             'id' => $demande->id ,
-            'url' => 'demandes.index',
             'subject' => 'Nouvelle demande'
         ];
         
@@ -214,7 +216,7 @@ class DemandeController extends Controller
             $manager->notify(new NotificationsChefCharroiEmail($data));   
         }
         catch(Exception $e){
-            //print($e);
+            // print($e);
         }
           
         // return redirect()->route('demandes.index');
@@ -233,9 +235,8 @@ class DemandeController extends Controller
        }
         $data =(object)[
             'id' => $demande->id ,
-            'url' => 'demandes.show',
             'subject' => 'Nouvelle demande',
-            
+            'name' => $chef_charroi->username
         ];
         try{
             $chef_charroi->notify(new NotificationsChefCharroiEmail($data));
@@ -269,10 +270,10 @@ class DemandeController extends Controller
 
             $data =(object)[
                 'id' => $demande->id ,
-                'url' => 'demandes.show',
                 'subject' => 'Demande Annulée',
                 'raison'=> $request->raison,
-                'etat' => ' a été rejetée'
+                'etat' => ' rejetée',
+                'name' => $agent -> username
             ];
         
         try{
