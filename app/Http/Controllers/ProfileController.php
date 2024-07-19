@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Models\UserInfo;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -16,9 +18,23 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $manager = UserInfo::where('user_id',Session::get('authUser')->id)->get();
+        foreach ($manager as $value) {
+            $manager_email = $value->email_manager;
+        }
+      $user = Session::get('authUser');
+      $roles = $user->roles;
+      $role = [];
+      foreach($roles as $item){
+        $role[] = $item->name;
+      }
+
+      if(count($role)==0){
+        return view('profile.edit',compact('manager_email'));
+      }
+    
+        
+        return view('profile.edit',compact('manager_email','role'));
     }
 
     /**
@@ -33,6 +49,8 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+       
+       
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
