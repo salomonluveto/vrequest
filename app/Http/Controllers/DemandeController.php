@@ -199,40 +199,11 @@ class DemandeController extends Controller
         return redirect()->route('demande.success');       
     }
 
-    public function envoyerMailAuManager($id){
-        $demande=Demande::find($id);
-        $user_id=$demande->user_id;
-        $email_manager=UserInfo::where('user_id',$user_id);
-        $manager=User::where('email',$email_manager)->first();
-       
-        //Session::get('userIsManager')::where('email_manager',$email_manager)->get();
-        dd($manager);
-        $data =(object)[
-            'id' => $demande->id ,
-            'subject' => 'Nouvelle demande'
-        ];
-        
-        try{
-            $manager->notify(new NotificationsChefCharroiEmail($data));   
-        }
-        catch(Exception $e){
-            // print($e);
-        }
-          
-        // return redirect()->route('demandes.index');
-        //return back()->with("success","demande envoyé avec succès");
-    }
 
     public function envoyerMailAuChefCharroi($id){
         
-        //$chef_charroi = User::where('email', 'oliviapala16@gmail.com')->first();
-        $user = Session::get('authUser')->hasRole('charroi');
+        $chef_charroi = User::role('charroi')->first();
         $demande=Demande::find($id);
-       if($user){
-        $chef_charroi = Session::get('authUser');
-        
-        
-       }
         $data =(object)[
             'id' => $demande->id ,
             'subject' => 'Nouvelle demande',
