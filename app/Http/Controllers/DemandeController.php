@@ -209,7 +209,7 @@ class DemandeController extends Controller
         $data =(object)[
             'id' => $demande->id ,
             'subject' => 'Nouvelle demande',
-            'name' => $user->username
+            'name' => $chef_charroi->username
         ];
         try{
             $chef_charroi->notify(new NotificationsChefCharroiEmail($data));
