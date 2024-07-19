@@ -1,4 +1,4 @@
-@props(['message'])
+@props(['message', 'marques'])
 <!-- Modal enregistrement -->
 
    
@@ -26,9 +26,9 @@
                       <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">plaque</label>
                       <input type="text" name="plaque" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="plaque d'immatriculation" required="">
                   </div>
-                  <div class="col-span-2">
-                      <label for="name1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Marque</label>
-                      <input type="text" name="marque" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="marque du vehicule" required="">
+                  <div class="col-span-2 ui-widget">
+                      <label for="marque" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Marque</label>
+                      <input type="text" name="marque" id="marque" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="marque du vehicule" required="">
                   </div>
                     <div class="col-span-2 sm:col-span-1">
                         <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Capacite</label>
@@ -43,10 +43,24 @@
         </div>
     </div>
 </div> 
+{{-- auto compression --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script>
-       
-    function openModal() {
+    $(function() {
+        var marques = @json($marques);
+        var nomMarque = []
+        for (var i = 0; i < marques.length; i++) {
+            nomMarque.push(marques[i]);
+        }
+
+        $("#marque").autocomplete({
+            source: nomMarque,
+        })
+   
+        function openModal() {
             document.getElementById('crud-modal').classList.remove('hidden');
         }
-   
+    });
     </script>
