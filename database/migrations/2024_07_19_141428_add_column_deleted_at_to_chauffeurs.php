@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('demandes', function (Blueprint $table) {
-            $table->string('raison')->default("Demande invalide");
+        Schema::table('chauffeurs', function (Blueprint $table) {
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('demandes', function (Blueprint $table) {
-            $table->dropColumn(['raison']);
+        Schema::table('chauffeurs', function (Blueprint $table) {
+            $table->dropColumn(['deleted_at']);
         });
     }
 };
