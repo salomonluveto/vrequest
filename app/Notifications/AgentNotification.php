@@ -37,11 +37,11 @@ class AgentNotification extends Notification
         return (new MailMessage)
                     ->from(env('MAIL_FROM_ADDRESS'),env('APP_NAME'))
                     ->subject($this->data->subject)
-                    ->greeting('Bonjour monsieur')
+                    ->greeting('cher '.$this->data->name)
                     ->line('Demande n° '.$this->data->id)
                     ->line('Votre demande a été '.$this->data->etat)
                     ->line('Motif de rejet : '.$this->data->raison)
-                    ->action('Voir plus', $this->data->url)
+                    ->action('Voir plus', route('demandes.show',$this->data->id))
                     ->line('Merci d\'utiliser '.env('APP_NAME'));
                     
     }

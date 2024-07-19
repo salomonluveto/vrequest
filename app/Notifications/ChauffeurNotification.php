@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ManagerNotification extends Notification
+class ChauffeurNotification extends Notification
 {
     use Queueable;
 
@@ -35,15 +35,13 @@ class ManagerNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->from(env('MAIL_FROM_ADDRESS'),env('APP_NAME'))
-                    ->subject($this->data->subject)
-                    ->greeting('Cher '.$this->data->name)
-                    ->line('Une nouvelle demande  a été envoyée')
-                    ->line('Demande n° '.$this->data->id)
-                    ->action('Voir plus', route('demandes.show',$this->data->id))
-                    ->line('Merci d\'utiliser '.env('APP_NAME'));
-
-                
+                ->from(env('MAIL_FROM_ADDRESS'),env('APP_NAME'))
+                ->subject($this->data->subject)
+                ->greeting('Cher '.$this->data->chauffeur)
+                ->line('Demande n° '.$this->data->demande_id)
+                ->line('Vous êtes affecté à la course '.$this->data->course_id)
+                ->action('Voir plus',route('demandes.show',$this->data->id))
+                ->line('Merci d\'utiliser '.env('APP_NAME'));   
     }
 
     /**
@@ -54,7 +52,7 @@ class ManagerNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            
+            //
         ];
     }
 }
