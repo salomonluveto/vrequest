@@ -144,6 +144,22 @@
                                                 </li>
                                             @endif
                                         @endif
+                                        @if (Session::get('authUser')->hasRole('charroi'))
+                                            @if ( ($item->is_validated == 1)  && ($item->status == 0))
+                                                <li>
+                                                    <a onclick="editdemande(event, {{ $item->id }});"
+                                                        data-modal-target="crud-modal" data-modal-toggle="crud-modal"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Traiter</a>
+                                                </li>
+                                            
+                                                <li>
+                                                    <a onclick="supprimer(event);" data-modal-target="delete-modal"
+                                                        data-modal-toggle="delete-modal"
+                                                        href="{{ route('demandes.destroy', $item->id) }}"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Annuler</a>
+                                                </li>
+                                            @endif
+                                        @endif
                                        
                                     </ul>
                                     
