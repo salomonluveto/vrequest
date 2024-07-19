@@ -56,6 +56,7 @@
         }, 5000);
     </script>
 @endif
+
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-4">
         @if ($errors->any())
             @foreach ($errors->all() as $error)
@@ -115,7 +116,7 @@
         </table>
     </div>
     <x-deleteVehicule :message="__('Voulez-vous vraiment supprimer ce vehicule ?')" />
-    <x-enregistrer :message="__('Voulez-vous enregistrer un vehicule ?')" />
+    <x-enregistrer :marques="$marques" :message="__('Voulez-vous enregistrer un vehicule ?')" />
     <x-editVehicule :message="__('Voulez-vous modifier un vehicule ?')" />
     <x-modifDisponibilite :message="__('Ce vehicule est-il maintenant disponible ?')" />
     <x-modifIndisponibilite :message="__('Ce vehicule est-il occupé ?')" />

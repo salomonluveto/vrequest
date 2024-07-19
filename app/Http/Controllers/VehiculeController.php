@@ -13,7 +13,12 @@ class VehiculeController extends Controller
     public function index()
     {
         $vehicules=Vehicule::all();
-        return view("vehicules.index",compact('vehicules'));
+        $marques=[];
+        foreach ($vehicules as $vehicule) {
+            $marques[] = $vehicule->marque;
+        }
+// dd($marques);
+        return view("vehicules.index",compact('vehicules', 'marques'));
     }
 
     /**
