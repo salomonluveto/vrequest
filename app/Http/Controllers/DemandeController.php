@@ -38,8 +38,8 @@ class DemandeController extends Controller
             $demandes_en_attente = Demande :: where('status',0)->get();
             
             $vehicules = Vehicule::all();
-            $chauffeurs = Chauffeur::where('status',1)->get();
-            
+        $chauffeurs = Chauffeur::all();
+        
             return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
         }
         $user_id = Session::get('authUser')->id;
@@ -50,8 +50,8 @@ class DemandeController extends Controller
         $demandes_traitees = Demande :: where('status',1)->get();
         // $demandes_en_attente = Demande :: where('')
       
-        $vehicules = Vehicule::where('disponibilite',0)->get();
-        $chauffeurs = Chauffeur::where('status',1)->get();
+        $vehicules = Vehicule::all();
+        $chauffeurs = Chauffeur::all();
         return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
 
     }
@@ -226,17 +226,15 @@ class DemandeController extends Controller
     public function envoyerMailAuChefCharroi($id){
         
         //$chef_charroi = User::where('email', 'oliviapala16@gmail.com')->first();
-        $user = Session::get('authUser')->hasRole('charroi');
+        $user = User::role('charroi')->first();
+       
         $demande=Demande::find($id);
-       if($user){
-        $chef_charroi = Session::get('authUser');
         
-        
-       }
+       
         $data =(object)[
             'id' => $demande->id ,
             'subject' => 'Nouvelle demande',
-            'name' => $chef_charroi->username
+            'name' => $user->username
         ];
         try{
             $chef_charroi->notify(new NotificationsChefCharroiEmail($data));

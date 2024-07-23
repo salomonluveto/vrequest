@@ -45,14 +45,57 @@ class CourseController extends Controller
     {
 
         $demande = Demande::findOrFail($request->demande_id);
+        $vehicule = Vehicule::findOrFail($request->vehicule_id);
+        $courses = Course::where('vehicule_id',$request->vehicule_id)->get();
+        $chauffeurs = Course::where('chauffeur_id',$request->chauffeur_id)->get();
+        $date =  date("Y-m-d", strtotime($demande->date_deplacement));
+        $time = date("H", strtotime($date));
+      
+        foreach ($courses as $course) {
+            $time_course [] = date("H", strtotime($course->date));
+           
+        }
+      
+        foreach ($courses as $course) {
+           $date_course =  date("Y-m-d", strtotime($course->date));
+            if($date_course == $date){
+               
+                if(in_array($time,$time_course)){
+                  
+                    return back()->with('success', 'course non traité car le véhicule sera occupé à cette heure');
+                }
+            }
+        }
+        foreach ($chauffeurs as $chauffeur) {
+            $time_chauffeur [] = date("H", strtotime($chauffeur->date));
+        }
+         
+        foreach ($chauffeurs as $chauffeur) {
+            $date_chauffeur =  date("Y-m-d", strtotime($chauffeur->date));
+            if($date_chauffeur == $date){
+               
+                if(in_array($time,$time_chauffeur)){
+                  
+                    return back()->with('success', 'course non traité le chauffeur sera occupé à cette heure');
+                }
+            }
+        }
+    
+        
+
+      
+        $vehicule->disponibilite  = 1;
+        $vehicule->update();
         $demande->status = 1;
+        
         $demande->update();
         
         $course = Course::create([
             'vehicule_id' => $request->vehicule_id,
             'chauffeur_id' => $request->chauffeur_id,
             'demande_id'=>$request->demande_id,
-            'commentaire'=>$request->commentaire
+            'commentaire'=>$request->commentaire,
+            "date"=>$date
         ]);
 
        
