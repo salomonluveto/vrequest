@@ -23,7 +23,8 @@ class HomeController extends Controller
             //dd($demandes);
             $demandes_validees = $demandes->where('is_validated',1)->get();
 
-            $courses = Course::where('chauffeur_id',$user_id);
+            $courses = Course::leftJoin('demandes','demandes.id','courses.demande_id')
+                                ->where('chauffeur_id',$user_id);
         }else{
             $user_id = Session::get('authUser')->id;
             $demandes = Demande::where('user_id',$user_id);

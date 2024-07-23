@@ -97,6 +97,6 @@ class ApiDemandeController extends Controller
     public function lastDemande(Request $request){
         return response()->json(Demande::where('user_id',$request->id)->latest()->take(3)->get());
     }
-    
 
+   
 }
