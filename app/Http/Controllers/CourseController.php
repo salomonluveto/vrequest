@@ -89,6 +89,14 @@ class CourseController extends Controller
         $demande->status = 1;
         
         $demande->update();
+
+        $vehicule = Vehicule::findOrFail($request->vehicule_id);
+
+        // Vérifier si le véhicule est disponible
+        if ($vehicule->disponibilite == 1) {
+            $vehicule->disponibilite = 0; // Mettre le véhicule en indisponible
+            $vehicule->save();
+    
         
         $course = Course::create([
             'vehicule_id' => $request->vehicule_id,
@@ -134,8 +142,13 @@ class CourseController extends Controller
         }
           
     
-        return back()->with('success', 'course enregistrée avec succès.');
-    }
+
+            return back()->with('success', 'Course enregistrée avec succès.');
+        } else {
+            return back()->with('error', 'Le véhicule sélectionné n\'est pas disponible.');
+        }
+}
+
 
     /**
      * Display the specified resource.
