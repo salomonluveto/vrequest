@@ -24,6 +24,7 @@ class ApiDemandeController extends Controller
     {
        
         $request->validate([
+            "date"=>"required|date_format:Y-m-d",
             "motif"=>"required|max:60|min:3",
             "date_deplacement"=>"required|date_format:Y-m-d H:i",
             "lieu_depart"=>"required|string",
