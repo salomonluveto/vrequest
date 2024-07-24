@@ -16,7 +16,8 @@ class Course extends Model
         'vehicule_id',
         'demande_id',
         'status',
-        'commentaire'
+        'commentaire',
+        'date'
     ];
     public function chauffeur(){
         return $this->belongsTo(Chauffeur::class, 'chauffeur_id');
