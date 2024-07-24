@@ -96,6 +96,9 @@ class CourseController extends Controller
         if ($vehicule->disponibilite == 1) {
             $vehicule->disponibilite = 0; // Mettre le véhicule en indisponible
             $vehicule->save();
+
+        }
+
     
         
         $course = Course::create([
@@ -144,10 +147,9 @@ class CourseController extends Controller
     
 
             return back()->with('success', 'Course enregistrée avec succès.');
-        } else {
-            return back()->with('error', 'Le véhicule sélectionné n\'est pas disponible.');
-        }
-}
+        } 
+
+
 
 
     /**
