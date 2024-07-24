@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('demandes', function (Blueprint $table) {
-            $table->string('raison')->default("null");
-        });
+        Schema::table('delegations', function (Blueprint $table) {
+            $table->string('motif');        
+         });
     }
 
     /**
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('demandes', function (Blueprint $table) {
-            $table->dropColumn(['raison']);
+        Schema::table('delegations', function (Blueprint $table) {
+            //
         });
     }
 };
