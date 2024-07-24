@@ -96,7 +96,6 @@ class CourseController extends Controller
         if ($vehicule->disponibilite == 1) {
             $vehicule->disponibilite = 0; // Mettre le véhicule en indisponible
             $vehicule->save();
-
         }
 
     
