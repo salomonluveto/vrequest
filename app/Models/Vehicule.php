@@ -6,10 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Course;
+use Illuminate\Database\Eloquent\SoftDeletes;
+ 
 
 class Vehicule extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $fillable=['plaque','marque','capacite','disponibilite'];
     public function newEloquentBuilder($vehicule)
     {
@@ -18,5 +20,6 @@ class Vehicule extends Model
     public function courses(){
         return $this->hasMany(Course::class,'vehicule_id');
     }
+    
 
 }

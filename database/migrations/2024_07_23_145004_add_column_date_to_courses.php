@@ -12,15 +12,10 @@ return new class extends Migration
     public function up(): void
     {
 
-
-
-        Schema::table('courses', function (Blueprint $table) {
-            //
-            $table->dateTime('date')->nullable();
-
+        Schema::table('vehicules', function (Blueprint $table) {
+            $table->timestamp('deleted_at')->nullable();
 
         });
-
     }
 
     /**
@@ -29,11 +24,9 @@ return new class extends Migration
     public function down(): void
     {
 
+        Schema::table('vehicules', function (Blueprint $table) {
+            $table->dropColumn(['deleted_at']);
 
-
-        Schema::table('courses', function (Blueprint $table) {
-
-            //
         });
     }
 };
