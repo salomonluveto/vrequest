@@ -36,17 +36,17 @@
                            N°
                        </th>
                        <th scope="col" class="px-6 py-3">
-                              Remplaçant
+                            Remplaçant
                        </th>
                        
                        <th scope="col" class="px-6 py-3">
-                           Date Debut
+                            Date Debut
                        </th>
                        <th scope="col" class="px-6 py-3">
-                           Date Fin
+                            Date Fin
                        </th>
                        <th>
-                         Action
+                            Action
                        </th>
                        
                    </tr>
@@ -61,17 +61,14 @@
                            <td class="px-6 py-4">
                                {{$i+1}}
                            </td>
-
-                           
                            <td class="px-6 py-4">
-                               {{$item->user->name}}
-                           </td>
-                          
-                           <td class="px-6 py-4">
-                                {{date('d-m-y', strtotime($item->date_debut))}}
+                               {{$item->user->username}}
                            </td>
                            <td class="px-6 py-4">
-                                {{date('d-m-y', strtotime($item->date_debut))}}
+                                {{$item->date_debut}}
+                           </td>
+                           <td class="px-6 py-4">
+                                {{$item->date_fin}}
                            </td>
                            <td>
                                 <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots{{ $i }}"
@@ -89,11 +86,11 @@
                                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
                                             
                                                 <li>
-                                                    <a href="{{route('delegations.edit', $item->id)}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editer la délégation</a>
+                                                    <a href="{{route('delegations.edit', $item->id)}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editer</a>
                                                 </li>
                                                 <li>
                                                     <a onclick="supprimer(event);" data-modal-target="delete-modal"
-                                                    data-modal-toggle="delete-modal" href="{{ route('delegations.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer la délégation</a>
+                                                    data-modal-toggle="delete-modal" href="{{ route('delegations.destroy', $item->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Supprimer</a>
                                                 </li>
                                            
 {{--                                            
@@ -102,9 +99,9 @@
                                                     </li> --}}
                                                     
                                             
-                                                <li>
+                                                {{-- <li>
                                                     <a href="{{route('delegations.show', $item->id)}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">voir la délégation</a>
-                                                </li>
+                                                </li> --}}
                                         
                                         </ul>
 
@@ -117,7 +114,7 @@
                    @endforeach
                </tbody>
            </table>
-             {{$delegations->links()}}
+             {{-- {{$delegations->links()}} --}}
        </div>
 
 
