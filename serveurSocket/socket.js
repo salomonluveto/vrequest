@@ -16,26 +16,32 @@ let clients=[];
 app.use(express.json());
 io.on('connection', (socket) => {
     console.log(socket.id+' user connected');
+    // io.sockets.in("room-all").emit('isConnected', data.user.id);
     socket.on("test", (msg)=>{
         console.log(msg)
+        console.log(socket.rooms);
     })
-    socket.on("joinRoom", (id)=>{
-        socket.join("room-"+id);
-        socket.join("room-all");
-        identifiant=id;
-        // console.log(cleTab);
-        // console.log(notifications.id);
-        let key=3;
-        while(cleTab.length>0){
-            let key=cleTab.pop();
-            donnee=notifications.id.cle;
-            donnee=JSON.stringify(donnee);
-            setTimeout(function() {
-                io.sockets.in("room-"+identifiant).emit('receive', donnee)
-              }, 500);
-            key--;
+    socket.on("joinRoom", async (id)=>{
+        if(!socket.rooms.has("room-all")){
+            socket.join("room-all");
         }
-        console.log(`Id ${id} vient de rejoindre le Room`)
+        if(!socket.rooms.has("room-"+id)){
+            socket.join("room-"+id);
+            identifiant=id;
+            // console.log(cleTab);
+            // console.log(notifications.id);
+            let key=3;
+            // while(cleTab.length>0){
+            //     let key=cleTab.pop();
+            //     donnee=notifications.id.cle;
+            //     donnee=JSON.stringify(donnee);
+            //     setTimeout(function() {
+            //         io.sockets.in("room-"+identifiant).emit('receive', donnee)
+            //       }, 500);
+            //     key--;
+            // }
+            console.log(`Id ${id} vient de rejoindre le Room`)
+        }
     });
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
@@ -81,21 +87,14 @@ io.on('connection', (socket) => {
         console.log('createMessage', data);
         // io.sockets.in("room-"+data.message_groupe_id).emit('receive', data.contenu);
         // socket.emit('receive', data.contenu);
-        messages["room-"+data.demande] = data;
+        // messages["room-"+data.demande] = data;
         io.sockets.in("room-"+data.demande).emit('sendMessage', data);
     });
     socket.on('disconnect', ()=>{
         console.log('User '+socket.id+' disconnected');
+        // io.sockets.in("room-all").emit('isDisconnected', data.user.id);
     });
 });
 server.listen(2000, function() {
     console.log('listening on *:2000');
 });
-
-
-
-
-
-
-
-

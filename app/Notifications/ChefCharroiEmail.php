@@ -13,7 +13,7 @@ class ChefCharroiEmail extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(public object $data)
+    public function __construct(protected $data)
     {
 
     }
@@ -36,7 +36,7 @@ class ChefCharroiEmail extends Notification
         return (new MailMessage)
                 ->from(env('MAIL_FROM_ADDRESS'),env('APP_NAME'))
                 ->subject($this->data->subject)
-                ->greeting('Nos salutations cher chef de charroi')
+                ->greeting('Cher '.$this->data->name)
                 ->line('Une nouvelle demande a été envoyée')
                 ->line('Demande n° '.$this->data->id)
                 ->action('Voir plus', route('demandes.show',$this->data->id))

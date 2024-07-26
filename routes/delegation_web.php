@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DelegationController;
 
-Route::middleware('authenticate')->group(function(){
-    Route::resource('delegations',DelegationController::class);
-});
+Route::resource('delegations',DelegationController::class);
+// Route::middleware('authenticate')->group(function(){
+    
+// });
