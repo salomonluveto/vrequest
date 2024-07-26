@@ -51,7 +51,7 @@ class ApiDemandeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**
@@ -97,6 +97,11 @@ class ApiDemandeController extends Controller
     }
     public function lastDemande(Request $request){
         return response()->json(Demande::where('user_id',$request->id)->latest()->take(3)->get());
+    }
+
+    public function getdemande(Request $request){
+
+         return response()->json(Demande::where('user_id',$request->id)->get());
     }
 
    
