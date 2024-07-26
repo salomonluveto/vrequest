@@ -37,12 +37,14 @@ class DemandeController extends Controller
             $demandes_traitees = Demande :: where('status',1)->get();
             $demandes_en_attente = Demande :: where('status',0)->get();
             
+
             $vehicules = Vehicule::all();
         $chauffeurs = Chauffeur::all();
         
             return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
         }
         $user_id = Session::get('authUser')->id;
+
         $demandes = Demande::Where('user_id',$user_id)->orderBy('id', 'desc')->paginate(10);
         
         $demandes_validees = Demande :: where('is_validated',1)->get();
@@ -52,6 +54,7 @@ class DemandeController extends Controller
         $vehicules = Vehicule::all();
         $chauffeurs = Chauffeur::all();
         return view('demandes.index', compact('demandes','chauffeurs','vehicules'));
+
 
     }
 
@@ -147,6 +150,7 @@ class DemandeController extends Controller
     /**
      * Display the specified resource.
      */
+    
     public function show(string $id)
     {
         $demandes=Demande::with('courses')->findOrFail($id);
